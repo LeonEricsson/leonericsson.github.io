@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Implementation of the Pure Puresuit Tracking Algorithm 
-categories: Control Theory
+title: Implementation of the Pure Pursuit Tracking Algorithm 
+categories: Control
 ---
 
 Pure Pursuit is a path tracking algorithm originally described by R. Craig Coulter from the Robotics Institute at Carnegie Mellon University. The algorithm works by calculating the curvature that will move a vehicle from its current position to some goal position. This builds on the ability to choose a goal position that is some distance ahead of the vehicle on the intended path. One tends to think of the vehicle as chasing a point on the path some distance ahead of it - pursuing a moving point. 
