@@ -12,4 +12,4 @@ Secondly, the DQN algorithm uses a target network, which is a copy of the main Q
 
 Finally, the DQN algorithm uses a technique called experience replay, in which the agent stores a large number of past experiences (i.e., state, action, reward, and next state tuples) and samples from them randomly during learning. This helps by decorrelating experiences - learning from a diverse set of experiences that are not necessarily related in time, and stabilizing learning - by reducing the variance in the updates to the agent's policy especially in environments with long-term dependencies. 
 
-Original [paper](https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf)
+Original [paper](https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf) (2015)
