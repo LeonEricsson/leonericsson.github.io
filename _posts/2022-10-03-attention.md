@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Attention is all you need (2017)
+title: Attention is all you need
 categories: [NLP]
 ---
 
