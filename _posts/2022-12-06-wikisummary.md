@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Generating Wikipedia by Summarizing Long Sequences
-categories: [NLP]
+categories: [NLP, Transformer]
 ---
 Researchers from Google Brain propose a variant of the original encoder-decoder Transformer containing only a stack of decoder modules which they suggest performs better on longer input sequences than RNNs (at the time still very popular) and encoder-decoder Transformers.
 

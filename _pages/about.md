@@ -10,9 +10,9 @@ Hello! My name is Leon Ericsson and I am currently a final year Master's student
 - NLP 
 - AI Health. 
 
-Following my graduation I hope to persue a career within the industry as a research scientist/enginner or as a PhD student.
+Following my graduation I hope to pursue a career within the industry as a research scientist/engineer or as a PhD student.
 
-On this blog, I will be sharing summaries and personal thoughts on the latest (with a healthy dose of classic) research and publications in my areas of interest. While primarily for my own edification, I hope to provide a helpful resource for others interested in staying up-to-date on the latest developments in these fields. I'll share my insights and perspectives as I continue to learn and grow in my understanding of these technologies.
+On this blog, I'll be sharing summaries and personal thoughts on the latest (with a healthy dose of classic) research and publications in my areas of interest. While primarily for my own edification, I hope to provide a helpful resource for others interested in staying up-to-date on the latest developments in these fields. I'll share my insights and perspectives as I continue to learn and grow in my understanding of these technologies.
 
 Thank you for visiting my blog and I hope you find it helpful and informative. Please feel free to leave comments or reach out to me with any questions or thoughts you may have.
 
