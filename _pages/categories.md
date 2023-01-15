@@ -7,7 +7,8 @@ title: Topics
 
 <div id="archives">
 {% assign grouped_posts = site.posts | group_by: "categories" %}
-{% for category in grouped_posts | sort: "size" | reverse %}
+<h3>{% if site.posts %}sad</h3>
+{% for category in site.categories %}
   <div class="archive-group">
     {% capture category_name %}{{ category | first }}{% endcapture %}
     <div id="#{{ category_name | slugize }}"></div>
