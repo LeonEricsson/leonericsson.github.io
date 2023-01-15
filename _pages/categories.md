@@ -6,8 +6,8 @@ title: Topics
 
 
 <div id="archives">
-{% assign grouped_posts = site.posts | group_by: "categories" %}
-{% for category in grouped_posts | sort: "size" | reverse %}
+{% assign category_order = "Deep Learning, NLP, Reinforcement Learning, Transformer, RNN, Data Science, Plan and Control, Graph Theory" | split: ", " %}
+{% for category in category_order %}
   <div class="archive-group">
       <div id="#{{ category | slugize }}"></div>
       <p></p>
