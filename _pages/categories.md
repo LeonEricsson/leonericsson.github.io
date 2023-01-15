@@ -7,6 +7,12 @@ title: Topics
 
 <div id="archives">
 {% assign category_order = "NLP, Reinforcement Learning, Deep Learning, Transformer, RNN, Data Science, Plan and Control, Graph Theory" | split: ", " %}
+<script>
+console.log({{ site.categories }});
+</script>
+<script>
+console.log({{ my_order }});
+</script>
 {% for category in site.categories | sort: category_order %}
   <div class="archive-group">
     {% capture category_name %}{{ category | first }}{% endcapture %}
