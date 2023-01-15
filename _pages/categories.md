@@ -7,7 +7,6 @@ title: Topics
 
 <div id="archives">
 {% assign grouped_posts = site.posts | group_by: "categories" %}
-<h3>{% if site.posts %}sad</h3>
 {% for category in site.categories %}
   <div class="archive-group">
     {% capture category_name %}{{ category | first }}{% endcapture %}
