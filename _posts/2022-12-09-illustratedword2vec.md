@@ -3,6 +3,8 @@ layout: post
 title: "The Illustrated Word2Vec"
 categories: [NLP]
 ---
+Original [blog post](https://jalammar.github.io/illustrated-word2vec/), Jay Alammar, 2019.
+
 Word embeddings are central to the field of NLP. Word2Vec is one of the most influential word embedding algorithms and paved the ground for a lot of future research. Several concepts have transcended NLP and become effective in creating recommendation systems as well as the understanding of sequential data in non-language tasks.
 
 ### Word Embeddings
@@ -37,4 +39,3 @@ Training consists of two important matrices - the Embedding matrix and the Conte
 
 
 
-Original [paper](https://arxiv.org/pdf/1412.6980.pdf) (2014)

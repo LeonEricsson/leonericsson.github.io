@@ -3,6 +3,7 @@ layout: post
 title: "The Unreasonable Effectiveness of Recurrent Neural Networks"
 categories: [NLP, RNN]
 ---
+Original [blog post](https://karpathy.github.io/2015/05/21/rnn-effectiveness/), Andrej Karpathy, 2015.
 
 Regular neural networks are limited in their ability to only accept fixed-size vectors as input and produce fixed-size vectors as output. In comparison, the sequence regime enables more powerful models and enable us to build more intelligent systems. RNNs combine an input vector, with their internal (learned) state vector, essentially describing programs. *If training regular neural nets is optimization over functions, training recurrent neural networks is optimization over programs*.
 
@@ -76,6 +77,3 @@ The author presents an interesting example of how the model evolves its training
 
 
 
-
-
-Original [blog post](https://karpathy.github.io/2015/05/21/rnn-effectiveness/) (2015).
