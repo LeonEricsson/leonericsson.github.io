@@ -2,6 +2,7 @@
 layout: post
 title: Generating Wikipedia by Summarizing Long Sequences
 categories: [NLP, Transformer]
+year: 2018
 ---
 Original [paper](https://arxiv.org/pdf/1801.10198.pdf), Liu et al., 2018.
 

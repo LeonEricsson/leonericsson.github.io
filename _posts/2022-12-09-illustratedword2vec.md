@@ -2,6 +2,7 @@
 layout: post
 title: "The Illustrated Word2Vec"
 categories: [NLP]
+year: 2019
 ---
 Original [blog post](https://jalammar.github.io/illustrated-word2vec/), Jay Alammar, 2019.
 

@@ -2,6 +2,7 @@
 layout: post
 title: Human-level control through deep reinforcement learning 
 categories: [Reinforcement Learning]
+year: 2015
 ---
 
 Breakthrough paper for Deep RL where Mnih et. al managed to surpass performance of all previous algorithms and achieve a level comparable to professional humans across a set of 49 Atari 2600 games using the same algorithm, network and hyperparameters. Prior to this paper, reinforcement learning was limited to domains where useful features could be handcrafted or domains with fully observable, low dimensional state spaces. But, thanks to a clever invention called the deep Q-network (DQN), reinforcement learning has modernized and is now present in many multimodal systems. There are a couple of fascinating takeaways I want to touch on from this paper.

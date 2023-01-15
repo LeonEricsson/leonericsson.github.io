@@ -2,6 +2,7 @@
 layout: post
 title: Attention is all you need
 categories: [NLP]
+year: 2017
 ---
 
 Authors present a novel architecture called the Transformer using only self-attention mechanisms to compute representations of the input and output. Previous work has used the attention mechanism but in conjunction with recurrent neural networks. Recurrent models have a few inherent problems that forced the revolution in this paper. They can be difficult to train due to their long dependency structures often resulting in gradient issues, they have computational issues on long sequences as their dependency graph is narrow and deep thus preventing parallelization and traditionally RNNs based on hidden state vectors had trouble modeling long-term dependencies. In transformers the number of operations required to relate signals from two arbitrary input or output positions is constant. A huge improvement to previous work where it’s been logarithmic at best.

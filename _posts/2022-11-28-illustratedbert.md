@@ -2,6 +2,7 @@
 layout: post
 title: The Illustrated BERT, ELMo, co.
 categories: [NLP, Transformer]
+year: 2019
 ---
 
 Blog post from Jay Alammar, mainly illustrating BERT. Unbeknownst to me, the classification part of the BERT architecture is simply the vector output from the CLS token. Great results were achieved using a classifier of just a single layer NN with the CLS vector as input. 

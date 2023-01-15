@@ -2,6 +2,7 @@
 layout: post
 title: Discovering faster matrix multiplication algorithms with reinforcement learning
 categories: [Reinforcement Learning]
+year: 2022
 ---
 
 Matrix multiplication is one of computers most primitive tasks, they are everywhere and improving the efficiency of algorithms for these fundamental computations can have widespread effect. Matrix multiplications can be formulated as binary 3D tensors which define an algorithm for how to carry out such a multiplication, see figure below.

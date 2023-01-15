@@ -2,6 +2,7 @@
 layout: post
 title: "The Unreasonable Effectiveness of Recurrent Neural Networks"
 categories: [NLP, RNN]
+year: 2015
 ---
 Original [blog post](https://karpathy.github.io/2015/05/21/rnn-effectiveness/), Andrej Karpathy, 2015.
 

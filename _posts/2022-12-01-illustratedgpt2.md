@@ -2,6 +2,7 @@
 layout: post
 title: The Illustrated GPT-2
 categories: [NLP, Transformer]
+year: 2019
 ---
 
 Blog post from Jay Alammar. Four GPT-2 models were initially released, all with their own parameter scales: GPT-2 Small (117M), GPT-2 Medium (345M), GPT-2 Large (762M) and GPT-2 Extra Large (1,542M). As we’ve seen previously the transformer model has been used in varying ways, originally introduced as a encoder-decoder architecture; it's since then been shed to implementations using either the decoder or the encoder. GPT-2 does not introduce any novel architectures but instead seeks to explore the scaling model parameters and its effects on performance. BERT, which at the time of its publication (late 2018) was the largest known language model with 300M parameters, is dwarfed by the size of the larger GPT-2 models. GPT-2 Small has the same amount of parameters (117M) as GPT-1 for ease of comparison.
