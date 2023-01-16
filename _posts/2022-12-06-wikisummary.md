@@ -3,9 +3,10 @@ layout: post
 title: Generating Wikipedia by Summarizing Long Sequences
 categories: [NLP, Transformer]
 year: 2018
+type: paper
+author: Liu
+exturl: https://arxiv.org/pdf/1801.10198.pdf
 ---
-Original [paper](https://arxiv.org/pdf/1801.10198.pdf), Liu et al., 2018.
-
 Researchers from Google Brain propose a variant of the original encoder-decoder Transformer containing only a stack of decoder modules which they suggest performs better on longer input sequences than RNNs (at the time still very popular) and encoder-decoder Transformers.
 
 The paper considers the task of multi-document summarization where the input is comprised of a Wikipedia title and a collection of non-Wikipedia reference documents with a target being the actual Wikipedia text. They describe a first attempt to abstractively generate the *lead*. Here, the phrase *abstractively* is of importance, as it refers to the generation of new text as opposed to concatenating sentences from the input to form a summary (*extractive* generation).
