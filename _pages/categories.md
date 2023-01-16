@@ -13,12 +13,10 @@ title: Topics
       <p></p>
       <h3 class="category-head">{{ category }}</h3>
       <a name="{{ category | slugize }}"></a>
-    {% for post in site.categories[category] | sort: "year" %}
+    {% for post in site.categories[category] | sort: "title" %}
     <article class="archive-item">
       <h4><a href="{{ site.baseurl }}{{ post.url }}">{% if post.title and post.title != "" %}{{ post.title }} ({{ post.year }}){% else %}{{post.excerpt |strip_html}}{%endif%}</a></h4>
     </article>
-   % capture post_data %}{{ post | jsonify }}{% endcapture %}
-    <script>console.log({{ post_data | jsonify }})</script>
     {% endfor %}
   </div>
 {% endfor %}
