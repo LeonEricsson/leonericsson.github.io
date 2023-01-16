@@ -10,7 +10,11 @@ layout: default
     {% if page.last_modified_at %}
     <p class="author_title" datetime="{{ page.last_modified_at | date_to_xmlschema }}">(Updated: {{ page.last_modified_at | date: "%b %-d, %Y" }})</p>
     {% endif %}
-    <p class="original_publication">Original <a href="{{page.url}}">{{page.type}}</a>, {{page.author}} et al. {{page.year}}</p>
+    {% if page.author.size == 1}
+    <p class="original_publication">Original <a href="{{page.exturl}}">{{page.type}}</a>, {{page.author | join }} et al. {{page.year}}</p>
+    {% elsif page.author | size == 2 %}
+    <p class="original_publication">Original <a href="{{page.exturl}}">{{page.type}}</a>, {{ page.author | slice: 0, 2 | join: ' & ' }} et al. {{page.year}}</p>
+    {% endif %}
     <div class="post-tags">
       {% if post %}
         {% assign categories = post.categories %}
