@@ -10,7 +10,7 @@ layout: default
     {% if page.last_modified_at %}
     <p class="author_title" datetime="{{ page.last_modified_at | date_to_xmlschema }}">(Updated: {{ page.last_modified_at | date: "%b %-d, %Y" }})</p>
     {% endif %}
-    <p class="original_publication">Original {{page.type}}, {{page.author}} et al. {{post.year}}</p>
+    <p class="original_publication">Original <a href="{{page.url}}">{{page.type}}</a>, {{page.author}} et al. {{page.year}}</p>
     <div class="post-tags">
       {% if post %}
         {% assign categories = post.categories %}
