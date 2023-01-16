@@ -14,6 +14,9 @@ title: Topics
       <h3 class="category-head">{{ category }}</h3>
       <a name="{{ category | slugize }}"></a>
     {% for post in site.categories[category] | sort: "title" %}
+    <script>
+        console.log({{ post | jsonify }});
+    </script>
     <article class="archive-item">
       <h4><a href="{{ site.baseurl }}{{ post.url }}">{% if post.title and post.title != "" %}{{ post.title }} ({{ post.year }}){% else %}{{post.excerpt |strip_html}}{%endif%}</a></h4>
     </article>
