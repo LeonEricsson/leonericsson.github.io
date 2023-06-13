@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "MRI Super-Resolution with Ensemble Learning and Complementary Priors"
-categories: [Medical Imaging, GAN, CNN]
+categories: [Medical Imaging]
 year: 2015
 type: paper
 author: Lyu

@@ -6,7 +6,7 @@ title: Topics
 
 
 <div id="archives">
-{% assign category_order = "Deep Learning, NLP, Reinforcement Learning, Transformer, RNN, Data Science, Plan and Control, Graph Theory" | split: ", " %}
+{% assign category_order = "Deep Learning, NLP, Reinforcement Learning, Transformer, Medical Imaging, RNN, Data Science, Plan and Control, Graph Theory" | split: ", " %}
 {% for category in category_order %}
   <div class="archive-group">
       <div id="#{{ category | slugize }}"></div>
