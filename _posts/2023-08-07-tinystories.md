@@ -19,7 +19,7 @@ During evaluation of the models the authors continue using large language models
 This is more or less an copy of the list provided in section 3.1 of the paper but I thought it was clear and important enough to just write it down. These are some of the insights gained from training a bunch of different sized models on TinyStories and evaluating them at different time steps.
 - Grammar is one of the first thing that emerges in LLMs and can be mastered by relatively small language models
 
--  Consistency and creativity require larger models and doesn't plateau as early in training as grammar does.
+- Consistency and creativity require larger models and doesn't plateau as early in training as grammar does.
 
 - Generating a completion that is consistent with the beginning of the story emerges when the hidden size of the model increases from 64 to 128.
 
