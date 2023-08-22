@@ -22,6 +22,10 @@ $$
 L(N,D) = \fraq{x}{y}
 $$
 
+$$
+1x + 2 = 3
+$$
+
 ## Chinchilla
 Based on the estimated compute-optimal frontier, Gopher should be 4 times smaller given the same compute budget, while being trained for 4 times more tokens. The authors prove this theory by training a model using such configuration, Chinchilla. Without using any more compute the authors are able to steadily improve downstream performance across most evaluated tasks. What's even more interesting - if we assume the parametric scaling laws presented in *Approach 3* are correct then Chinchilla will beat *any model trained on Gopher's data, no matter how big*. This really puts into context how big of an impact these scaling laws have as it would mean an entire line of research could never have beaten Chinchilla. 
 
