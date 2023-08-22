@@ -1,6 +1,6 @@
 ---
 layout: page
-permalink: /topics/
+permalink: /index/
 title: index
 ---
 
