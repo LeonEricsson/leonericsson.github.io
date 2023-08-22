@@ -64,16 +64,37 @@ h2 {
   font-size: 24px;
 }
 
-@media (min-width: 769px){
-	.post h2::before, .post h2::after {
-	    content: "";
-	    display: inline-block;
-	    vertical-align: middle;
-	    width: 46px;
-	    height: 1px;
-	    background: rgb(192, 211, 218);
-	    margin: 0px 30px;
-	}
+// @media (min-width: 769px){
+// 	.post h2::before, .post h2::after {
+// 	    content: "";
+// 	    display: inline-block;
+// 	    vertical-align: middle;
+// 	    width: 46px;
+// 	    height: 1px;
+// 	    background: rgb(192, 211, 218);
+// 	    margin: 0px 30px;
+// 	}
+// }
+
+@media (min-width: 769px) {
+  .post h2::before,
+  .post h2::after {
+      content: "";
+      display: block;
+      position: relative;
+      width: 46px;
+      height: 1px;
+      background: rgb(192, 211, 218);
+      margin: 10px auto; /* Adjust the vertical margin as needed */
+  }
+
+  .post h2::before {
+      left: -76px; /* Adjust the left offset to center the line */
+  }
+
+  .post h2::after {
+      right: -76px; /* Adjust the right offset to center the line */
+  }
 }
 
 h3 {
