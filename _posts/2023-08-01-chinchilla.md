@@ -18,7 +18,9 @@ The authors present three different approaches to answer how one should trade-of
 
 The figure shows the three approaches overlaid with projections from Kaplan et al. It is clear how overdimensioned the well established models are given their compute budget. Most models at the time were trained on 300B tokens which, given these scaling laws was a huge limitation of their capabilities. Overall, clean data seems to be the limiting factor for LLM progress. 
 
-\[L(N,D) = \fraq{x}{y}\]
+$$
+L(N,D) = \fraq{x}{y}
+$$
 
 ## Chinchilla
 Based on the estimated compute-optimal frontier, Gopher should be 4 times smaller given the same compute budget, while being trained for 4 times more tokens. The authors prove this theory by training a model using such configuration, Chinchilla. Without using any more compute the authors are able to steadily improve downstream performance across most evaluated tasks. What's even more interesting - if we assume the parametric scaling laws presented in *Approach 3* are correct then Chinchilla will beat *any model trained on Gopher's data, no matter how big*. This really puts into context how big of an impact these scaling laws have as it would mean an entire line of research could never have beaten Chinchilla. 
