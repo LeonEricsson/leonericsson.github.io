@@ -7,7 +7,7 @@ type: presentation
 author: Sutskever
 exturl: https://www.youtube.com/watch?v=AKMuA_TVz3A&ab_channel=SimonsInstitute
 ---
-This is a talk at the Simon's Institute by OpenAI chief scientist Ilya Sutskever. While I was listening I decided to jot down a few pointers that I found interesting so I'm just going to list them off. Hope you find something of value but I understand a post like this is more personal than educational.
+A couple of days ago OpenAI's chief scientist, Ilya Sutskever, held a talk at the Simon Institute and while I was listening I decided to jot down a few pointers that I found interesting. Hope you find something of value but I understand a post like this is more personal than educational.
 
 - Supervised learning is theoretically sound and conceptually trivial. We have formal proofs that given more training data than degrees of freedom and IID test data -> Low training error = low test error. 
 
