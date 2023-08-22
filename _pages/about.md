@@ -1,6 +1,6 @@
 ---
 layout: page
-title: About
+title: about
 permalink: /about/
 ---
 Hello! My name is Leon Ericsson and I am currently a final year Master's student in the field of computer science. My interests lie in 
