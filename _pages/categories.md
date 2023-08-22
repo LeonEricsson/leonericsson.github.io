@@ -1,7 +1,7 @@
 ---
 layout: page
-permalink: /index/
-title: index
+permalink: /topics/
+title: topics
 ---
 
 
