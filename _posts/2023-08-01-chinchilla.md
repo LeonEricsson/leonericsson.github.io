@@ -19,11 +19,11 @@ The authors present three different approaches to answer how one should trade-of
 The figure shows the three approaches overlaid with projections from Kaplan et al. It is clear how overdimensioned the well established models are given their compute budget. Most models at the time were trained on 300B tokens which, given these scaling laws was a huge limitation of their capabilities. Overall, clean data seems to be the limiting factor for LLM progress. 
 
 $$
-L(N,D) = \fraq{x}{y}
+L(N,D) = E + \frac{A}{N^{\alpha}} + \frac{B}{D^{\beta}}
 $$
 
 $$
-1x + 2 = 3
+L(N,D) = 1.69 + \frac{406.4}{N^{0.34}} + \frac{410}{D^{0.28}}
 $$
 
 ## Chinchilla
