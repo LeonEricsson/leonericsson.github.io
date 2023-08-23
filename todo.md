@@ -3,7 +3,7 @@ A collection of things to read
 # LLM
 
 Megatron-Turing NLG ✅
-PaLM 
+PaLM ✅
 LLaMa
 PaLM 2
 LLaMa 2

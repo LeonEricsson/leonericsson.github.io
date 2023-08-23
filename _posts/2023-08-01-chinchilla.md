@@ -17,7 +17,7 @@ While the model presented in this paper is indeed Chinchilla, the main motivatio
 The figure shows the three approaches overlaid with projections from Kaplan et al. It is clear how overdimensioned the well established models are given their compute budget. Most models at the time were trained on 300B tokens which, given these scaling laws was a huge limitation of their capabilities. Furthermore the authors fit the following equation to their results: 
 
 $$
-L(N,D) = E + \frac{A}{N^{\alpha}} + \frac{B}{D^{\beta}}. 
+L(N,D) = E + \frac{A}{N^{\alpha}} + \frac{B}{D^{\beta}}
 $$
 
 where E is the "irreducible loss" that is inherent to the training dataset achieved if one where to train an infinitely big model on infinite data. The other two terms account for the fact that a model only has N parameters and the model only sees D training tokens. Given the MassiveText dataset created by DeepMind for this project, the authors find the optimal model to be
