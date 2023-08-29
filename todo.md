@@ -1,10 +1,9 @@
 A collection of things to read
 
 # LLM
-
 Megatron-Turing NLG ✅
 PaLM ✅
-LLaMa
+LLaMa ✅
 PaLM 2
 LLaMa 2
 
@@ -16,5 +15,5 @@ Instruct Survey Paper
 
 
 ## Other
-Double Descent 
+Double Descent ✅
 
