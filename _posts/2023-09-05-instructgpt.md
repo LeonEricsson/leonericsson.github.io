@@ -4,7 +4,7 @@ title: "Training language models to follow instructions with human feedback"
 categories: [NLP, Reinforcement Learning]
 year: 2022
 type: paper
-author: Ouyang∗
+author: Ouyang
 exturl: https://arxiv.org/pdf/2203.02155.pdf
 ---
 While next next token prediction objective has proven a remarkable tool for reasoning, comprehension, QA, completion emergence in large language models, it is fundamentally a different objective from "follow the user's instructions helpfully and safely" which one would like when interacting with it. If you've ever used some of OpenAI's earlier APIs you'll know how aggressive your prompt engineering has to be for a natural conversation to occur. This paper was fundamental for OpenAI alignment work, it's one of the most important techniques that made ChatGPT the phenomena it is today.
