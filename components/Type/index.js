@@ -10,7 +10,7 @@ function Type({ onComplete }) {
           .pauseFor(1e3)
           .deleteAll()
           .typeString("I'm leon.")
-          .pauseFor(3.5e3)
+          .pauseFor(4e3)
           .deleteAll()
           .typeString("the latest from my blog")
           .callFunction(() => {
