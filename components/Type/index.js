@@ -7,7 +7,7 @@ function Type({ onComplete }) {
       onInit={(typewriter) => {
         typewriter
           .typeString("hi")
-          .pauseFor(1e3)
+          .pauseFor(1.5e3)
           .deleteAll()
           .typeString("I'm leon.")
           .pauseFor(4e3)
