@@ -37,11 +37,11 @@ export default function Blog({ allPostsData }) {
         <div className="w-full lg:w-3/5">
           <p className="text-base italic mb-4">
             This blog is a space to share, and above all, distill my thoughts on
-            publications, podcasts, and articles within the research community.
-            I write for my own edification. The posts are personal, intertwined
-            with my own thoughts and comments, and subject to my own interest
-            for the topic at the time of writing. Feel free to explore and enjoy
-            the content — I hope you come away with new perspectives and ideas.
+            publications and articles within the research community. I write for
+            my own edification; the posts are personal, intertwined with my own
+            thoughts and comments, and subject to my own interest for the topic
+            at the time of writing. Feel free to explore and enjoy the content —
+            I hope you come away with new perspectives and ideas.
           </p>
           <div className="vertical-line"></div>
           {currentPosts.map(({ id, date, title, excerpt }) => (
