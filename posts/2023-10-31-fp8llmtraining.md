@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "FP8-LM:Training FP8 Large Language Models"
+title: "FP8-LM: Training FP8 Large Language Models"
 categories: [NLP]
 year: 2023
 type: paper
