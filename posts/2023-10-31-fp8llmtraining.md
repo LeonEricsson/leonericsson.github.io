@@ -14,7 +14,7 @@ Quantization has become a hacker's favorite, acting as a democratizing force in 
 What is the floating point 8-bit format?
 
 ## Okay, so just cast everything to FP8?
-What are the difficulties with FP8?
+What are the difficulties with FP8, why can't we just cast everything to FP8?
 
 data underflow overflow, quantization errors arrising from the narrow dynamic range. leading to loss spikes and NaN.
 
