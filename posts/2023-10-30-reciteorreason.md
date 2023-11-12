@@ -19,7 +19,7 @@ However, it's crucial to clarify that the study wasn't geared towards constructi
 
 The research team assessed a plethora of models, including GPT-4, GPT-3.5, Claude, and PaLM-2, across all tasks. Each model encountered both direct prompts and those nudging step-by-step reasoning, inspired by the chain-of-thought prompting mechanism.
 
-![Model Performance](/public/images/reciteorreason.png)
+![](/public/images/reciteorreason.png)
 
 GPT-4 emerged as the front-runner, outperforming its counterparts consistently. However, the overarching trend, evident from the above figure, is revealing. Across all tasks, LLMs struggled with counterfactual variants, often showcasing drastic performance dips. Such discrepancies insinuate that these models might be defaulting to rote memorization rather than genuine reasoning when faced with novel scenarios.
 
