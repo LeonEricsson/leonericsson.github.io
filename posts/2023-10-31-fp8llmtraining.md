@@ -12,17 +12,8 @@ Quantization has become a hacker's favorite, acting as a democratizing force in 
 # Floating Point 8-bit 
 The FP8 specification was published back in September 2022 and offers two distinct data types, E5M2 and E4M3, which trade-off range and precision. Now, if you're like me (before I read this paper), E5M2 and E4M3 might as well be a gift card redeem code.  
 
-
-
-
 - E4M3 consist of 1 sign bit, 4 exponent bits and 3 bits of mantissa. It can store values up to +/- 448.
 - E5M2 consist of 1 sign bit, 5 exponent bits and 2 bits of mantissa. It can store values up to +/- 57344.
-
-
-
-
-
-What is the floating point 8-bit format?
 
 # Okay, so just cast everything to FP8?
 FP8 is a natural evolution from the 16-bit data formats to further reducing computing costs. However, training LLMs with reduced-precision FP8 poses new challenges. As described above, the dynamic range and representation precision of FP8 are much lower than BF16 and FP16. This causes repeating cases of data underflow or overflow, which lead to numerical instabilities and irreversible divergences throughout the training process. The authors propose two techniques to deal with these issues: *precision decoupling* and *automatic scaling*. The former involves isolating parameters such as weights, gradients and optimizer states from the influence of data precision and assigning reduced precision to components that are not precision sensitive. The latter is used to preserve gradient values within the representation range of FP8 data formats, alleviating underflow and overflow during all-reduce communication. Tensor scaling has historically been pioneered by global scaling techniques, where a single adaptive factor is used to scale gradients across all layers. This has been vital in enabling the widespread adoption of FP16 mixed-precision training, as it meant almost no accuracy drop FP16 training. For the shallower range of FP8 ([1.95E-3, 448] for E4M3 and [1.53E-5, 5.73E+4] for E5M2), the authors suggest an even finer-grained solution with per-tensor scaling instead. The figure below shows that the representation range of FP8 has been large enough to deal with general model training.
