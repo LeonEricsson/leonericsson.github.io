@@ -5,23 +5,20 @@ function AboutCard() {
   return (
     <div>
       <p>
-        My name is Leon Ericsson. I recently earned a Master's Degree in Machine
-        Learning and have relocated to Stockholm with my <i>sambo</i>—a Swedish
-        term that roughly translates to 'cohabitant' (ugh) in English. When I'm
-        not researching I enjoy common cliches such as cooking, working out and
+        my name is leon ericsson. i'm a recent grad with a master's degree in machine
+        learning living in stockholm with my <i><a href="https://collectum.se/en/startpage/private/your-situation/i-have-a-sambo#:~:text=%E2%80%9CSambo%E2%80%9D%20is%20a%20Swedish%20legal,cover%20and%2For%20Repayment%20cover.">sambo</a></i>.
+        when i'm not working i enjoy unique cliches; cooking, the gym and
         traveling.
-      </p>
-      <br></br>
-      <p>
-        In the professional realm, I work as a Research Engineer. My interests
-        span a wide range of topics, but I mostly focus on{" "}
-        <b>foundational models</b>, <b>policy learning</b>,{" "}
-        <b>computer vision</b>, and <b>medical AI</b>. If you're curious about
-        my current research interests, the best way to find out is to explore my
-        blog. I hacked this website over a weekend as a platform to share
-        summaries and thoughts on the latest (sometimes seminal) research my
-        areas of focus. While primarily for my own edification, I hope it offers
-        valuable insights to anyone interested in these rapidly evolving fields.
+        </p>
+        <br></br>
+        <p>
+        professionally, i'm a research engineer. my interests are scattered,
+        feels like i find something new every other week, but broadly i'd say
+        they fall into {" "} <b>foundational models</b>, <b>policy learning</b>,{" "}
+        <b>computer vision</b>, and <b>medical ai</b>. if you're curious about
+        my current research interests, skim my blog. i hacked this website as a platform to share
+        and document my thoughts on research that i come across. while primarily for my own edification,
+        hopefully there's something here that proves insightful to you.
       </p>
     </div>
   );
