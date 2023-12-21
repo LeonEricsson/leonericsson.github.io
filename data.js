@@ -174,15 +174,14 @@ export const skills = [
 
 export const publications = [
   {
-    category: "",
+    category: "Computer Vision",
     items: [
       {
-        name: "",
-        authors: [
-        ],
-        url: "",
+        name: "Generalized super-resolution 4D Flow MRI - using ensemble learning to extend across the cardiovascular system",
+        authors: ["Leon Ericsson", "Adam Hjalmarsson"],
+        url: "https://arxiv.org/abs/2311.11819",
         publisher:
-          "",
+          "Pending review",
       },
     ],
   },
