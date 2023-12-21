@@ -178,8 +178,13 @@ export const publications = [
     items: [
       {
         name: "Generalized super-resolution 4D Flow MRI - using ensemble learning to extend across the cardiovascular system",
-        authors: ["Leon Ericsson", "Adam Hjalmarsson"],
-        url: "https://arxiv.org/abs/2311.11819",
+        authors: [
+          "Leon Ericsson", "Adam Hjalmarsson", "Muhammad Usman Akbar", 
+          "Edward Ferdian", "Mia Bonini", "Brandon Hardy", 
+          "Jonas Schollenberger", "Maria Aristova", "Patrick Winter", 
+          "Nicholas Burris", "Alexander Fyrdahl", "Andreas Sigfridsson", 
+          "Susanne Schnell", "C. Alberto Figueroa", "David Nordsletten", 
+          "Alistair A. Young", "David Marlevi"],
         publisher:
           "Pending review",
       },
