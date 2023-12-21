@@ -7,7 +7,7 @@ export default function Publications() {
   return (
     <Layout>
       <div className="container mx-auto pt-4 md:pt-12 md:px-12 lg:pt-24 lg:px-24">
-        <h1 className="text-white text-4xl p-4">
+        <h1 className="text-black text-4xl p-4">
           <strong className="purple">Selected Publications </strong>
         </h1>
         <div className="p-4">
