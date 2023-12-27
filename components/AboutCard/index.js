@@ -13,7 +13,7 @@ function AboutCard() {
       <p>
         i'm currently employed as a research engineer; my research interests are transient,
         feels like I find something new every other week, but broadly speaking: 
-        <b> foundational models</b>, <b>policy learning</b>, <b>medical AI</b>, and <b>coding</b>.
+        <b> foundational models</b>, <b>policy learning</b>, <b>medical ai</b>, and <b>coding</b>.
         If you're curious about my current concentrations, skim my blog. I hacked this website as a platform to share
         and document my thoughts on research that I come across. While primarily for my own edification,
         hopefully there's something here that proves insightful to you.
