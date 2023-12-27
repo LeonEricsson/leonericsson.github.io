@@ -9,7 +9,7 @@ export default function Publications() {
         <h1 className="text-black text-4xl p-4">
           <strong className="purple">a (hopefully) growing list of publications.</strong>
         </h1>
-        <div className="p-4">
+        <div className="p-2">
           <PublicationList />
         </div>
       </div>
