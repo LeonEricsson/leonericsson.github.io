@@ -82,3 +82,8 @@ body {
   margin: 30px auto;   
   opacity: 0.15;
 }
+
+.text-2-5xl {
+  font-size: 1.675rem/* 24px */;
+  line-height: 2rem/* 32px */;
+}

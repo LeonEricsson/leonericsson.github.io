@@ -17,32 +17,32 @@ export default function NavBar() {
                   href="/"
                   className="inline-flex items-center px-1 pt-1 text-sm font-medium text-black"
                 >
-                  Home
+                  home
                 </Link>
                 <Link
                   href="/blog"
                   className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-black "
                 >
-                  Blog
+                  blog
                 </Link>
                 <Link
                   href="/about"
                   className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-black"
                 >
-                  About
+                  about
                 </Link>
                 <Link
                   href="/publications "
                   className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-black "
                 >
-                  Publications
+                  publications
                 </Link>
                 <Link
                   href="https://github.com/LeonEricsson?tab=repositories"
                   target="_blank"
                   className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-black "
                 >
-                  Projects
+                  projects
                 </Link>
               </div>
               <div className="flex items-center md:hidden">

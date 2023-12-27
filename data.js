@@ -187,6 +187,7 @@ export const publications = [
           "Alistair A. Young", "David Marlevi"],
         publisher:
           "Pending review",
+        url: "https://arxiv.org/abs/2311.11819",
       },
     ],
   },
