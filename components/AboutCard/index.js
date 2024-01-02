@@ -7,7 +7,7 @@ function AboutCard() {
       <p>
         my name is leon ericsson. i'm a recent grad with a master's degree in machine
         learning living in Stockholm with my <i><a href="https://collectum.se/en/startpage/private/your-situation/i-have-a-sambo#:~:text=%E2%80%9CSambo%E2%80%9D%20is%20a%20Swedish%20legal,cover%20and%2For%20Repayment%20cover." style={{ color: 'blue' }}>sambo</a></i>.
-        i like to cook, travel, and workout, but i hate walking.
+        i like to workout, cook, travel, and i hate walking.
       </p>
       <br />
       <p>
@@ -23,7 +23,7 @@ function AboutCard() {
         most of my stuff is educational, but i'm moving towards more practical projects.
         <ul className="list-none ml-4 pt-2">
           <li className="before:content-['-'] before:pr-2">this website, including my <a href="https://leonericsson.github.io/blog" style={{ color: 'blue' }}>blog</a></li>
-          <li className="before:content-['-'] before:pr-2"><a href="https://github.com/LeonEricsson/llmcontext" style={{ color: 'blue' }}>llmcontext</a> (fork of <a href="https://github.com/gkamradt/LLMTest_NeedleInAHaystack" style={{ color: 'blue' }}>original</a>), a context window pressure tester of open llms</li>
+          <li className="before:content-['-'] before:pr-2"><a href="https://github.com/LeonEricsson/llmcontext" style={{ color: 'blue' }}>llmcontext</a> (fork of <a href="https://github.com/gkamradt/LLMTest_NeedleInAHaystack" style={{ color: 'blue' }}>original</a>), a context window pressure tester of <b>open</b> llms</li>
           <li className="before:content-['-'] before:pr-2"><a href="https://github.com/LeonEricsson/AlphaFour" style={{ color: 'blue' }}>alphafour</a> , scratch implementation of alphazero for connect four in pure pytorch</li>
           <li className="before:content-['-'] before:pr-2">a <a href="https://github.com/LeonEricsson/Ensemble4DFlowNet" style={{ color: 'blue' }}>framework</a> for super-resolution of clinical 4d flow mri. <a href="https://arxiv.org/abs/2311.11819" style={{ color: 'blue' }}>paper</a>.</li>
         </ul>
