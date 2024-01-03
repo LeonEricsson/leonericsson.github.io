@@ -9,7 +9,7 @@ function Type({ onComplete }) {
           .typeString("hi")
           .pauseFor(1.5e3)
           .deleteAll()
-          .typeString("I'm leon.")
+          .typeString("i'm leon.")
           .pauseFor(4e3)
           .deleteAll()
           .typeString("the latest from my blog")
