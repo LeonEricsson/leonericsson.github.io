@@ -20,7 +20,7 @@ function AboutCard() {
       </p>
       <h2 className="text-black text-2-5xl font-bold pb-3 pt-10">i like making things.</h2>
       <p>
-        most of my stuff is educational, but i'm moving towards more practical projects.
+        much of my stuff is educational, but i've shifted focus to practical applications.
         <ul className="list-none ml-4 pt-2">
           <li className="before:content-['-'] before:pr-2">this website, including my <a href="https://leonericsson.github.io/blog" style={{ color: 'blue' }}>blog</a></li>
           <li className="before:content-['-'] before:pr-2"><a href="https://github.com/LeonEricsson/llmcontext" style={{ color: 'blue' }}>llmcontext</a> (fork of <a href="https://github.com/gkamradt/LLMTest_NeedleInAHaystack" style={{ color: 'blue' }}>original</a>), a context window pressure tester of <b>open</b> llms</li>
@@ -34,7 +34,7 @@ function AboutCard() {
           <ul className="list-none ml-4 pt-2">
             <li className="before:content-['-'] before:pr-2">ggerganov's <a href="https://github.com/ggerganov/llama.cpp" style={{ color: 'blue' }}>llama.cpp</a> (<a href="https://github.com/ggerganov/llama.cpp/pull/4484" style={{ color: 'blue' }}>#4484</a>)</li>
             <li className="before:content-['-'] before:pr-2"><a href="https://github.com/ml-explore/mlx" style={{ color: 'blue' }}>mlx</a> is an array framework for apple silicon (<a href="https://github.com/ml-explore/mlx-examples/pull/202" style={{ color: 'blue' }}>#202</a> <a href="https://github.com/ml-explore/mlx-examples/pull/19" style={{ color: 'blue' }}>#19</a>) </li>
-            <li className="before:content-['-'] before:pr-2"> <a href="https://github.com/srush/Tensor-Puzzles" style={{ color: 'blue' }}>tensor puzzles</a> from sasha rush</li>
+            <li className="before:content-['-'] before:pr-2"> <a href="https://github.com/LeonEricsson/Tensor-Puzzles" style={{ color: 'blue' }}>tensor puzzles</a> from sasha rush</li>
             <li className="before:content-['-'] before:pr-2"> community driven <a href="https://github.com/ohmyzsh/ohmyzsh" style={{ color: 'blue' }}>ohmyzsh</a></li>
             <li className="before:content-['-'] before:pr-2"> <a href="https://github.com/google/jax" style={{ color: 'blue' }}>jax</a>: the lovechild of autograd and xla</li>
           </ul> 
