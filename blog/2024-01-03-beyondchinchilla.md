@@ -1,12 +1,12 @@
 ---
 layout: post
-title: ""
-categories: [Beyond Chinchilla - Embracing A World For Inference]
+title: "Beyond Chinchilla - Embracing A World For Inference"
+categories: []
 year: 2023
 type: post
 ---
 
-Gone are the days when language models were mere research prototypes, tucked away in academic corridors and accessed by a select few. Today, LLMs are products, optimized to cater to the vast and varied demands of the public. While the scaling laws laid down by Kaplan and Chinchilla have been instrumental in this evolution, they're starting to show their limits as the industry veers away from them. The crux of the issue lies in the fact that these scaling laws primarily focus on pre-training compute costs, overlooking the significant expenses incurred during inference in today's computational ecosystem. So, what's prompting this shift away from Chinchilla's path, and how do we adeptly navigate this evolving terrain? It's time to delve into these questions and uncover the nuances of efficiently scaling LLMs in a inference-dominated world.
+Gone are the days where language models are mere research prototypes, tucked away in academic corridors and accessed by a select few. Today, LLMs are products, optimized to cater to the vast and varied demands of the public. While the scaling laws laid down by Kaplan and Chinchilla have been instrumental in this evolution, they're starting to show their limits as the industry veers away from them. The crux of the issue lies in the fact that these scaling laws primarily focus on pre-training compute costs, overlooking the significant expenses incurred during inference in today's computational ecosystem. So, what's prompting this shift away from Chinchilla's path, and how do we adeptly navigate this evolving terrain? It's time to delve into these questions and uncover the nuances of efficiently scaling LLMs in a inference-dominated world.
 
 ## A first step from Chinchilla-optimal
 Training models according to the Chinchilla scaling laws may be optimal from a training perspective, but LLMs are rarely developed just for display; they are meant to be utilized, which incurs inference costs. Consequently, it has become popular to train smaller models for extended periods, contrary to what Chinchilla laws would suggest, because smaller models entail cheaper inference. Leveraging these scaling laws, we can understand the trade-off between model size and compute overhead, leading to an insight into the *critical model* size. This size is the minimum necessary to achieve a certain loss. Such calculations are crucial as they determine the computational overhead for practitioners aiming to train a smaller model to the same loss level as a larger alternative.
