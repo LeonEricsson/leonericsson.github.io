@@ -18,17 +18,17 @@ $$
 L(N,D) = E + \frac{A}{N^\alpha} + \frac{B}{D^\beta}. 
 $$
 
-Through a series of experiments, the author determined the parameter constants ($E$, $A$, $B$, $\alpha$, $\beta$) which resulted in the following loss shape
+Through a series of experiments, the authors determined parameter constants $E$, $A$, $B$, $\alpha$ and $\beta$. The final loss, as a function of parameter count $N$, and dataset tokens $D$ can be visualized as:
 
-![](/images/losschinchilla.png)
+![](/images/losschinchilla2.png)
 
-The model is optimized for to find $N_{opt}$, $D_{opt}$, for a given compute ([does this feel unfamiliar?](https://en.wikipedia.org/wiki/Neural_scaling_law#Chinchilla_scaling_(Hoffmann,_et_al,_2022))). If you aim to train a smaller model, scaled down by a parameter scale $k_N$ and a data scale $k_D$, the new compute:
+As familiar, increasing parameters and / or data leads to a decrease in the final loss. Notice however that the relationship is skewed towards data, meaning that a certain loss will be achieved quicker by scaling data more than model size. If you optimize this loss function you can calculate the optimal $N_{opt}$, $D_{opt}$, for a given compute ([if any of this feels unfamiliar, see here](https://en.wikipedia.org/wiki/Neural_scaling_law#Chinchilla_scaling_(Hoffmann,_et_al,_2022))). This is all well and good, but what if you want to train a *sub-optimal* model, smaller than chinchilla optimal for a given compute? Scaling the model by a parameter scale $k_N$ and a data scale $k_D$, the compute for this model:
 
 $$
 C_{new} = 6(k_NN_{opt})(k_DD_{opt}),
 $$
 
-is proportional to the optimal. This means that if we want to train a smaller model $N < N_{opt}$, we need scale our training tokens inversely $D > D_{opt}$ to reach the same loss. Naturally, training for longer occurs additional overhead, calculated as
+becomes proportional to the optimal. This means that if we want to train a smaller model $N < N_{opt}$, we need scale our training tokens inversely $D > D_{opt}$ to reach the same loss. Naturally, training for longer occurs additional overhead, calculated as
 
 $$ 
 C_{overhead} = \frac{C_{new} - C}{C} * 100.
