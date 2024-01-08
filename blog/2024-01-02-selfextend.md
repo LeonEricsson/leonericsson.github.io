@@ -2,7 +2,7 @@
 layout: post
 title: "LLM Maybe LongLM: Self-Extend LLM Context Window Without Tuning"
 categories: []
-year: 2023
+year: 2024
 type: post
 author: Jin
 exturl: https://arxiv.org/pdf/2401.01325.pdf

@@ -2,8 +2,8 @@
 layout: post
 title: "Beyond Chinchilla - Embracing A World For Inference"
 categories: []
-year: 2023
-type: post
+year: 2024
+type: blog post
 ---
 
 Gone are the days where language models are mere research prototypes, tucked away in academic corridors and accessed by a select few. Today, LLMs are products, optimized to cater to the vast and varied demands of the public. While the scaling laws laid down by Kaplan and Chinchilla have been instrumental in this evolution, they're starting to show their limits as the industry veers away from them. The crux of the issue lies in the fact that these scaling laws primarily focus on pre-training compute costs, overlooking the significant expenses incurred during inference in today's computational ecosystem. So, what's prompting this shift away from Chinchilla's path, and how do we adeptly navigate this evolving terrain? It's time to delve into these questions and uncover the nuances of efficiently scaling LLMs in a inference-dominated world.
