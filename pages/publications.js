@@ -7,7 +7,7 @@ export default function Publications() {
     <Layout>
       <div className="container mx-auto pt-4 md:pt-12 md:px-12 lg:pt-24 lg:px-24">
         <h1 className="text-black text-4xl p-4">
-          <strong className="purple">a (hopefully) growing list of publications.</strong>
+          <strong className="purple">a <span className="cloud-hopefully">hopefully</span> ever-growing list of publications.</strong>
         </h1>
         <div className="p-2">
           <PublicationList />
