@@ -14,7 +14,7 @@ function Techstack() {
                       <ul className="list-disc my-2" key={idx}>
                         <li>
                           <span>
-                              <span className="italic text-lg ">{val.name}</span>
+                              <span className="italic text-l ">{val.name}</span>
                           </span>
                           <br />
                           <div className="w-2/3">
