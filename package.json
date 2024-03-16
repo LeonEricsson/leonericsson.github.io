@@ -13,6 +13,8 @@
     "@heroicons/react": "^2.0.18",
     "@next/font": "^13.5.3",
     "axios": "^1.5.1",
+    "date-fn": "^0.0.2",
+    "date-fns": "^3.5.0",
     "gray-matter": "^4.0.3",
     "next": "latest",
     "react": "latest",

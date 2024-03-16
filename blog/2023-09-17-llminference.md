@@ -3,6 +3,7 @@ layout: post
 title: "Inference, quantization, and the .cpp projects"
 categories: [NLP, Transformer]
 year: 2023
+type: blog
 ---
 Inference is a, if not the, hottest topic in open LLM research community right now. It seems like every day brings a fresh wave of innovative ideas to boost the performance of the expansive foundational models we have access to. While training models from the ground up remains a lofty challenge for many, the democratized nature of inference optimization means it's a popular for exploration by researchers of all levels. In this post, I'll delve into some recent reads, highlighting intriguing proposals and sharing my reflections on inference. While the format is a bit free-flowing, I hope you'll find a gem or two that sparks your interest!"
 

@@ -3,7 +3,7 @@ layout: post
 title: "FP8-LM: Training FP8 Large Language Models"
 categories: [NLP]
 year: 2023
-type: paper
+type: blog
 author: Peng
 exturl: https://arxiv.org/pdf/2310.18313.pdf
 ---

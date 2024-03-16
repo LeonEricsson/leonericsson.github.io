@@ -3,7 +3,7 @@ layout: post
 title: "Language Models Represent Space and Time"
 categories: []
 year: 2023
-type: post
+type: blog
 author: Gurnee
 exturl: https://arxiv.org/pdf/2310.02207.pdf
 ---

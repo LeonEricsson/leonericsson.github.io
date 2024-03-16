@@ -3,7 +3,7 @@ layout: post
 title: "OpenCodeInterpreter: Integrating Code Generation with Execution and Refinement"
 categories: []
 year: 2024
-type: post
+type: paper
 author: Zheng
 exturl: https://arxiv.org/pdf/2402.14658.pdf
 ---

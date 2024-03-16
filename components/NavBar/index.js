@@ -26,6 +26,12 @@ export default function NavBar() {
                   blog
                 </Link>
                 <Link
+                  href="/indexer"
+                  className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-black "
+                >
+                  index
+                </Link>
+                <Link
                   href="/about"
                   className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-black"
                 >

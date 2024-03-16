@@ -3,7 +3,7 @@ layout: post
 title: "Efficient Training for the GPU-poor"
 categories: []
 year: 2023
-type: post
+type: blog
 ---
 The last post was running quite long so I decided to move the second part into this post where I want to discuss some of the [efficient training and fine-tuning](https://sumanthrh.com/post/distributed-and-efficient-finetuning/) techniques that are available for researchers today. These techniques focus on what we can do to improve throughput, efficacy and memory consumption locally inside one GPU. 
 

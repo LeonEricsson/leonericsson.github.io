@@ -36,24 +36,38 @@ export default function Blog({ allPostsData }) {
       <div className="container mx-auto py-12 px-4 sm:px-6 lg:px-8 flex justify-center">
         <div className="w-full lg:w-3/5">
           <p className="text-base italic mb-4">
-            This blog is a space to share, and above all, distill my thoughts on
-            publications and articles within the research community. I write for
+            this blog is a space to share, and above all, distill my thoughts on
+            publications and articles within the research community. i write for
             my own edification; the posts are personal, intertwined with my own
             thoughts and comments, and subject to my own interest for the topic
-            at the time of writing. Feel free to explore and enjoy the content —
-            I hope you come away with new perspectives and ideas.
+            at the time of writing. pure literature reviews are marked in <span style={{ color: '#fccccc' }}>pink</span>, 
+            open ended blog post are marked in <span style={{ backgroundColor: '#475770' }}>navy gray </span>. feel free to explore and enjoy the content —
+            i hope you come away with new perspectives and ideas.
           </p>
           <div className="vertical-line"></div>
-          {currentPosts.map(({ id, date, title, excerpt }) => (
+          {currentPosts.map(({ id, date, title, excerpt, type }) => (
+            console.log(type),
             <div key={id} className="pb-16">
               <Link href={`/blog/${id}`}>
                 <span className="text-2xl cursor-pointer text-center block font-bold">
+                  {/* Red circle tag */}
+                  <span
+                    style={{
+                      height: '8px',
+                      width: '8px',
+                      backgroundColor: type === 'paper' ? '#fccccc' : type === 'blog' ? '#475770' : 'black',
+                      borderRadius: '50%',
+                      display: 'inline-block',
+                      marginRight: '5px',
+                      verticalAlign: 'middle',
+                    }}
+                  ></span>
                   {title}
                 </span>
                 <p className="text-gray-400 text-base text-center pb-4 pt-1">
                   {formatDate(date)}
                 </p>
-                <p className="text-gray-600 text-l  text-left pb-14">
+                <p className="text-gray-600 text-l text-left pb-14">
                   <Markdown
                     remarkPlugins={[remarkGfm, remarkMath]}
                     rehypePlugins={[rehypeKatex]}

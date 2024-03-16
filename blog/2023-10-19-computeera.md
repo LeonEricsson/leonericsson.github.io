@@ -3,7 +3,7 @@ layout: post
 title: "Distributed Training for the GPU-poor"
 categories: []
 year: 2023
-type: post
+type: blog
 ---
 
 In today's computational arms race, the distinction between the "haves" and "have-nots" couldn't be starker. On one end of the spectrum, we have organizations that are endowed with colossal computing resources. Research centers at companies like 🏢 OpenAI, 🌐 Google, and 📱 Meta that command arsenals of 20,000+ H100 GPUs. These behemoths are not just awash in silicon; they're using their GPU prowess as an active recruiting strategy, luring the best and brightest minds in machine learning.
