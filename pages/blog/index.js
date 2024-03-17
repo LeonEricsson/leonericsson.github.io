@@ -40,9 +40,8 @@ export default function Blog({ allPostsData }) {
             publications and articles within the research community. i write for
             my own edification; the posts are personal, intertwined with my own
             thoughts and comments, and subject to my own interest for the topic
-            at the time of writing. pure literature reviews are marked in <span style={{ color: '#fccccc' }}>pink</span>, 
-            open ended blog post are marked in <span style={{ backgroundColor: '#475770' }}>navy gray </span>. feel free to explore and enjoy the content —
-            i hope you come away with new perspectives and ideas.
+            at the time of writing. pure literature reviews are marked in <span style={{ color: '#fccccc' }}>pink</span>; 
+            open ended blog post are marked in <span style={{ backgroundColor: '#475770' }}>navy gray </span>. feel free to explore — i hope you come away with new perspectives and ideas.
           </p>
           <div className="vertical-line"></div>
           {currentPosts.map(({ id, date, title, excerpt, type }) => (
