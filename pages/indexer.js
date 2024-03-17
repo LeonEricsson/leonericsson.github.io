@@ -39,7 +39,7 @@ export default function Index({ blogPosts, reviews }) {
         {reviews.map(({ id, title, date }) => (
           <li key={id} className="mt-2 flex items-center">
             <span className="text-gray-400 mr-4">{format(new Date(date), 'dd MMM yyyy')}</span>
-            <Link href={`/reviews/${id}`}>
+            <Link href={`/blog/${id}`}>
               <span className=" hover:text-blue-800 cursor-pointer">{title}</span>
             </Link>
           </li>
