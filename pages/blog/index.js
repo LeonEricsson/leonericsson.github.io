@@ -41,7 +41,7 @@ export default function Blog({ allPostsData }) {
             my own edification; the posts are personal, intertwined with my own
             thoughts and comments, and subject to my own interest for the topic
             at the time of writing. pure literature reviews are marked in <span style={{ color: '#fccccc' }}>pink</span>; 
-            open ended blog post are marked in <span style={{ backgroundColor: '#475770' }}>navy gray </span>. feel free to explore — i hope you come away with new perspectives and ideas.
+            open ended blog post are marked in <span style={{ backgroundColor: '#647ca1' }}>gray </span>. feel free to explore — hopefully you'll leave with a new perspective.
           </p>
           <div className="vertical-line"></div>
           {currentPosts.map(({ id, date, title, excerpt, type }) => (
@@ -53,7 +53,7 @@ export default function Blog({ allPostsData }) {
                     style={{
                       height: '5px',
                       width: '5px',
-                      backgroundColor: type === 'paper' ? '#fccccc' : type === 'blog' ? '#475770' : 'black',
+                      backgroundColor: type === 'paper' ? '#fccccc' : type === 'blog' ? '#647ca1' : 'black',
                       borderRadius: '50%',
                       display: 'inline-block',
                       marginRight: '5px',

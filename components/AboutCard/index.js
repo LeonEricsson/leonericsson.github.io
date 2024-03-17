@@ -6,7 +6,7 @@ function AboutCard() {
       <h2 className="text-black text-2-5xl font-bold pb-3">about me.</h2>
       <p>
         my name is leon ericsson. i'm a recent grad with a master's degree in machine
-        learning, living in Stockholm with my <i><a href="https://collectum.se/en/startpage/private/your-situation/i-have-a-sambo#:~:text=%E2%80%9CSambo%E2%80%9D%20is%20a%20Swedish%20legal,cover%20and%2For%20Repayment%20cover." style={{ color: 'blue' }}>sambo</a></i>.
+        learning, living in Stockholm with my <i><a href="https://sverigesradio.se/artikel/what-does-it-mean-to-be-a-sambo-in-sweden" style={{ color: 'blue' }}>sambo</a></i>.
         we like to cook, go to the gym, and travel. she loves walking, i hate walking.
       </p>
       <br />
