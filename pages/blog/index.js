@@ -46,7 +46,6 @@ export default function Blog({ allPostsData }) {
           </p>
           <div className="vertical-line"></div>
           {currentPosts.map(({ id, date, title, excerpt, type }) => (
-            console.log(type),
             <div key={id} className="pb-16">
               <Link href={`/blog/${id}`}>
                 <span className="text-2xl cursor-pointer text-center block font-bold">
