@@ -8,7 +8,7 @@ function Techstack() {
           <div className="text-black mb-1" key={idx}>
             <div className="mt-1 ml-8 my-2 flex flex-col">
               {publication.items.map((val, idx) => (
-                <ul className="list-disc my-2 hover:-translate-y-1 hover:scale-105 transition duration-300" key={idx}>
+                <ul className="list-disc my-2 hover:-translate-y-1 hover:scale-102 transition duration-300" key={idx}>
                   <li>
                     <a href={val.url} target="_blank" rel="noopener noreferrer">
                       <ul className="list-disc my-2" key={idx}>
