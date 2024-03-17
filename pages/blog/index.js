@@ -51,8 +51,8 @@ export default function Blog({ allPostsData }) {
                   {/* Red circle tag */}
                   <span
                     style={{
-                      height: '8px',
-                      width: '8px',
+                      height: '5px',
+                      width: '5px',
                       backgroundColor: type === 'paper' ? '#fccccc' : type === 'blog' ? '#475770' : 'black',
                       borderRadius: '50%',
                       display: 'inline-block',
