@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Making sense of Floating Points"
+title: "Knowledge Capacity Scaling Laws"
 categories: []
 year: 2024
 type: paper
