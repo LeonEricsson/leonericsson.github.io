@@ -5,8 +5,6 @@ categories: []
 year: 2024
 type: blog
 ---
-
-
 For the first time since its release, people seem to be wavering in their confidence in Chatbot Arena. [This thread](https://www.reddit.com/r/LocalLLaMA/comments/1c9nvpy/lmsys_becoming_less_useful/?utm_source=ainews&utm_medium=email&utm_campaign=ainews-fineweb-15t-tokens-of-commoncrawl
 ) caught my attention. It seems as if the release of Llama 3, and the models initial ranking has led people to question not only Llama 3 but the whole leaderboard itself. After letting the dust settle, I can confidently say that this vexation is unfounded.Llama 3 is a great model, and the Chatbot Arena remains a solid proxy for human judgement. Should they have waited a few days to let the CIs settle before making the elo public? Maybe. Take a look at what happens to the rankings when we filter for only English conversations
 

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Language Models Represent Space and Time"
+title: "language models. world models."
 categories: []
 year: 2023
 type: blog

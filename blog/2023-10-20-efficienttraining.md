@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Efficient Training for the GPU-poor"
+title: "efficient training for the gpu-poor"
 categories: []
 year: 2023
 type: blog

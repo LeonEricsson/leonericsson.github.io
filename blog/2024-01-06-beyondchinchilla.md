@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Beyond Chinchilla - Embracing a world of inference"
+title: "beyond chinchilla - embracing a world of inference"
 categories: []
 year: 2024
 type: blog

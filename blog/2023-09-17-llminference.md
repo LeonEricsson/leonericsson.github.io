@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Inference, quantization, and the .cpp projects"
+title: "inference, quantization, and the .cpp projects"
 categories: [NLP, Transformer]
 year: 2023
 type: blog

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Distributed Training for the GPU-poor"
+title: "distributed training for the gpu-poor"
 categories: []
 year: 2023
 type: blog
