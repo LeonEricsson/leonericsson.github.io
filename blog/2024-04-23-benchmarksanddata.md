@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "LLama/Phi-3, scaling laws, and the benchmarking conundrum"
+title: "llama/phi-3, scaling laws, and the benchmarking conundrum"
 categories: []
 year: 2024
 type: blog
