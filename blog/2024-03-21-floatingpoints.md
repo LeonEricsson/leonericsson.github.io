@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Making sense of Floating Points"
+title: "making sense of floating points"
 categories: []
 year: 2024
 type: blog
