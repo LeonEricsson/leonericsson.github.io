@@ -11,7 +11,7 @@ function AboutCard() {
       </p>
       <br />
       <p>
-        i work as a research engineer; with an interest in: 
+        i work as a research engineer; with an interest in:  
         <b>foundational models</b>, <b>policy learning</b>, <b>medical ai</b>, and <b>programming</b>.
         if you're curious about my current fixations, skim the blog. 
       </p>
