@@ -36,12 +36,16 @@ export default function Blog({ allPostsData }) {
       <div className="container mx-auto py-12 px-4 sm:px-6 lg:px-8 flex justify-center">
         <div className="w-full lg:w-3/5">
           <p className="text-base italic mb-4">
-            this blog is a space to share, and above all, distill my thoughts on
-            publications and articles within the research community. i write for
-            my own edification; the posts are personal, intertwined with my own
-            thoughts and comments, and subject to my own interest for the topic
-            at the time of writing. pure literature reviews are marked in <span style={{ color: '#fccccc' }}>pink</span>; 
-            open ended blog post are marked in <span style={{ backgroundColor: '#647ca1' }}>gray </span>. feel free to explore — hopefully you'll leave with a new perspective.
+            this is a space to document and distill my thoughts on publications
+            and articles within the research community. literature reviews are
+            marked in <span style={{ color: "#fccccc" }}>pink</span>; blog post
+            are marked in{" "}
+            <span style={{ backgroundColor: "#647ca1" }}>gray </span>.
+            <br />
+            i write for my own edification; the posts are personal, and
+            subject to my own interest for the topic at the time of writing. the
+            literature reviews are generally messy, but i do put some effort
+            into the blog posts.
           </p>
           <div className="vertical-line"></div>
           {currentPosts.map(({ id, date, title, excerpt, type }) => (
@@ -51,13 +55,18 @@ export default function Blog({ allPostsData }) {
                   {/* Red circle tag */}
                   <span
                     style={{
-                      height: '5px',
-                      width: '5px',
-                      backgroundColor: type === 'paper' ? '#fccccc' : type === 'blog' ? '#647ca1' : 'black',
-                      borderRadius: '50%',
-                      display: 'inline-block',
-                      marginRight: '5px',
-                      verticalAlign: 'middle',
+                      height: "5px",
+                      width: "5px",
+                      backgroundColor:
+                        type === "paper"
+                          ? "#fccccc"
+                          : type === "blog"
+                          ? "#647ca1"
+                          : "black",
+                      borderRadius: "50%",
+                      display: "inline-block",
+                      marginRight: "5px",
+                      verticalAlign: "middle",
                     }}
                   ></span>
                   {title}

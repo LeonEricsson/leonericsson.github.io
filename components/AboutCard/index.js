@@ -5,19 +5,15 @@ function AboutCard() {
     <div>
       <h2 className="text-black text-2-5xl font-bold pb-3">about me.</h2>
       <p>
-        my name is leon ericsson. i'm a recent grad with a master's degree in machine
-        learning, living in Stockholm with my <i><a href="https://sverigesradio.se/artikel/what-does-it-mean-to-be-a-sambo-in-sweden" style={{ color: 'blue' }}>sambo</a></i>.
-        we like to cook, go to the gym, and travel. she loves walking, i hate walking.
+        my name is leon ericsson, i live in stockholm with my <i><a href="https://sverigesradio.se/artikel/what-does-it-mean-to-be-a-sambo-in-sweden" style={{ color: 'blue' }}>sambo</a></i>. i've recently
+        graduated with a master's degree in cs, during which i realized the joy for research which i
+        still hold. apart from that, i enjoy food eating and food making, traveling and the gym.
       </p>
       <br />
       <p>
-        i'm currently employed as a research engineer; my research interests are transient,
-        feels like I find something new every other week, but broadly speaking: 
-        <b> foundational models</b>, <b>policy learning</b>, <b>medical ai</b>, and <b>coding</b>.
-        If you're curious about my current concentrations, skim my blog. I hacked this website over a weekend 
-        as a platform to share
-        and document my thoughts on research that I come across. While primarily for my own edification,
-        hopefully there's something here that proves insightful to you.
+        i work as a research engineer; with an interest in: 
+        <b>foundational models</b>, <b>policy learning</b>, <b>medical ai</b>, and <b>programming</b>.
+        if you're curious about my current fixations, skim the blog. 
       </p>
       <h2 className="text-black text-2-5xl font-bold pb-3 pt-10">i like making things.</h2>
       <p>
