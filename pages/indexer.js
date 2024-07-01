@@ -34,7 +34,7 @@ export default function Index({ blogPosts, reviews }) {
         ))}
       </ul>
 
-      <h2 className="text-lg mt-12 mb-2 ml-24 font-semibold text-black inline-block px-1 rounded" style={{ backgroundColor: '#fccccc' }}>Lit. reviews</h2>
+      <h2 className="text-lg mt-12 mb-2 ml-24 font-semibold text-black inline-block px-1 rounded" style={{ backgroundColor: '#fccccc' }}>Literature reviews</h2>
       <ul className="list-none">
         {reviews.map(({ id, title, date }) => (
           <li key={id} className="mt-2 flex items-center">

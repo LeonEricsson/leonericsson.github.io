@@ -37,15 +37,14 @@ export default function Blog({ allPostsData }) {
         <div className="w-full lg:w-3/5">
           <p className="text-base italic mb-4">
             this is a space to document and distill my thoughts on publications
-            and articles within the research community. literature reviews are
-            marked in <span style={{ color: "#fccccc" }}>pink</span>; blog post
-            are marked in{" "}
-            <span style={{ backgroundColor: "#647ca1" }}>gray </span>.
+            and articles within the research community. literature reviews are personal
+            and generally messy (marked in <span style={{ color: "#fccccc" }}>pink</span>); 
+            blog post are intended for a wider audience (marked in{" "}
+            <span style={{ backgroundColor: "#647ca1" }}>gray </span>).
             <br />
-            i write for my own edification; the posts are personal, and
-            subject to my own interest for the topic at the time of writing. the
-            literature reviews are generally messy, but i do put some effort
-            into the blog posts.
+            <br />
+            i write for my own edification; and posts are subject to my own interest
+            for the topic at the time of writing.
           </p>
           <div className="vertical-line"></div>
           {currentPosts.map(({ id, date, title, excerpt, type }) => (
