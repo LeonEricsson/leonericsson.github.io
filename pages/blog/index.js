@@ -38,7 +38,7 @@ export default function Blog({ allPostsData }) {
           <p className="text-base italic mb-4">
             this is a space to document and distill my thoughts on publications
             and articles within the research community. literature reviews are personal
-            and generally messy (marked in <span style={{ color: "#fccccc" }}>pink</span>); 
+            and messy (marked in <span style={{ color: "#fccccc" }}>pink</span>); 
             blog post are intended for a wider audience (marked in{" "}
             <span style={{ backgroundColor: "#647ca1" }}>gray </span>).
             <br />
