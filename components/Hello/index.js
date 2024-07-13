@@ -36,7 +36,7 @@ export default function Hello({allPostsData}) {
   return (
     <div className="relative pb-5">
       <h1 className="text-large pt-4 md:pt-12 lg:pt-24 pl-12 md:text-4xl text-white">
-        <Type onComplete={handleTypingComplete} />
+        <Type/>
       </h1>
       {showBlogs && (
         <div className="absolute top-0 left-0">

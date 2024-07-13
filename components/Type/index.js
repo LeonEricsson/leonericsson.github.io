@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Typewriter from "typewriter-effect";
 
-function Type({ onComplete }) {
+function Type({}) {
   return (
     <Typewriter
       onInit={(typewriter) => {
@@ -10,12 +10,6 @@ function Type({ onComplete }) {
           .pauseFor(1.5e3)
           .deleteAll()
           .typeString("i'm leon.")
-          .pauseFor(4e3)
-          .deleteAll()
-          .typeString("the latest from my blog")
-          .callFunction(() => {
-            onComplete();
-          })
           .start();
       }}
     />
