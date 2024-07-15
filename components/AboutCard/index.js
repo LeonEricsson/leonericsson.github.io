@@ -6,7 +6,7 @@ function AboutCard() {
       <h2 className="text-black text-2-5xl font-bold pb-3">about me.</h2>
       <p>
         my name is leon ericsson, i live in stockholm with my <i><a href="https://sverigesradio.se/artikel/what-does-it-mean-to-be-a-sambo-in-sweden" style={{ color: 'blue' }}>sambo</a></i>. i've recently
-        graduated with a master's degree in cs. i love ml, research, and coding. i enjoy food eating and food making, traveling and the gym.
+        graduated with a master's degree in cs. i love ml, research, and code. i enjoy food eating and food making, traveling and the gym.
       </p>
       <br />
       <p>
