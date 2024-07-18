@@ -20,6 +20,12 @@ export default function NavBar() {
                   home
                 </Link>
                 <Link
+                  href="/about"
+                  className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-black"
+                >
+                  about
+                </Link>
+                <Link
                   href="/blog"
                   className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-black "
                 >
@@ -30,12 +36,6 @@ export default function NavBar() {
                   className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-black "
                 >
                   index
-                </Link>
-                <Link
-                  href="/about"
-                  className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-black"
-                >
-                  about
                 </Link>
                 <Link
                   href="/publications "
