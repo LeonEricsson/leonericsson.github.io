@@ -3,18 +3,18 @@ import React from "react";
 function AboutCard() {
   return (
     <div>
-      <h2 className="text-black text-2-5xl font-bold pb-3">about me.</h2>
+      <h2 className="text-black text-2-5xl font-bold pb-3">about me</h2>
       <p>
-        my name is leon ericsson, i live in stockholm with my <i><a href="https://sverigesradio.se/artikel/what-does-it-mean-to-be-a-sambo-in-sweden" style={{ color: 'blue' }}>sambo</a></i>. i've recently
-        graduated with a master's degree in cs. i love ml, research, and code. i enjoy food eating and food making, traveling and the gym.
+        hi! i'm leon, i live in stockholm with my <i><a href="https://sverigesradio.se/artikel/what-does-it-mean-to-be-a-sambo-in-sweden" style={{ color: 'blue' }}>sambo</a></i>. i've recently
+        graduated with a master's degree in cs. i'm big into ml, research, and coding. i enjoy food eating, food making, traveling and working out.
       </p>
       <br />
       <p>
-        i work as a research engineer, with an interest in: <b>foundational models</b>, <b>policy learning</b>, <b>medical ai</b>, and <b>programming</b>. if you're curious about my current fixations, skim the blog. 
+        i've got a background in software engineering but as of last year i'm a research engineer. i'm interested in: <b>foundational models</b>, <b>policy learning</b>, <b>medical ai</b>, and <b>reasoning agents</b>. if you're curious about my current fixations, skim the blog. 
       </p>
-      <h2 className="text-black text-2-5xl font-bold pb-3 pt-10">i like making things.</h2>
+      <h2 className="text-black text-2-5xl font-bold pb-3 pt-10">i like making things</h2>
       <p>
-        mix of research, experiments, and from scratch builds.
+        healthy mix of research, experiments, and from scratch projects.
         <ul className="list-none ml-4 pt-2">
           <li className="before:content-['-'] before:pr-2">this website, including my <a href="https://leonericsson.github.io/blog" style={{ color: 'blue' }}>blog</a></li>
           <li className="before:content-['-'] before:pr-2"><a href="https://github.com/LeonEricsson/alphax" style={{ color: 'blue' }}>alphax</a>, scalable + fast alphazero in jax. facilitates spmd, simd, jit-composition etc </li>
@@ -25,7 +25,7 @@ function AboutCard() {
           
         </ul>
       </p>
-      <h2 className="text-black text-2-5xl font-bold pb-3 pt-10">i like open source.</h2>
+      <h2 className="text-black text-2-5xl font-bold pb-3 pt-10">i like open source</h2>
         <p>
           these are my favorite, some of which i contribute to.
           <ul className="list-none ml-4 pt-2">
