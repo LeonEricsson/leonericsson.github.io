@@ -14,7 +14,7 @@ function AboutCard() {
       </p>
       <h2 className="text-black text-2-5xl font-bold pb-3 pt-10">i like making things</h2>
       <p>
-        healthy mix of research, experiments, and from scratch projects.
+        healthy mix of research, experiments, and scratch projects.
         <ul className="list-none ml-4 pt-2">
           <li className="before:content-['-'] before:pr-2">this website, including my <a href="https://leonericsson.github.io/blog" style={{ color: 'blue' }}>blog</a></li>
           <li className="before:content-['-'] before:pr-2"><a href="https://github.com/LeonEricsson/alphax" style={{ color: 'blue' }}>alphax</a>, scalable + fast alphazero in jax. facilitates spmd, simd, jit-composition etc </li>
