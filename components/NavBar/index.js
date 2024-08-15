@@ -1,55 +1,47 @@
 import { Disclosure } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
+import { useRouter } from 'next/router';
 
 export default function NavBar() {
+
+  const router = useRouter();
+
+  const NavLink = ({ href, children }) => {
+    const isActive = router.pathname === href;
+    return (
+      <Link
+        href={href}
+        className={`inline-flex items-center px-1 pt-8 pb-3 text-sm text-black transition-all duration-200 ${
+          isActive ? 'font-bold' : 'font-medium hover:font-bold'
+        }`}
+      >
+        {children}
+      </Link>
+    );
+  };
+  
   return (
     <Disclosure as="nav" className="bg-warm-cream shadow">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-4 lg:px-8">
-            <div className="flex h-16 justify-between">
-              <div className="flex px-2 lg:px-0">
-              </div>
-              <div className="hidden items-center md:ml-6 md:space-x-8 md:flex md:flex-1  md:justify-end">
+            <div className="flex h-20 justify-center">
+              <div className="hidden items-center md:flex md:space-x-8">
                 {/* only show this tabs when size is > md */}
-                <Link
-                  href="/"
-                  className="inline-flex items-center px-1 pt-1 text-sm font-medium text-black"
-                >
-                  home
-                </Link>
-                <Link
-                  href="/about"
-                  className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-black"
-                >
-                  about
-                </Link>
-                <Link
-                  href="/blog"
-                  className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-black "
-                >
-                  blog
-                </Link>
-                <Link
-                  href="/indexer"
-                  className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-black "
-                >
-                  index
-                </Link>
-                <Link
-                  href="/publications "
-                  className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-black "
-                >
-                  publications
-                </Link>
-                <Link
+                <NavLink href="/">home</NavLink>
+                <NavLink href="/about">about</NavLink>
+                <NavLink href="/blog">blog</NavLink>
+                <NavLink href="/indexer">index</NavLink>
+                <NavLink href="/publications">publications</NavLink>
+                <a
                   href="https://github.com/LeonEricsson?tab=repositories"
                   target="_blank"
-                  className="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-black "
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center px-1 pt-8 pb-3 text-sm font-medium text-black hover:font-bold transition-all duration-200"
                 >
                   projects
-                </Link>
+                </a>
               </div>
               <div className="flex items-center md:hidden">
                 {/* Mobile menu button */}

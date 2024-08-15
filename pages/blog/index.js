@@ -1,12 +1,19 @@
 import { getSortedPostsData } from "../../lib/posts";
 import Link from "next/link";
 import Layout from "../../components/Layout";
+import { Raleway } from "@next/font/google";
 import { useState } from "react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeKatex from "rehype-katex";
 import remarkMath from "remark-math";
 import "katex/dist/katex.min.css"; // `rehype-katex` does not import the CSS for you
+
+const raleway = Raleway({
+  weight: ['400', '700'],
+  style: ['normal', 'italic'],
+  subsets: ["latin"],
+});
 
 export async function getStaticProps() {
   const allPostsData = getSortedPostsData();
@@ -35,8 +42,8 @@ export default function Blog({ allPostsData }) {
     <Layout>
       <div className="container mx-auto py-12 px-4 sm:px-6 lg:px-8 flex justify-center">
         <div className="w-full lg:w-3/5">
-          <p className="text-base italic mb-4">
-            this is a space to document and distill my thoughts on publications
+          <p className={`text-base italic mb-4 ${raleway.className}`}>
+          this is a space to document and distill my thoughts on publications
             and articles within the research community. literature reviews are personal
             and messy (marked in <span style={{ color: "#fccccc" }}>pink</span>); 
             blog post are intended for a wider audience (marked in{" "}
@@ -73,7 +80,7 @@ export default function Blog({ allPostsData }) {
                 <p className="text-gray-400 text-base text-center pb-4 pt-1">
                   {formatDate(date)}
                 </p>
-                <p className="text-gray-600 text-l text-left pb-14">
+                <p className={`text-gray-600 text-l text-left pb-14 ${raleway.className}`}>
                   <Markdown
                     remarkPlugins={[remarkGfm, remarkMath]}
                     rehypePlugins={[rehypeKatex]}

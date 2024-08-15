@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Typewriter from "typewriter-effect";
 
-function Type({}) {
+function Type() {
   return (
-    <Typewriter
-      onInit={(typewriter) => {
-        typewriter
-          .typeString("hi")
-          .pauseFor(1.5e3)
-          .deleteAll()
-          .typeString("i'm leon.")
-          .start();
-      }}
-    />
+    <div className="flex items-center">
+      <Typewriter
+        onInit={(typewriter) => {
+          typewriter
+            .typeString("hi")
+            .pauseFor(1500)
+            .deleteAll()
+            .typeString("i'm leon.")
+            .start();
+        }}
+      />
+    </div>
   );
 }
 
