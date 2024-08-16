@@ -12,13 +12,13 @@ function About() {
             <Aboutcard />
           </div>
           <div className="px-12 pt-12">
-            {/* <Image
+            <Image
               src={img}
               alt="me and my beautiful sambo"
               className="w-5/6 h-auto ml-[20px]"
               width="2000"
               height="2000"
-            /> */}
+            />
           </div>
         </div>
       </div>
