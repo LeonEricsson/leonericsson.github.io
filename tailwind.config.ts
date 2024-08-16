@@ -14,6 +14,9 @@ const config: Config = {
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
           'warm-cream': '#fffbf6',
       },
+      colors: {
+        'headline': '#5688a9'
+      }
     },
   },
   plugins: [],
