@@ -45,9 +45,8 @@ export default function Blog({ allPostsData }) {
           <p className={`text-base italic mb-4 ${raleway.className}`}>
           this is a space to document and distill my thoughts on publications
             and articles within the research community. literature reviews are personal
-            and messy (marked in <span style={{ color: "#fccccc" }}>pink</span>); 
-            blog post are intended for a wider audience (marked in{" "}
-            <span style={{ backgroundColor: "#647ca1" }}>gray </span>).
+            and messy; blog post are intended for a wider audience (marked with a{" "}
+              <span style={{ color: "#5688a9" }}>dot</span>).
             <br />
             <br />
             i write for my own edification; and posts are subject to my own interest
@@ -58,23 +57,19 @@ export default function Blog({ allPostsData }) {
             <div key={id} className="pb-16">
               <Link href={`/blog/${id}`}>
                 <span className="text-2xl cursor-pointer text-center block font-bold text-headline">
-                  {/* Red circle tag */}
-                  <span
-                    style={{
-                      height: "5px",
-                      width: "5px",
-                      backgroundColor:
-                        type === "paper"
-                          ? "#fccccc"
-                          : type === "blog"
-                          ? "#647ca1"
-                          : "black",
-                      borderRadius: "50%",
-                      display: "inline-block",
-                      marginRight: "5px",
-                      verticalAlign: "middle",
-                    }}
-                  ></span>
+                {type === "blog" && (
+                    <span
+                      style={{
+                        height: "4px",
+                        width: "4px",
+                        backgroundColor: "#5688a9",
+                        borderRadius: "50%",
+                        display: "inline-block",
+                        marginRight: "5px",
+                        verticalAlign: "middle",
+                      }}
+                    ></span>
+                  )}
                   {title}
                 </span>
                 <p className="text-gray-400 text-base text-center pb-4 pt-1">
