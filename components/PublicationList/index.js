@@ -1,4 +1,11 @@
 import { publications } from "../../data";
+import { Raleway } from "@next/font/google";
+
+const raleway = Raleway({
+  weight: ['400', '700'],
+  style: ['normal', 'italic'],
+  subsets: ["latin"],
+});
 
 function Techstack() {
   return (
@@ -6,7 +13,7 @@ function Techstack() {
       {publications.map((publication, idx) => {
         return (
           <div className="text-black mb-1" key={idx}>
-            <div className="mt-1 ml-8 my-2 flex flex-col">
+            <div className={`mt-1 ml-8 my-2 flex flex-col ${raleway.className}`}>
               {publication.items.map((val, idx) => (
                 <ul className="list-disc my-2 hover:-translate-y-1 hover:scale-102 transition duration-300" key={idx}>
                   <li>

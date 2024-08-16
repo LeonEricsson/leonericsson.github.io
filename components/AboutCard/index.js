@@ -1,19 +1,26 @@
 import React from "react";
+import { Raleway } from "@next/font/google";
+
+const raleway = Raleway({
+  weight: ['400', '700'],
+  style: ['normal', 'italic'],
+  subsets: ["latin"],
+});
 
 function AboutCard() {
   return (
     <div>
-      <h2 className="text-black text-2-5xl font-bold pb-3">about me</h2>
-      <p>
+      <h2 className="text-headline text-2xl font-bold pb-3">about me</h2>
+      <p className={`${raleway.className}`}>
         hi! i'm leon, i live in stockholm with my <i><a href="https://sverigesradio.se/artikel/what-does-it-mean-to-be-a-sambo-in-sweden" style={{ color: 'blue' }}>sambo</a></i>. i've recently
         graduated with a master's degree in cs. i'm big into ml, research, and coding. i enjoy food eating, food making, traveling and working out.
       </p>
       <br />
-      <p>
+      <p className={`${raleway.className}`}>
         i've got a background in software engineering but as of last year i'm a research engineer. i'm interested in: <b>foundational models</b>, <b>policy learning</b>, <b>medical ai</b>, and <b>reasoning agents</b>. if you're curious about my current fixations, skim the blog. 
       </p>
-      <h2 className="text-black text-2-5xl font-bold pb-3 pt-10">i like making things</h2>
-      <p>
+      <h2 className="text-headline text-2xl font-bold pb-3 pt-[4rem]">i like making things</h2>
+      <p className={`${raleway.className}`}>
         healthy mix of research, experiments, and scratch projects.
         <ul className="list-none ml-4 pt-2">
           <li className="before:content-['-'] before:pr-2">this website, including my <a href="https://leonericsson.github.io/blog" style={{ color: 'blue' }}>blog</a></li>
@@ -25,8 +32,8 @@ function AboutCard() {
           
         </ul>
       </p>
-      <h2 className="text-black text-2-5xl font-bold pb-3 pt-10">i like open source</h2>
-        <p>
+      <h2 className="text-headline text-2xl font-bold pb-3 pt-[4rem]">i like open source</h2>
+        <p className={`${raleway.className}`}>
           these are my favorite, some of which i contribute to.
           <ul className="list-none ml-4 pt-2">
             <li className="before:content-['-'] before:pr-2">ggerganov's <a href="https://github.com/ggerganov/llama.cpp" style={{ color: 'blue' }}>llama.cpp</a> (<a href="https://github.com/ggerganov/llama.cpp/pull/4484" style={{ color: 'blue' }}>#4484</a>)</li>

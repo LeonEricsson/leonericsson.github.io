@@ -57,7 +57,7 @@ export default function Blog({ allPostsData }) {
           {currentPosts.map(({ id, date, title, excerpt, type }) => (
             <div key={id} className="pb-16">
               <Link href={`/blog/${id}`}>
-                <span className="text-2xl cursor-pointer text-center block font-bold">
+                <span className="text-2xl cursor-pointer text-center block font-bold text-headline">
                   {/* Red circle tag */}
                   <span
                     style={{

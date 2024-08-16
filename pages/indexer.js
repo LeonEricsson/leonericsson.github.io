@@ -21,8 +21,8 @@ export async function getStaticProps() {
 export default function Index({ blogPosts, reviews }) { 
   return (
     <Layout>
-    <div className="pl-80 py-4">
-      <h2 className="text-lg mt-8 mb-2 ml-24 font-semibold text-black inline-block px-1 rounded" style={{ backgroundColor: '#647ca1' }}>Blog posts</h2>
+    <div className="pl-[25rem] py-4">
+      <h2 className="text-xl mt-8 mb-2 ml-18 font-bold text-headline inline-block px-1 rounded">Blog posts</h2>
       <ul className="list-none">
         {blogPosts.map(({ id, title, date }) => (
           <li key={id} className="mt-2 flex items-center">
@@ -34,7 +34,7 @@ export default function Index({ blogPosts, reviews }) {
         ))}
       </ul>
 
-      <h2 className="text-lg mt-12 mb-2 ml-24 font-semibold text-black inline-block px-1 rounded" style={{ backgroundColor: '#fccccc' }}>Literature reviews</h2>
+      <h2 className="text-xl mt-12 mb-1 ml-18 font-bold text-headline inline-block px-1 rounded">Literature reviews</h2>
       <ul className="list-none">
         {reviews.map(({ id, title, date }) => (
           <li key={id} className="mt-2 flex items-center">
