@@ -12,7 +12,7 @@ export default function NavBar() {
     return (
       <Link
         href={href}
-        className={`inline-flex items-center px-1 pt-8 pb-3 text-sm text-headline transition-all duration-200 ${
+        className={`inline-flex items-center px-2 pt-8 pb-3 text-base text-headline transition-all duration-200 ${
           isActive ? 'font-bold' : 'font-medium hover:font-bold'
         }`}
       >
@@ -38,7 +38,7 @@ export default function NavBar() {
                   href="https://github.com/LeonEricsson?tab=repositories"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center px-1 pt-8 pb-3 text-sm font-medium text-headline hover:font-bold transition-all duration-200"
+                  className="inline-flex items-center px-1 pt-8 pb-3 text-base font-medium text-headline hover:font-bold transition-all duration-200"
                 >
                   projects
                 </a>
