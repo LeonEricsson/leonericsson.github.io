@@ -1,24 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Typewriter from "typewriter-effect";
 
-function Type({ onComplete }) {
+function Type() {
   return (
-    <Typewriter
-      onInit={(typewriter) => {
-        typewriter
-          .typeString("hi")
-          .pauseFor(1.5e3)
-          .deleteAll()
-          .typeString("i'm leon.")
-          .pauseFor(4e3)
-          .deleteAll()
-          .typeString("the latest from my blog")
-          .callFunction(() => {
-            onComplete();
-          })
-          .start();
-      }}
-    />
+    <div className="flex items-center">
+      <Typewriter
+        options={{
+          wrapperClassName: 'text-headline',
+          cursorClassName: 'text-headline',
+        }}
+        onInit={(typewriter) => {
+          typewriter
+            .pauseFor(200)
+            .typeString("hi")
+            .pauseFor(1500)
+            .deleteAll()
+            .typeString("i'm leon")
+            .start();
+        }}
+      />
+    </div>
   );
 }
 
