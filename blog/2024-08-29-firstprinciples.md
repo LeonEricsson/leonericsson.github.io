@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "dl on first principles"
+title: "GPU Utilization: Compute, Bandwidth and Overhead"
 categories: []
 year: 2024
 type: paper
