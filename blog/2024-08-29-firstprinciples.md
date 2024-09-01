@@ -38,7 +38,13 @@ Fusing unary operations, or unary operations with many other operations for that
 
 This is accumulated time spent doing things that aren't moving data or executing kernels. Python type checking, PyTorch dispatcher, launching CUDA kernels – these are all overheads. Now you might think this overhead contributes only to a small part of execution, but remember that your GPU is crazy fast, performing trillions of operations per second. So unless you're working with a **large** amount of data, your overhead is likely a considerable part of your execution time, because Python is slow.
 
-As long as your GPU operations are big enough, your ML framework will be able to queue the operations while it continues to perform CPU operations. This is called asynchronous execution, and it means that if your GPU operations are large in comparison to your CPU operations, then the CPU overhead is irrelevant. If this is not the case, you should consider scaling the data usage. Overhead doesn't scale with the problem size, while compute and memory do, so if you've got a batch size, double it, and if your runtime doesn't increase proportionally, you're in the overhead-bound regime! For example, if doubling your batch size from 32 to 64 only increases your training time by 20%, you're likely overhead-bound and could benefit from further increasing your batch size or optimizing your data pipeline.
+As long as your GPU operations are big enough, your ML framework will be able to queue the operations while it continues to perform CPU operations. This is called asynchronous execution, and it means that if your GPU operations are large in comparison to your CPU operations, then the CPU overhead is irrelevant. If this is not the case, you should consider scaling the data usage. Overhead doesn't scale with the problem size, while compute and memory do, so if you've got a batch size, double it, and if your runtime doesn't increase proportionally, you're in the overhead-bound regime! For example, if doubling your batch size from 32 to 64 only increases your training time by 20%, you're likely overhead-bound and could benefit from further increasing your batch size.
+
+You can see this in action when looking at the teraflops achieved during square matmuls. 
+
+![](/images/flopsmatmuls.png)
+
+As we increase compute intensity, the constant overhead (launching SMs, identifying kernel) is amortized away. 
 
 
 ### Torch - trying to be everything
