@@ -3,7 +3,7 @@ layout: post
 title: "GPU Utilization: Compute, Bandwidth and Overhead"
 categories: []
 year: 2024
-type: paper
+type: blog
 ---
 *i read two posts [[1](https://horace.io/brrr_intro.html), [2](https://neel04.github.io/my-website/blog/pytorch_rant/)] which led to some notes, which led to this post.*
 
