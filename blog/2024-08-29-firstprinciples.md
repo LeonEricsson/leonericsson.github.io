@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "GPU Utilization: Compute, Bandwidth and Overhead"
+title: "maximize gpu utilization"
 categories: []
 year: 2024
 type: blog
