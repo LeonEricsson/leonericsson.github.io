@@ -16,9 +16,108 @@ We propose dividing the concept of "intelligence" into multiple dimensions (such
 - Highly repeatable experiments. Use smaller models (100M size), where you can run feasible, repetitive experiments, in an attempt to derive universal laws. 
 - Probing techniques to see the inner workings of models.
 
+# Part 1
+
+
+
+# Part 2
+How do Language Models reason? It is of course too wide a question to answer how language models reason in general, so the answers try to understand how models reason on grade-school math problems. The goal is here to understand the **fundamental** hidden reasoning process. The authors propose the creation of a synthetic (infinite) math dataset to simulate GSM8k. Using this dataset the authors try to understand how language models think, what is it's mental process, what is the reasoning skill that it develops. They also want to understand why it makes mistakes on comparatively *simple* problems. 
+
+We aim to understand the following fundamental questions:
+1. How do language models learn to solve grade-school level math problems? Do they just
+memorize templates, or do they learn reasoning skills similar to humans? Or do they discover
+new skills to solve the problems?
+2. Do models trained solely on grade-school math problems only learn to solve these problems,
+or do they develop some more general intelligence?
+3. How small can a language model be while still solving grade-school math problems? Is depth
+(number of layers) more important than width (number of neurons per layer), or does only
+size matter as suggested by practitioners?
+
+## Part 2.1 Grade-School Math and the Hidden Reasoning Process
+iGSM - an infinite, synthetic GSM8k-like dataset which aims to capture:
+
+Direct dependency: A = 5 * (X + Y)
+Instance dependency: X classrooms each has Y messenger bags
+Implicit dependency: Bob has 3x more fruits than Alice. Alice has 3 apples, 4 eggs and 2 bananas.
+
+Moreover, our framework ensures that the generated math problems are highly diverse and do
+not come from a small subset of templates. Even ignoring all the arithmetic, English, variable
+names, and unused parameters, our problems still have more than 90 trillion solution templates
+(see Proposition 2.2), much larger than the size of GPT2-small (100M). Thus, language models
+cannot solve the math problems in our case by simply memorizing the solution templates.
+
+The problems in iGSM require many reasoning steps to arrive at the answer. The generated solutions are in CoT style, where the solution sentence
+describes the necessary steps towards solving the given problem - following a topological order:
+
+```
+(Solution - Easy) 
+Define Dance Studio’s School Daypack as p; so p = 17. 
+Define Film Studio’s Messenger Backpack as W; so W = 13. 
+Define Central High’s Film Studio as B; so B = p + W = 17 + 13 = 7. 
+Define Film Studio’s School Daypack as g; R = W + B = 13 + 7 = 20; so g = 12 + R = 12 + 20 = 9. 
+Define Film Studio’s Backpack as w; so w = g + W = 9 + 13 = 22. 
+Define Central High’s Backpack as c; so c = B * w = 7 * 22 = 16. 
+Answer: 16.
+```
+The authors consider arithmetics mod 23 to avoid errors from computation involving large numbers.
+
+op defines the number of operations needed to solve a iGSM problem, in the above example, op is 7.
+
+iGSM-med is training data for op <= 15. 
+
+iGSM-hard is training data for op <= 21.
+
+Language models trained on iGSM-med achieve >85% accuracy on problems all the way up to op=22. Models trained on iGSM-hard are >80% accurate up to op=32. These are amazing results, from this the authors claim that LLMs are indeed learning the "skill" to solve math problems, not by memorizing solution templates.
+
+**Result**. GPT2 performs well when pretrained using iGSM-med or iGSM-hard data, even when evaluated out-of-distribution on harder (i.e., larger op) math problems. Thus, the model can truly learn some reasoning skill instead of memorizing solution templates.
+
+But the goal of this study was to understand how models solve such problems, so how? 
+
+The authors claim that GPT-2 (in this case they trained GPT-2 rotary models but it doesn't matter) achieves "level-1" reasoning skills. Meaning that instead of just brute-force, trying to compute all the problem parameters maximally, the model instead learns to use topological sort + give the shortest possible CoT. This is non-trivial. It means that the model, before even starting to produce the first token, must have an understanding of what parameters are necessary for the solution. Before even producing a chain of thought, it must have completed some "mental process". To study this further, the authors propose several probing tasks:
+
+- **nece**(A): if parameter A is necessary for computing the answer.
+- **dep**(A, B): if parameter A is recursively dependant on B given the problem statement.
+- **can_next**(A): if A can be computed in the next solution sentence (meaning that the necessary predecessors have been calculated already).
+ 
+The **nece** probe is placed right after the question, and the *dep** task is evaluated after the problem statement. As it turns out, the models achieve 99% accuracy on these three tasks! Amazing! This means that the model has complete understanding of how parameters depend on each other, they know which are necessary to answer the problem, and they understand when a parameter A can be computed, and this is how language models solve the iGSM problems and how they achieve "level-1" reasoning. These results are really cool.
+
+
+In consolidation with these results, the authors find that the most common errors on iGSM correlate with the aforementioned probing tasks. What I mean by this is that when the model incorrectly calculates nece(A) for a parameter A, then the model later generates the unnecessary parameter A as part of the solution. Likewise, during generation when the can_next(A) probe fails, then the model will try to calculate a parameter that is not ready for computation. This might seem obvious, but it tells us that that model mistakes are **systematic** as opposed to random (which people have claimed as part of the stochastic generation process). 
+
+**Result**. Many reasoning mistakes made by the language model are systematic, stemming from errors in its mental process, not merely random from the generation process.
+
+**Result**. Some of the model’s mistakes can be discovered by probing its inner states even before the model opens its mouth (i.e., before it says the first solution step)
+
+Finally, the authors explore the relationship between a language model's depth and it's reasoning length. To begin with, they perform a controlled study of different model widths + model depths and hastly conclude that language model depth is crucial for mathematical reasoning
+
+**Result**. Language model depth is crucial for mathematical reasoning.
+
+This may be in contrary to previous findings that suggest that size is the important scaling parameter, and that it doesn't matter if you scale width or depth. 
+
+Again they look at probing to understand why this happens. Specifically, they look at the **nece**(A) probing task, focusing on necessary parameters at distance $t$ from the query parameter. They proby to see how correct the model is at predicting these parameters at different hidden layers. The results are super important, finding that deeper layers are significantly better at predicting parameters further away from the query, than shallow layers. Shallow layers excel at parameters close to the query. 
+
+**Result**. The depth of a language model is crucial, likely due to the complexity
+of its hidden (mental) reasoning processes. A t-step mental reasoning, such as mentally computing nece(A) for parameters A that are a distance t from the query, may require deeper models for larger t, assuming all other hyperparameters remain constant.
+
+Depth is necessary for reasoning because of the mental computation
+
+## Part 2.2 How to Learn from Mistakes on Grade-School Math Problems
+One way to improve the performance of such problems is to devise a dataset such as iGSM that becomes part of the training data for future language models. Another way would be let language models learn from their mistakes. 
+
+Remember that one of the two mistakes a model makes is the can_next(A) failure, where the model starts generating a parameter that it can't actually compute yet. Well, probing the model at the token position right after the parameter name:
+
+>Define Dance Studio's Canvas Backpack **as** ...
+
+reveals that the model "knows" it just made a mistake. This means that LLMs trained (on correct data) are automatically verifiers / error detectors. Now imagine using a verifier model that tells you when you made a mistake, and in that case we let the model backspace to the previous sentence. It sounds good, but in practice it only gives us a modest accuracy improvement (~2 percentage points). This is because we are basically retrying with randomness. We're just letting the model regenerate the sentence, hoping that the error will solve itself thanks to a favorable stochastic generation.  We're not enabling the model to learn from mistakes. 
+
+In order to make a model that actually learns to fix mistakes, you have to train it on data that has mistakes **and** corrections. So, the authors went back to iGSM and rethought their data generation strategy. Now, instead of perfect solutions, the data contains "conscious" mistakes with probability $p$, followed by a special [BACK] token:
+
+
+
+
 # Part 3
 
-How do Language Models actually store knowledge? Back in novemeber 2023, the authors asked GPT-4 a simple question "Was Joe Biden born in an odd year?" to which it answered Yes. This is of course wrong as Biden was born in 1942. Why does this happen? We can break do down as such
+How do Language Models store knowledge? Back in November 2023, the authors asked GPT-4 a simple question "Was Joe Biden born in an odd year?" to which it answered Yes. This is of course wrong as Biden was born in 1942. Why does this happen? We can break do down as such
 
 ![](/images/physicspart3.png) 
 
@@ -91,6 +190,15 @@ The authors posit that for a wide range of model sizes/depths / widths (i.e. onl
 
 **LLM can "consistently" achieve 2bit/param in storing knowledge if sufficiently pretrained** 
 
-but what does *sufficiently trained* mean? It means that the language model has to be exposed to the knowledge (think knowledge tuple from before) 1000 times. This doesn't necessarily mean that you have to pass over every piece of knowledge 1000 times, but rather that you have to see the tuple, in some constellation (different writing styles are ok), 1000 times. 
+**sufficiently trained** but what does *sufficiently trained* mean? It means that the language model has to be exposed to the knowledge (think knowledge tuple from before) 1000 times. This doesn't necessarily mean that you have to pass over every piece of knowledge 1000 times, but rather that you have to see the tuple, in some constellation (different writing styles are ok), 1000 times. 
 
 but what if there are less exposures? Well then GPT-2 consistently achieves 1bit/param, but even more interesting is that at 100 exposures then the architectures start to matter! In the 100-exposure setting, some architectures are worse in knowledge capacity: e.g., LlaMA / Mistral architectures can be 1.3x worse than GPT. Don't forget that we're talking about the **knowledge capacity** of these architectures, and specifically knowledge capacity for rare knowledge. Controlled experiments by the authors find why this is the case, there are in total 7 architectural differences between GPT-2 and LLaMA, and by turning each one of these on and off they find that its the MLP layer that causes this difference. Replacing the GatedMLP layer of LLaMA / Mistral with vanilla MLP, then the knowledge capacity improves to that of GPT-2 at 1bit/param. 
+
+**Good vs Junk** But in practice, your dataset is not only going to contain "good data", in the sense that not all data is going to contain knowledge. Your going to have a lot of junk data. So what happens to our knowledge capacity in the case where a model is pretrained on a mix of junk and good data? The authors investigate the case of 1/8 tokens good data and 7/8 tokens junk. Overall the authors find that "junk" data significantly harm LLM's knowledge capacity on good data. When the good data is exposed 100 times, the capacity ratio may degrade by 20x compared to the baseline of no junk. Even trained on 300/600/1000 exposures, the capacity still degrades by 3x/1.5x/1.3x. The junk data here is defined as BIO with an extremely high N value. In contrast, if the junk data BIO(N') has a very small N, simulating highly repetitive knowledge s (e.g., “da Vinci painted the Mona Lisa” in millions of variations) it may not effect the model's capacity for standard knowledge.
+
+Why 1/8 split of good data? I'm assuming what they mean here is that 1/8 of the data is exposed 100 times, and that is what we're trying to make the model learn, and then the rest 7/8ths is random pieces of knowledge, less structured, and only exposed 1 time. In this case we want to see how well the model is able to store the knowledge exposes multiple times. 
+
+There is however a suprising fix to this, by just appending the domain name (e.g. "wikipedia.org") at the front of all pretrain data paragraphs, LLMs learn which domains are rich in high-quality knowledge and prioritize learning from them. This is an amazing result that I would love to dive further into.
+
+**Quantization**. All models are trained in mixed precision. What happens when models are quantized to int8 / int4 post training? It turns out that quantizing to 8 bits has negligible impact on their capacity! Thus, even for models at peak capacity of 2bit/param, quantizing to int8 does not effect capacity. This means that language models are capable of a 4:1 compression ratio. This can be compared to zip which is roughly 100:1. Large language models are super good at compressing knowledge.
+
