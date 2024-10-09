@@ -10,13 +10,17 @@ type: blog
 
 - abliteration; probing; what makes a model *good*?
 
+- entropix
+
 **code**
 
 - more open source contributions. but what projects? i want to write c++, torch, and jax.
 
 - cuda; gpu programming. 
 
-- jax `shard_map`. [`xmap` and `pmap` which i've used extensively are deprecated](https://github.com/jax-ml/jax/discussions/20312), let's learn modern spmd
+- ~~jax `shard_map`. [`xmap` and `pmap` which i've used extensively are deprecated](https://github.com/jax-ml/jax/discussions/20312), let's learn modern spmd~~
+
+- implement deepseek mla. why hasn't this caught on yet?
 
 - evaluate [contextual retrieval](https://www.anthropic.com/news/contextual-retrieval) on [mindex](https://github.com/LeonEricsson/mindex). use local oss model for context. prompt caching on local models?
 
