@@ -67,7 +67,7 @@ export default function Post({ postData }) {
               <>{formatDate(postData.date)}.</>
             )}
           </p>
-          <div className={`entry text-lg mb-4 ${raleway.className}`}>
+          <div className={`entry text-base mb-4 ${raleway.className}`}>
             <Markdown
               remarkPlugins={[remarkGfm, remarkMath]}
               rehypePlugins={[rehypeKatex, rehypeRaw]}

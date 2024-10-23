@@ -23,9 +23,9 @@ The study is in three parts: Part 1 - Structures, Part 2 - Reasoning, and Part 3
 
 
 ## Part 2
-How do Language Models reason? In this fascinating study, researchers set out to uncover the hidden reasoning processes of language models when solving grade-school math problems. Their goal was to understand the fundamental mental processes these models develop and why they sometimes stumble on seemingly simple problems.
+How do Language Models reason? Well, people would argue that they don't, but that discussion is of little interest to me, instead, let's assume they can reason and try to uncover how they do so. The authors set out to uncover the hidden reasoning processes of language models when solving grade-school math problems. Their goal was to understand the fundamental mental processes these models develop and why they sometimes stumble on seemingly simple problems.
 
-To investigate this, the researchers created iGSM - an infinite, synthetic dataset similar to GSM8k. This dataset captures various types of dependencies:
+To investigate this, the researchers create iGSM - an infinite, synthetic dataset similar to GSM8k. This dataset captures various types of dependencies:
 
 1. Direct dependency (e.g., A = 5 * (X + Y))
 2. Instance dependency (e.g., X classrooms each has Y messenger bags)
