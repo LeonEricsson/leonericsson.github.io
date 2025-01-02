@@ -10,7 +10,7 @@ type: blog
 
 - abliteration; probing; what makes a model *good*?
 
-- entropix
+- ~~entropix~~
 
 **code**
 
@@ -28,7 +28,7 @@ type: blog
 
 **life**
 
-- go on a ski trip to italy or france with my friends.
+- ~~plan a ski trip to italy or france with my friends.~~
 
 - hike norwegian mountains with my girlfriend.
 
