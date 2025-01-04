@@ -24,6 +24,7 @@ function AboutCard() {
         healthy mix of research, experiments, and scratch projects.
         <ul className="list-none ml-4 pt-2">
           <li className="before:content-['-'] before:pr-2">this website, including my <a href="https://leonericsson.github.io/blog" style={{ color: 'blue' }}>blog</a></li>
+          <li className="before:content-['-'] before:pr-2"><a href="https://github.com/LeonEricsson/mindex" style={{ color: 'blue' }}>mindex</a>, a local semantic search engine for your mind index</li>
           <li className="before:content-['-'] before:pr-2"><a href="https://github.com/LeonEricsson/alphax" style={{ color: 'blue' }}>alphax</a>, scalable + fast alphazero in jax. facilitates spmd, simd, jit-composition etc </li>
           <li className="before:content-['-'] before:pr-2"><a href="https://github.com/LeonEricsson/llmjudge" style={{ color: 'blue' }}>exploring</a> limitations of llm-as-a-judge</li>
           <li className="before:content-['-'] before:pr-2"><a href="https://github.com/LeonEricsson/llmcontext" style={{ color: 'blue' }}>llmcontext</a> (fork of <a href="https://github.com/gkamradt/LLMTest_NeedleInAHaystack" style={{ color: 'blue' }}>original</a>), a context window pressure tester of <b>open</b> llms</li>
