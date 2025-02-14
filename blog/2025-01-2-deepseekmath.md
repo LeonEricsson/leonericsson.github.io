@@ -90,8 +90,6 @@ soning and program-based tool use for problem solving, DeepSeekMath-Instruct 7B 
 an accuracy of 60% on MATH, surpassing all existing open-source models.
 
 
-
-
 ## Reinforcement Learning
 Now we've got to the good stuff. Group Relative Policy Optimization. Here's a quick primer on PPO before we get started
 
@@ -203,6 +201,7 @@ PPO works because it updates the policy efficiently while keeping changes constr
 
 ---
 
+
 It may not seem natural at first to apply PPO in the context of a language model, but I assure you it's no different. 
 
 - **Policy** $\pi_\theta$: the LLM that has been pre-trained / SFT’ed
@@ -214,7 +213,64 @@ This formulation enabled the application of PPO on LLMs.
 One of the downsides of PPO is the need for a value function, or critic network, to be trained alongside the policy model, and to avoid over optimization of the reward model (especially true for LLMs) the standard approach is to add a per-token KL penalty from a reference model in the reward at each token. The regularizer is often the initial SFT model. 
 
 As the value function employed in PPO is typically another model of comparable size as
-the policy model, it brings a substantial memory and computational burden. In standard PPO, the value function serves as a baseline for advantage estimation, helping to reduce variance in training. The advantage function measures how much better or worse a particular action is compared to expected performance, and the value function plays a crucial role in stabilizing this calculation. However, in traditional reinforcement learning settings like robotics or games, rewards are typically assigned at every step, making it straightforward to train a value function that predicts future rewards for each action. In contrast, reinforcement learning for LLMs operates differently. Instead of assigning rewards to every token, the reward model typically provides a single score for the entire generated sequence, meaning only the final token explicitly receives a reward. This creates a fundamental challenge: PPO relies on per-token advantage estimates, but since the value function is trained to predict future rewards, it has no clear target for intermediate tokens. Training a value model in this context is difficult because it must infer how the final reward should be distributed across the sequence, leading to high variance and instability. As a result, using a standard PPO approach with LLMs can be problematic. The value model struggles to learn meaningful token-wise predictions, which can degrade the quality of advantage estimation and make training unreliable. 
+the policy model, it brings a substantial memory and computational burden. In standard PPO, the value function serves as a baseline for advantage estimation, helping to reduce variance in training. The advantage function measures how much better or worse a particular action is compared to expected performance, and the value function plays a crucial role in stabilizing this calculation. However, in traditional reinforcement learning settings like robotics or games, rewards are typically assigned at every step, making it straightforward to train a value function that predicts future rewards for each action. In contrast, reinforcement learning for LLMs operates differently. Instead of assigning rewards to every token, the reward model typically provides a single score for the entire generated sequence, meaning only the final token explicitly receives a reward. This creates a fundamental challenge: PPO relies on per-token advantage estimates, but since the value function is trained to predict future rewards, it has no clear target for intermediate tokens. Training a value model in this context is difficult because it must infer how the final reward should be distributed across the sequence, leading to high variance and instability. The value model struggles to learn meaningful token-wise predictions, which can degrade the quality of advantage estimation and make training unreliable. 
+
+Trajectory Collection for PPO Requires State-Value Estimates
+
+Bootstrapping in Advantage Estimation Relies on Intermediate Values
+
+In LLMs, the PPO value network is a separate model of similar size to the policy model, incurring a significant computation and memory overhead.
+
+## grpo
+
+to address these issues the authors introduce Group Relative Policy Optimization (GRPO) which obviates the need for additional value function approximation as in PPO, and instead uses the average reward of multiple sampled outputs, produced in response
+to the same question, as the baseline.
+
+![](/images/grpo.png)
+
+The group relative way that GRPO leverages to calculate the advantages, aligns well with
+the comparative nature of rewards models, as reward models are typically trained on datasets
+of comparisons between outputs on the same question. 
+
+GRPO modifies the standard Proximal Policy Optimization (PPO) approach by **removing the value network** and instead estimating the advantage function using **group-relative rewards**. This makes training more efficient by eliminating the need to compute a value for each policy generation. Instead, advantages are computed **after complete outputs are generated**, and the loss is then calculated using **a per-token advantage**.
+
+
+1. **Sample full outputs**  
+   
+   Generate $ G $ completions for each input prompt using the old policy $\pi_{\theta_{old}}$.
+
+2. **Compute group-relative rewards**  
+   - Each output is scored using a reward model.
+   - The rewards are normalized within the group:
+     $$
+     \tilde{r}_i = \frac{r_i - \text{mean}(r)}{\text{std}(r)}
+     $$
+
+3. **Compute per-token advantage**  
+   
+   Unlike PPO, which estimates an advantage at each token step via a value network, GRPO assigns the **same normalized final reward to all tokens in an output**:
+     $$
+     \hat{A}_{i,t} = \tilde{r}_i
+     $$
+    This means **advantages are calculated only after full outputs have been generated**, not during generation.
+
+4. **Compute loss using per-token advantage**  
+   
+    The GRPO objective function is defined as:
+     $$
+     J_{GRPO} (\theta) = \mathbb{E}_{q \sim P(Q), \{o_i\}_{i=1}^{G} \sim \pi_{\theta_{old}} (O|q)}
+     \left[ \frac{1}{G} \sum_{i=1}^{G} \frac{1}{|o_i|} \sum_{t=1}^{|o_i|}
+     \left( \min \left( \frac{\pi_{\theta} (o_{i,t} | q, o_{i,<t})}{\pi_{\theta_{old}} (o_{i,t} | q, o_{i,<t})} \hat{A}_{i,t},
+     \text{clip} \left( \frac{\pi_{\theta} (o_{i,t} | q, o_{i,<t})}{\pi_{\theta_{old}} (o_{i,t} | q, o_{i,<t})}, 1 - \epsilon, 1 + \epsilon \right) \hat{A}_{i,t} \right) \right) - \beta D_{KL} [\pi_{\theta} || \pi_{ref}] \right]
+     $$
+   
+   It is very reminiscent of PPO's objective, albeit with a different advantage calculation. Note how we are summing over both the $G$ completions and the output tokens $o_i$. The KL divergence term $ D_{KL} [\pi_{\theta} || \pi_{ref}] $ regularizes the policy updates.
+
+
+GRPO uniquely adjusts its
+gradient coefficient based on the reward value provided by the reward model. This allows for
+differential reinforcement and penalization of responses according to their varying magnitudes.
+
 
 
 
@@ -233,7 +289,7 @@ conducted. Perhaps counter-intuitively, according to our experiments, arXiv pape
 ineffective in improving mathematical reasoning.
 
 When trained on a arXiv-only corpus, both models dis-
-play no notable improvements or even deterioration across various mathematical benchmarks of
+play no notable improvements or deterioration across various mathematical benchmarks of
 different complexities employed in this study. 
 
 However, this conclusion has its limitations and should be taken with a grain of salt. We
@@ -243,3 +299,10 @@ such as informalization of theorems which is to convert formal statements or pro
 their informal versions;
 - The effect of arXiv tokens when combined with other types of data;
 - Whether the benefits of arXiv papers would manifest themselves at a larger model scale.
+
+Pass@K measures whether the model can generate at least one correct answer in a set of
+K sampled responses. If a model occasionally produces the right answer but often generates incorrect ones, its Pass@K score will still be high. In contrast, Maj@K evaluates whether the correct answer appears consistently—specifically, whether the majority of responses among K samples are correct. A model with high Maj@K rarely produces incorrect outputs, meaning it is aligned to consistently favor the right answers.
+
+RL fine-tuning typically increases Maj@K but does not improve Pass@K. This suggests that RL is not teaching the model new reasoning skills but is instead re-weighting its probability distribution so that correct answers become more dominant. If the model was already capable of solving a problem but sometimes produced incorrect alternatives, RL shifts its behavior to make the right response more frequent and reliable. However, if the model never knew the right answer to begin with, RL does not help—it cannot create new knowledge, only adjust how the model ranks different responses.
+
+This observation is quite insightful because it suggests that RL is not improving the fundamental reasoning ability of the model, but rather aligning its output distribution to be more consistent with human preferences.
