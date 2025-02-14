@@ -155,16 +155,23 @@ It may not seem natural at first to apply PPO in the context of a language model
 
 This formulation enabled the application of PPO on LLMs.
 
-One of the downsides of PPO is the need for a value function, or critic network, to be trained alongside the policy model, and to avoid over optimization of the reward model (especially true for LLMs) the standard approach is to add a per-token KL penalty from a reference model in the reward at each token. The regularizer is often the initial SFT model. 
+Here’s a refined and more technically precise version of your passage:
 
-As the value function employed in PPO is typically another model of comparable size as
-the policy model, it brings a substantial memory and computational burden. In standard PPO, the value function serves as a baseline for advantage estimation, helping to reduce variance in training. The advantage function measures how much better or worse a particular action is compared to expected performance, and the value function plays a crucial role in stabilizing this calculation. However, in traditional reinforcement learning settings like robotics or games, rewards are typically assigned at every step, making it straightforward to train a value function that predicts future rewards for each action. In contrast, reinforcement learning for LLMs operates differently. Instead of assigning rewards to every token, the reward model typically provides a single score for the entire generated sequence, meaning only the final token explicitly receives a reward. This creates a fundamental challenge: PPO relies on per-token advantage estimates, but since the value function is trained to predict future rewards, it has no clear target for intermediate tokens. Training a value model in this context is difficult because it must infer how the final reward should be distributed across the sequence, leading to high variance and instability. The value model struggles to learn meaningful token-wise predictions, which can degrade the quality of advantage estimation and make training unreliable. 
+---
 
-Trajectory Collection for PPO Requires State-Value Estimates
+One of the primary downsides of PPO is the requirement to train a value function (or critic network) alongside the policy model. To prevent reward model over-optimization—an issue particularly relevant for LLMs—the standard approach incorporates a per-token KL penalty from a reference model into the reward at each token. Typically, the reference model used for this regularization is the initial SFT model.
 
-Bootstrapping in Advantage Estimation Relies on Intermediate Values
+Since the value function in PPO is generally a model of comparable size to the policy model, it introduces significant computational and memory overhead. In standard PPO, the value function serves as a baseline for advantage estimation, reducing variance during training. The advantage function quantifies how much better or worse a particular action is compared to expected performance, with the value function playing a stabilizing role in this estimation.
 
-In LLMs, the PPO value network is a separate model of similar size to the policy model, incurring a significant computation and memory overhead.
+However, reinforcement learning for LLMs diverges from traditional RL settings like robotics or games, where step-wise rewards are assigned at every timestep, allowing straightforward training of a value function to predict future rewards for each action. In contrast, LLM reward models typically produce a single scalar reward for an entire sequence, meaning that only the final token explicitly receives a reward. This creates a fundamental problem: PPO relies on per-token advantage estimates, but the value function has no direct supervision for intermediate tokens. Training a value model under these conditions is inherently unstable, as it must infer the distribution of the final reward across the entire sequence, leading to high variance and unreliable training. The value model struggles to produce meaningful token-wise predictions, degrading advantage estimation quality and increasing training instability.
+
+**Trajectory Collection for PPO Requires State-Value Estimates**
+
+PPO requires trajectory collection with state-value estimates, which depend on a well-trained value function. However, in the context of LLM training, bootstrapping advantage estimation from intermediate token values is problematic due to the lack of direct token-level reward signals. The need to approximate per-token values from a single sequence-level reward further exacerbates variance and limits training efficiency.
+
+**Computational and Memory Overhead**
+
+In LLM training, the PPO value network is a separate model, often of similar size to the policy model, significantly increasing computational and memory costs. The additional burden of maintaining and updating a large-scale value network makes PPO resource-intensive, particularly when applied to large transformer-based models.
 
 ## grpo
 
@@ -178,7 +185,6 @@ the comparative nature of rewards models, as reward models are typically trained
 of comparisons between outputs on the same question. 
 
 GRPO modifies the standard Proximal Policy Optimization (PPO) approach by **removing the value network** and instead estimating the advantage function using **group-relative rewards**. This makes training more efficient by eliminating the need to compute a value for each policy generation. Instead, advantages are computed **after complete outputs are generated**, and the loss is then calculated using **a per-token advantage**.
-
 
 1. **Sample full outputs**  
    
@@ -217,37 +223,31 @@ gradient coefficient based on the reward value provided by the reward model. Thi
 differential reinforcement and penalization of responses according to their varying magnitudes.
 
 
+## ablations and empirical studies
 
+**Math - Code transfer effects**
 
-## ablations / studies 
+Pretraining on code improves mathematical reasoning, even without tool use. However, mixing code and math tokens in a single-stage training process leads to a degradation in mathematical reasoning performance. One possible explanation is that DeepSeek-LLM 1.3B, due to its limited scale, lacks the capacity to fully assimilate both domains simultaneously. This suggests that for smaller models, separate pretraining stages or specialized architectures may be necessary to maximize generalization across code and mathematics.
 
-Code training also improves mathematical reasoning without tool use. 
+**Pretraining on arXiv for mathematical reasoning**
 
-However, combining code tokens and math tokens for one-stage training com-
-promises mathematical reasoning without tool use. One conjecture is that DeepSeek-LLM 1.3B,
-due to its limited scale, lacks the capacity to fully assimilate both code and mathematical data
-simultaneously.
+ArXiv papers are commonly included in math-focused pretraining datasets (Azerbayev et al., 2023; Lewkowycz et al., 2022a; Polu & Sutskever, 2020; Wang et al., 2023c), yet their direct impact on mathematical reasoning remains largely unexplored. Experimental results indicate that, contrary to expectations, arXiv data does not significantly improve mathematical reasoning performance. 
 
-ArXiv papers are commonly included as a component of math pre-training data (Azerbayev
-et al., 2023; Lewkowycz et al., 2022a; Polu and Sutskever, 2020; Wang et al., 2023c). However, detailed analysis regarding their impact on mathematical reasoning has not been extensively
-conducted. Perhaps counter-intuitively, according to our experiments, arXiv papers seem
-ineffective in improving mathematical reasoning.
+Models trained exclusively on an arXiv-based corpus show no notable improvement or degradation across the mathematical benchmarks used in this study. However, this conclusion is tentative and subject to several limitations:
 
-When trained on a arXiv-only corpus, both models dis-
-play no notable improvements or deterioration across various mathematical benchmarks of
-different complexities employed in this study. 
+- The effect of arXiv data on specific mathematical tasks not included in this study remains unknown. For instance, tasks such as informalizing theorems—converting formal statements or proofs into more intuitive representations—could still benefit from arXiv pretraining.
+- The interaction between arXiv data and other pretraining sources has not been explored. It is possible that arXiv papers contribute in a complementary way when combined with other mathematical corpora.
+- The impact of arXiv data at larger model scales remains uncertain. It is plausible that higher-capacity models might leverage arXiv information more effectively than smaller architectures.
 
-However, this conclusion has its limitations and should be taken with a grain of salt. We
-have not yet studied:
-- The impact of arXiv tokens on specific math-related tasks not included in this research,
-such as informalization of theorems which is to convert formal statements or proofs to
-their informal versions;
-- The effect of arXiv tokens when combined with other types of data;
-- Whether the benefits of arXiv papers would manifest themselves at a larger model scale.
+**Pass@K vs. Maj@K**
 
-Pass@K measures whether the model can generate at least one correct answer in a set of
-K sampled responses. If a model occasionally produces the right answer but often generates incorrect ones, its Pass@K score will still be high. In contrast, Maj@K evaluates whether the correct answer appears consistently—specifically, whether the majority of responses among K samples are correct. A model with high Maj@K rarely produces incorrect outputs, meaning it is aligned to consistently favor the right answers.
+In evaluating mathematical reasoning ability, Pass@K and Maj@K serve distinct roles:
 
-RL fine-tuning typically increases Maj@K but does not improve Pass@K. This suggests that RL is not teaching the model new reasoning skills but is instead re-weighting its probability distribution so that correct answers become more dominant. If the model was already capable of solving a problem but sometimes produced incorrect alternatives, RL shifts its behavior to make the right response more frequent and reliable. However, if the model never knew the right answer to begin with, RL does not help—it cannot create new knowledge, only adjust how the model ranks different responses.
+- Pass@K measures whether the model can generate at least one correct answer within K sampled responses. A model that sporadically generates the correct solution but frequently fails will still achieve a high Pass@K score.
+- Maj@K measures whether the correct answer appears consistently across multiple samples—i.e., whether the majority of responses among K attempts are correct. A model with high Maj@K rarely produces incorrect outputs, meaning it has been aligned to consistently favor the right answers.
 
-This observation is quite insightful because it suggests that RL is not improving the fundamental reasoning ability of the model, but rather aligning its output distribution to be more consistent with human preferences.
+These metrics reveal an important trend: RL fine-tuning generally increases Maj@K but does not improve Pass@K. This suggests that RL is not teaching the model new reasoning skills but is instead adjusting its probability distribution to make correct answers more frequent. 
+
+If the model already has the knowledge required to solve a problem but occasionally produces incorrect outputs, RL fine-tuning reweights its distribution to favor the correct response more consistently. However, if the model was never capable of solving the problem to begin with, RL does not help—it cannot create new knowledge, only optimize existing behavior.
+
+This insight is critical in understanding the role of RLHF (Reinforcement Learning from Human Feedback) in LLMs: it does not improve raw problem-solving ability but instead aligns outputs to be more reliable and human-preferred.
