@@ -6,94 +6,40 @@ year: 2024
 type: paper
 ---
 
-This reads like a classic foundational model paper, I've missed these. We've got some data curation tid bits, SFT details, and
-RL, all heavily detailed and rigorously evaluated. With the answers in hand now that we've got R1, DeepSeekMath Corpus and GRPO are definitely the things to focus on in this paper.
+Late on the ball again... let's see what all the r1 hype is about.
 
-To achieve this, we create the DeepSeek-
-Math Corpus, a large-scale high-quality pre-training corpus comprising 120B math tokens. This
-dataset is extracted from the Common Crawl (CC) using a fastText-based classifier
+DeepSeekMath presents a large-scale mathematical pretraining dataset and model, structured around dataset curation, supervised fine-tuning (SFT), and reinforcement learning (RL). The paper provides a meticulous breakdown of how the dataset was constructed, why certain architectural choices were made, and how the resulting model performs across key benchmarks. 
 
-DeepSeekMath-Base is initialized with DeepSeek-Coder-Base-v1.5 7B (Guo et al., 2024), as
-we notice that starting from a code training model is a better choice compared to a general
-LLM. 
+The dataset is constructed from Common Crawl and refined through a fastText-based classifier, ultimately yielding 120 billion tokens. This is an order of magnitude larger than existing math corpora—7x the size of Minerva’s dataset, 9x OpenWebMath. The data pipeline is designed to maximize relevance and quality, starting with OpenWebMath as a seed corpus and using a classifier trained with 500,000 positive examples from OpenWebMath and 500,000 negative examples from Common Crawl. 
 
-Our research provides compelling evidence that the publicly accessible Common Crawl
-data contains valuable information for mathematical purposes. By implementing a metic-
-ulously designed data selection pipeline, we successfully construct the DeepSeekMath
-Corpus, a high-quality dataset of 120B tokens from web pages filtered for mathemati-
-cal content, which is almost 7 times the size of the math web pages used by Minerva
-(Lewkowycz et al., 2022a) and 9 times the size of the recently released OpenWebMath
-(Paster et al., 2023).
+Deduplication techniques are employed to reduce noise, trimming Common Crawl down to 40 billion HTML pages. The classifier then selects mathematical content, ranking it by relevance and preserving the highest-scoring entries. The final dataset selection is guided by pretraining experiments, assessing performance at different token thresholds (40B, 80B, 120B, 160B).
 
-### Dataset
-DeepSeek provide a detailed description of how their dataset is curated. This is rare these days, very impressive. First, we choose OpenWebMath (Paster et al., 2023), a collection of high-quality mathematical
-web texts, as our initial seed corpus. Using this corpus, we train a fastText model (Joulin et al.,
-2016) to recall more OpenWebMath-like mathematical web pages. Specifically, we randomly
-select 500,000 data points from the seed corpus as positive training examples and another
-500,000 web pages from Common Crawl as negative ones. We employ an open-source library1
-for training, configuring the vector dimension to 256, learning rate to 0.1, the maximum length of word n-gram to 3, the minimum number of word occurrences to 3, and the number of training epochs to 3. To reduce the size of the original Common Crawl, we employ URL-based
-deduplication and near-deduplication techniques, resulting in 40B HTML web pages. We then
-recall mathematical web pages from deduplicated Common Crawl with the fastText model.
-To filter out low-quality mathematical content, we rank the collected pages according to their
-scores predicted by the fastText model, and only preserve the top-ranking ones. The volume
-of data preserved is assessed through pre-training experiments on the top 40B, 80B, 120B, and
-160B tokens. In the first iteration, we choose to keep the top 40B tokens.
+### DeepSeekMath-Base 7B: Pretraining and Model Structure
 
-We run pre-training experiments to investigate how the DeepSeekMath Corpus is compared
-with the recently released math-training corpora:
-• MathPile (Wang et al., 2023c): a multi-source corpus (8.9B tokens) aggregated from
-textbooks, Wikipedia, ProofWiki, CommonCrawl, StackExchange, and arXiv, with the
-majority (over 85%) sourced from arXiv;
-• OpenWebMath (Paster et al., 2023): CommonCrawl data filtered for mathematical content,
-totaling 13.6B tokens;
-• Proof-Pile-2 (Azerbayev et al., 2023): a mathematical corpus consisting of OpenWeb-
-Math, AlgebraicStack (10.3B tokens of mathematical code), and arXiv papers (28.0B to-
-kens).
+DeepSeekMath-Base is initialized with DeepSeek-Coder-Base-v1.5 (a 7B parameter model originally trained for code) and further trained on 500 billion tokens, distributed as follows:
+- 56% DeepSeekMath Corpus
+- 4% AlgebraicStack
+- 10% arXiv
+- 20% GitHub code
+- 10% Common Crawl (English & Chinese)
 
-A 1.3B DeepSeek LLM trained on the DeepSeekMath Corpus significantly outperform those trained on other
-math-related corpus listed above. The results are displayed in this image ![](/images/dsmathcorpus.png)
+Starting from a code-focused base model is a deliberate choice—empirical evidence suggests that models with coding exposure generalize better to mathematical reasoning tasks than those trained purely on natural language. This pretraining setup results in significant gains on GSM8K, MATH, OCW, and SAT benchmarks, while also maintaining strong coding proficiency. Unlike models that degrade in one domain when fine-tuned for another, DeepSeekMath-Base effectively preserves its coding capabilities.
 
-DeepSeekMath Corpus totals 120B tokens, several times larger than existing mathematical corpora. As proven
-it also is of higher quality than existing corpus.
+### DeepSeekMath-Instruct 7B: Supervised Fine-tuning
 
-## DeepSeekMath Base Model
-we introduce DeepSeekMath-Base 7B, a base model with strong reasoning
-abilities, especially in mathematics. Our model is initialized with DeepSeek-Coder-Base-v1.5 7B  and trained for 500B tokens. The distribution of the data is as follows: 56%
-is from the DeepSeekMath Corpus, 4% from AlgebraicStack, 10% from arXiv, 20% is Github
-code, and the remaining 10% is natural language data from Common Crawl in both English and
-Chinese.
+To further improve mathematical reasoning, DeepSeekMath-Instruct 7B is fine-tuned with 776,000 instruction-style problems, covering:
+- Chain-of-Thought (CoT) for step-by-step reasoning
+- Program-of-Thought (PoT) for algorithmic solutions
+- Tool-integrated reasoning for leveraging external computational resources
 
-DeepSeekMath-Base 7B comes with significant improvement in mathematical problem solving (GSM8K, MATH, OCW, SAT), problem solving with tool use (GSM8K+Python, MATH+Python) and formal mathematics (miniF2F), while also improving over its base model in language understanding and reasoning - illustrating the positive impact of math training on adjacent tasks. Additionally, by including code tokens for continual training, DeepSeekMath-Base 7B effectively maintains the performance of DeepSeek-Coder-Base-v1.5 on the two coding benchmarks.
+Without tool assistance, DeepSeekMath-Instruct 7B outperforms all open-source models, including Inflection-2, Gemini Pro, and Qwen 72B, surpassing them by at least 9% absolute on the MATH benchmark. Even against proprietary models, it remains competitive, though GPT-4 and Gemini Ultra still hold the lead.
 
-## Supervised Fine Tuning
-
-In this section, we introduce DeepSeekMath-Instruct 7B which undergoes mathematical instruc-
-tion tuning based on DeepSeekMath-Base.
-
-We construct a mathematical instruction-tuning dataset covering English and Chinese problems
-from different mathematical fields and of varying complexity levels: problems are paired with
-solutions in chain-of-thought (CoT) (Wei et al., 2022), program-of-thought (PoT) (Chen et al.,
-2022; Gao et al., 2023), and tool-integrated reasoning format (Gou et al., 2023). The total number
-of training examples is 776K.
-
-As shown in Table 5, under the evaluation setting where tool use is disallowed, DeepSeekMath-
-Instruct 7B demonstrates strong performance of step-by-step reasoning. Notably, on the
-competition-level MATH dataset, our model surpasses all open-source models and the ma-
-jority of proprietary models (e.g., Inflection-2 and Gemini Pro) by at least 9% absolute. This
-is true even for models that are substantially larger (e.g., Qwen 72B) or have been specifi-
-cally enhanced through math-focused reinforcement learning (e.g., WizardMath-v1.1 7B). While
-DeepSeekMath-Instruct rivals the Chinese proprietary models GLM-4 and Baichuan-3 on MATH,
-it still underperforms GPT-4 and Gemini Ultra.
-
-Under the evaluation setting where models are allowed to integrate natural language rea-
-soning and program-based tool use for problem solving, DeepSeekMath-Instruct 7B approaches
-an accuracy of 60% on MATH, surpassing all existing open-source models.
-
+When allowed to incorporate external tools (e.g., symbolic computation, programming), DeepSeekMath-Instruct 7B reaches ~60% accuracy on MATH, establishing itself as the strongest open-source model for mathematical reasoning.
 
 ## Reinforcement Learning
-Now we've got to the good stuff. Group Relative Policy Optimization. Here's a quick primer on PPO before we get started
+So far things are pretty standard, a new open dataset -> a better model. Great stuff, and in practice a lot of engineering behind this of course but in theory pretty standard. But now we get to what I've actually been looking forward to in this paper - Group Relative Policy Optimization. However, before we do so, I'd like to provide a quick primer on ppo for those who are unfamiliar.
 
-## ppo crash course
+## *ppo crash course*
 Reinforcement learning has long struggled with the challenge of stable and efficient policy optimization. Early policy gradient methods, while theoretically sound, were notorious for their instability—small changes in policy could lead to catastrophic drops in performance, making training unpredictable. Standard approaches, such as vanilla policy gradients, suffered from high variance and lacked a mechanism to prevent overly aggressive updates.
 
 Trust Region Policy Optimization (TRPO) was a big deal when it came out. It tackled one of the biggest problems in reinforcement learning: instability in policy gradient methods. The idea was simple—if we update our policy, we should ensure that we don’t make such a large step that we completely destroy performance. TRPO enforced this by constraining the KL-divergence between the old and new policies, keeping things stable. By maintaining updates within a "trust region," TRPO significantly improved training reliability, making it a go-to choice for many reinforcement learning applications.
@@ -201,8 +147,7 @@ PPO works because it updates the policy efficiently while keeping changes constr
 
 ---
 
-
-It may not seem natural at first to apply PPO in the context of a language model, but I assure you it's no different. 
+It may not seem natural at first to apply PPO in the context of a language model, but I assure you it hardly requires work. 
 
 - **Policy** $\pi_\theta$: the LLM that has been pre-trained / SFT’ed
 - **Reward model** $R_\phi$: a trained and frozen network that provides scalar reward given complete response to a prompt
