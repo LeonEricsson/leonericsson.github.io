@@ -42,7 +42,7 @@ So far things are pretty standard, a new open dataset -> a better model. Great s
 ## *ppo crash course*
 Reinforcement learning has long struggled with the challenge of stable and efficient policy optimization. Early policy gradient methods, while theoretically sound, were notorious for their instability—small changes in policy could lead to catastrophic drops in performance, making training unpredictable. Standard approaches, such as vanilla policy gradients, suffered from high variance and lacked a mechanism to prevent overly aggressive updates.
 
-Trust Region Policy Optimization (TRPO) was a big deal when it came out. It tackled one of the biggest problems in reinforcement learning: instability in policy gradient methods. The idea was simple—if we update our policy, we should ensure that we don’t make such a large step that we completely destroy performance. TRPO enforced this by constraining the KL-divergence between the old and new policies, keeping things stable. By maintaining updates within a "trust region," TRPO significantly improved training reliability, making it a go-to choice for many reinforcement learning applications.
+Trust Region Policy Optimization (TRPO) was a big deal when it came out. It tackled one of the biggest problems in reinforcement learning: instability in policy gradient methods. The idea was simple— when the gradient tells us to move in a certain direction, don't trust it fully. The gradient is noisy, it's stochastic in nature, so don't dive head first after it. TRPO enforced this by constraining the KL-divergence between the old and new policies, keeping things stable. By maintaining updates within a "trust region," TRPO significantly improved training reliability, making it a go-to choice for many reinforcement learning applications.
 
 But TRPO had its downsides. It was a second-order method, meaning it required expensive computations, including solving a constrained optimization problem at every update step. This made it computationally intensive and cumbersome to implement in practice. Enter Proximal Policy Optimization (PPO), which asked the same question—how can we take the largest possible policy improvement step while ensuring stability?—but answered it with a much simpler first-order approach. By replacing TRPO’s complex optimization constraints with a clipped objective function, PPO retained stability while being far easier to implement and scale.
 
@@ -86,9 +86,6 @@ g(\epsilon, A) =
 \end{cases}
 $$
 
-### Why Clipping Matters
-
-The clipping mechanism is what makes PPO robust. It prevents excessive policy updates, ensuring we don’t overcorrect in either direction.
 
 **Case 1: Positive Advantage ( $A > 0$ )**
 - The action was better than expected.
@@ -102,7 +99,8 @@ The clipping mechanism is what makes PPO robust. It prevents excessive policy up
 - If $ r < 1$, the policy is already discouraging it.
 - Clipping ensures we don’t over-penalize it.
 
-Essentially, PPO encourages good actions but prevents excessive reinforcement, and discourages bad actions but prevents complete suppression. This keeps training stable.
+Essentially, PPO encourages beneficial actions while preventing excessive reinforcement and discourages harmful actions without completely suppressing them. This ensures training remains stable. For those new to reinforcement learning (RL), it's important to understand how it differs from supervised learning. In both cases, when an output is correct or receives a positive reward, we can provide a strong signal to the network. However, in supervised learning, even when the model predicts the wrong token during LLM pretraining, we can still provide a rich signal indicating what the correct token should have been.  In RL, this kind of direct correction isn't possible. If the model makes a bad move, all we can do is discourage that action in the future—we have no direct way of steering it toward the correct move. This challenge becomes even more pronounced when rewards are sparse, requiring multiple decisions before any feedback is received. The model must determine, through trial and error, which actions contributed to success and which led to failure.  
+
 
 ### General Advantage Estimation
 
@@ -153,11 +151,7 @@ It may not seem natural at first to apply PPO in the context of a language model
 - **Reward model** $R_\phi$: a trained and frozen network that provides scalar reward given complete response to a prompt
 - **Critic** ($V_\gamma$): also known as value function, which is a learnable network that takes in partial response to a prompt and predicts the scalar reward.
 
-This formulation enabled the application of PPO on LLMs.
-
-Here’s a refined and more technically precise version of your passage:
-
----
+This formulation enables the application of PPO on LLMs.
 
 One of the primary downsides of PPO is the requirement to train a value function (or critic network) alongside the policy model. To prevent reward model over-optimization—an issue particularly relevant for LLMs—the standard approach incorporates a per-token KL penalty from a reference model into the reward at each token. Typically, the reference model used for this regularization is the initial SFT model.
 
