@@ -3,7 +3,7 @@ layout: post
 title: "relative entropy"
 categories: []
 year: 2025
-type: paper
+type: blog
 ---
 
 the kl divergence term appears frequently in formulations of machine learning, often as a term in the loss function. in relation to language models it typically appears in the objective at the reinforcement learning stage
@@ -16,11 +16,11 @@ $$
 
 **grpo**
 $$
-     J_{GRPO} (\theta) = \mathbb{E}
-     \left[ \frac{1}{G} \sum_{i=1}^{G} \frac{1}{|o_i|} \sum_{t=1}^{|o_i|}
-     \left( \min \left( r \hat{A}_{i,t},
-     \text{clip} \left(r, 1 - \epsilon, 1 + \epsilon \right) \hat{A}_{i,t} \right) \right) - \beta D_{KL} [\pi_{\theta} || \pi_{ref}] \right]
-     $$
+J_{GRPO} (\theta) = \mathbb{E}
+\left[ \frac{1}{G} \sum_{i=1}^{G} \frac{1}{|o_i|} \sum_{t=1}^{|o_i|}
+\left( \min \left( r \hat{A}_{i,t},
+\text{clip} \left(r, 1 - \epsilon, 1 + \epsilon \right) \hat{A}_{i,t} \right) \right) - \beta D_{KL} [\pi_{\theta} || \pi_{ref}] \right]
+$$
 
 as a term that "stops the policy from drifting away" from the reference policy $\pi_{ref} = \pi^{\text{SFT}}$. and i feel like most people, myself included, know it to be a measure of the similarity of two distributions, and as such it is typically used to avoid the divergence between two distributions. and that's good; intuitively its easy to grasp, and its easy to understand its use case: we've pretrained an llm on an incredibly rich dataset from which we don't want it to stray too far when applying post-training methods, we more so want to teach it to use this knowledge in a certain way. but learning stuff is fun and we can definitely understand KL divergence better, so how about we give that a try!
 
