@@ -53,14 +53,14 @@ $$
 D_{KL}(P ||  Q) = H(P, Q) - H(P) = \sum_{x \in X} P(x) \log(\frac{1}{Q(x)}) - \sum_{x \in X} P(x) \log(\frac{1}{P(x)})
 $$
 
-Both are tools to measure the difference between two distributions, but as opposed to cross entropy, by subtracting the entropy of the **true** distribution $H(P)$, $D_{KL}(P ||  Q)$ can be interpreted as the expected number of extra bits per message needed to encode events drawn from true distribution $P$. Another way of putting it is the expected excess suprise form using $Q$ as a model instead of $P$. It also has some nice properties for comparing distributions. For example, if $P$ and $Q$ are equal, then the KL divergence is 0.
+Both are tools to measure the difference between two distributions, but as opposed to cross entropy, by subtracting the entropy of the **true** distribution $H(P)$, $D_{KL}(P ||  Q)$ can be interpreted as the expected number of extra bits per message needed to encode events drawn from true distribution $P$. Another way of putting it is the expected excess surprise form using $Q$ as a model instead of $P$. It also has some nice properties for comparing distributions. For example, if $P$ and $Q$ are equal, then the KL divergence is 0.
 
 In practice, especially when training language models, calculating the true KL divergence is not feasible, we can't sum over $X$ analytically. Instead, numeric libraries will approximate the KL divergence with an unbiased estimator. [John Schulman has a nice blog post on this topic](http://joschu.net/blog/kl-approx.html).
 
 another thing to note is that we're often working with logprobs instead of probs, because they are much "nicer" in terms of numerical stability. this means we prefer kl divergence on this form
 
 $$
-D_{KL}(P ||  Q) = \sum_{x \in X} P(x) (\log(P(x)) -  \log(Q(x))).
+D_{KL}(P ||  Q) = \sum_{x \in X} P \log(\frac{P}{Q}) = \sum_{x \in X} P\log(P) -  P\log(Q).
 $$
 
 we can see this in the torch source code
@@ -82,4 +82,4 @@ Tensor kl_div(const Tensor& input, const Tensor& target, int64_t reduction, bool
 }
 ```
 
-where `log_target` identifies whether the targets are already log probs. 
+where `log_target` identifies whether the targets are already log probs, and the input is already in log form.
