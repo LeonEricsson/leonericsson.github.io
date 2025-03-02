@@ -13,7 +13,7 @@ function AboutCard() {
       <h2 className="text-headline text-2xl font-bold pb-3">about me</h2>
       <p className={`${raleway.className}`}>
         hi! i'm leon, i live in stockholm with my <i><a href="https://sverigesradio.se/artikel/what-does-it-mean-to-be-a-sambo-in-sweden" style={{ color: 'blue' }}>sambo</a></i>. i've recently
-        graduated with a master's degree in cs. i'm big into ml, research, and coding. i enjoy food eating, food making, traveling and working out.
+        graduated with a master's degree in cs. i'm big into ml, research, and coding. i enjoy eating food, making food, traveling and working out.
       </p>
       <br />
       <p className={`${raleway.className}`}>
@@ -23,6 +23,7 @@ function AboutCard() {
       <p className={`${raleway.className}`}>
         healthy mix of research, experiments, and scratch projects.
         <ul className="list-none ml-4 pt-2">
+          <li className="before:content-['-'] before:pr-2">paper implementations in <a href="https://github.com/LeonEricsson/omni" style={{ color: 'blue' }}>omni</a></li>
           <li className="before:content-['-'] before:pr-2">this website, including my <a href="https://leonericsson.github.io/blog" style={{ color: 'blue' }}>blog</a></li>
           <li className="before:content-['-'] before:pr-2"><a href="https://github.com/LeonEricsson/mindex" style={{ color: 'blue' }}>mindex</a>, a local semantic search engine for your mind index</li>
           <li className="before:content-['-'] before:pr-2"><a href="https://github.com/LeonEricsson/alphax" style={{ color: 'blue' }}>alphax</a>, scalable + fast alphazero in jax. facilitates spmd, simd, jit-composition etc </li>
