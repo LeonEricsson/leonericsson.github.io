@@ -72,7 +72,7 @@ export default function Blog({ allPostsData }) {
                   <Markdown
                     remarkPlugins={[remarkGfm, remarkMath]}
                     rehypePlugins={[rehypeKatex]}
-                    className="markdown georgia leading-loose "
+                    className="markdown georgia leading-relaxed"
                   >
                     {excerpt}
                   </Markdown>
