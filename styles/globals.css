@@ -75,6 +75,10 @@ body {
   all: revert;
 }
 
+.georgia {
+  font-family: Georgia, serif;
+}
+
 .vertical-line {
   width: 1px;          
   height: 175px;        
