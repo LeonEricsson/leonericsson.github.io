@@ -19,7 +19,7 @@ html {
 
 body {
   height: 100vh;
-  background: #fff7ea;
+  background: rgb(255, 254, 249);
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
