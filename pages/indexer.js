@@ -28,7 +28,7 @@ export default function Index({ blogPosts, reviews }) {
           <li key={id} className="mt-2 flex items-center">
             <span className="text-gray-400 mr-4">{format(new Date(date), 'dd MMM yyyy')}</span>
             <Link href={`/blog/${id}`}>
-              <span className=" hover:text-blue-800 cursor-pointer">{title}</span>
+              <span className=" hover:text-blue-800 text-gray-800 cursor-pointer">{title}</span>
             </Link>
           </li>
         ))}
@@ -40,7 +40,7 @@ export default function Index({ blogPosts, reviews }) {
           <li key={id} className="mt-2 flex items-center">
             <span className="text-gray-400 mr-4">{format(new Date(date), 'dd MMM yyyy')}</span>
             <Link href={`/blog/${id}`}>
-              <span className=" hover:text-blue-800 cursor-pointer">{title}</span>
+              <span className=" hover:text-blue-800 text-gray-800 cursor-pointer">{title}</span>
             </Link>
           </li>
         ))}

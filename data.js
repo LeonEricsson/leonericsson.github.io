@@ -40,10 +40,6 @@ export const contacts = [
     icon: FiGithub,
   },
   {
-    url: "https://sg.linkedin.com/in/leon-ericsson",
-    icon: FiLinkedin,
-  },
-  {
     url: "mailto:leon.ericsson@icloud.com",
     icon: FiMail,
   },

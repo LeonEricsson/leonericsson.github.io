@@ -8,17 +8,17 @@ function About() {
     <Layout>
       <div className="container mx-auto py-12 px-4 sm:px-6 lg:px-8 flex justify-center">
         <div className="w-full lg:w-3/5">
-          <div className="px-12">
+          <div className="px-12 text-gray-600">
             <Aboutcard />
           </div>
           <div className="px-12 pt-12">
-            <Image
+            {/* <Image
               src={img}
               alt="me and my beautiful sambo"
               className="w-5/6 h-auto ml-[20px]"
               width="2000"
               height="2000"
-            />
+            /> */}
           </div>
         </div>
       </div>
