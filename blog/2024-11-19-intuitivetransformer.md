@@ -2,7 +2,7 @@
 layout: post
 title: "next token prediction"
 categories: []
-year: 2025
+year: 2024
 type: blog
 ---
 
