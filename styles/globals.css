@@ -79,6 +79,35 @@ body {
   font-family: Georgia, serif;
 }
 
+.times {
+  font-family: "Times New Roman", Times, serif;
+}
+
+.charter {
+  font-family: "Charter", "Bitstream Charter", "Georgia", serif;
+}
+
+.garamond {
+  font-family: "Garamond", "EB Garamond", serif;
+}
+
+.libertinus {
+  font-family: "Libertinus Serif", "Georgia", serif;
+}
+
+.palatino {
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+}
+
+.lora {
+  font-family: "Lora", serif;
+}
+
+.merriweather {
+  font-family: "Merriweather", serif;
+}
+
+
 .vertical-line {
   width: 1px;          
   height: 175px;        

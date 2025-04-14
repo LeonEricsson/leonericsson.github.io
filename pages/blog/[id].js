@@ -1,5 +1,6 @@
 import { getAllPostIds, getPostData } from "../../lib/posts";
 import Layout from "../../components/Layout";
+import LayoutWoNav from "../../components/LayoutWoNav";
 import Head from "next/head";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -32,17 +33,17 @@ const formatDate = (dateString) => {
 
 export default function Post({ postData }) {
   return (
-    <Layout>
+    <LayoutWoNav>
       <Head></Head>
 
-      <article className="container mx-auto py-12 px-4 sm:px-6 lg:px-8 flex justify-center">
-        <div className="w-full lg:w-3/5">
+      <article className="container mx-auto py-20 px-4 sm:px-6 lg:px-8 flex justify-center">
+        <div className="w-full lg:w-4/5">
           {" "}
           {/* Same proportions as in Blog component */}
-          <h1 className="text-3xl font-bold mb-4 georgia text-center">
+          <h1 className="text-3xl font-bold mb-4 palatino text-center">
             {postData.title}
           </h1>
-          <p className="text-gray-400 text-base text-center pb-4 pt-1">
+          <p className="text-gray-400 text-base text-center palatino pb-20 pt-1">
             {postData.author ? (
               <>
                 Original{" "}
@@ -60,7 +61,7 @@ export default function Post({ postData }) {
               <>{formatDate(postData.date)}.</>
             )}
           </p>
-          <div className={`entry text-base text-gray-600 mb-4 georgia leading-relaxed`}>
+          <div className={`entry text-base text-gray-600 mb-4 palatino leading-relaxed`}>
             <Markdown
               remarkPlugins={[remarkGfm, remarkMath]}
               rehypePlugins={[rehypeKatex, rehypeRaw]}
@@ -71,6 +72,6 @@ export default function Post({ postData }) {
           </div>
         </div>
       </article>
-    </Layout>
+    </LayoutWoNav>
   );
 }
