@@ -5,11 +5,11 @@ function AboutCard() {
     <div>
       <h2 className="text-headline text-2xl font-bold pb-3">about me</h2>
       <p className={`palatino leading-relaxed`}>
-        hi! i'm leon, i live with my <i><a href="https://sverigesradio.se/artikel/what-does-it-mean-to-be-a-sambo-in-sweden" style={{ color: 'blue' }}>sambo</a></i> in stockholm. i'm big on ml research. i enjoy eating food, making food, traveling and working out.
+        hi! i'm leon, i live with my <i><a href="https://sverigesradio.se/artikel/what-does-it-mean-to-be-a-sambo-in-sweden" style={{ color: 'blue' }}>sambo</a></i> in stockholm. i'm big on all kinds of ml research. i enjoy eating food, making food, traveling and working out.
       </p>
       <br />
       <p className={`palatino leading-relaxed`}>
-        i've got a background in software engineering but as of last year i'm a research engineer. i'm interested in: <b>foundational models</b>, <b>policy learning</b>, <b>medical ai</b>, and <b>reasoning</b>. if you're curious about my current fixations, skim the blog. 
+        i've got a background in software engineering but as of last year i work as a research engineer. i'm interested in: <b>foundational models</b>, <b>policy learning</b>, <b>medical ai</b>, and <b>reasoning</b>. if you're curious about my current fixations, skim the blog. 
       </p>
       <h2 className="text-headline text-2xl font-bold pb-3 pt-[4rem]">i like making things</h2>
       <p className={`palatino leading-relaxed`}>
