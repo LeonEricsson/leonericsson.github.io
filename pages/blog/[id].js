@@ -40,7 +40,7 @@ export default function Post({ postData }) {
         <div className="w-full lg:w-4/5">
           {" "}
           {/* Same proportions as in Blog component */}
-          <h1 className="text-3xl font-bold mb-4 palatino text-center">
+          <h1 className="text-4xl font-bold mb-4 charter text-center">
             {postData.title}
           </h1>
           <p className="text-gray-400 text-base text-center palatino pb-20 pt-1">
