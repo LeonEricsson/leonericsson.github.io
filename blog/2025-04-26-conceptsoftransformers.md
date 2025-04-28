@@ -34,6 +34,8 @@ Taking the above to the extreme, one can look at large paragraphs of translated 
 
 ![](/images/featureoverlap.png)
 
+
+
 **De-tokenization layers.** The early layers of a language model are involved in mapping the atrificial structure of tokens to a more natural semantically meaningful representation. Many early neurons respond to multi-token words or compound words. 
 
 **Re-tokenization layers**. In reverse, the final layers of language models mediate conversion of words or contextualized tokens back into literal tokens of the vocabulary. There are neurons which convert or dictate a representation of the word into constituent tokens one by one for output. 

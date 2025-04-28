@@ -32,6 +32,7 @@ function AboutCard() {
           <ul className="list-none ml-4 pt-2">
             <li className="before:content-['-'] before:pr-2">inference engine <a href="https://github.com/vllm-project/vllm" style={{ color: 'blue' }}>vllm</a> </li>
             <li className="before:content-['-'] before:pr-2">finetuning with <a href="https://github.com/unslothai/unsloth" style={{ color: 'blue' }}>unsloth</a> </li>
+            <li className="before:content-['-'] before:pr-2">finetuning with <a href="https://github.com/huggingface/trl" style={{ color: 'blue' }}>trl</a> (<a href="https://github.com/huggingface/trl/pulls?q=is%3Apr+author%3ALeonEricsson" style={{ color: 'blue' }}>several PRs</a>) </li>
             <li className="before:content-['-'] before:pr-2">ggerganov's <a href="https://github.com/ggerganov/llama.cpp" style={{ color: 'blue' }}>llama.cpp</a> (<a href="https://github.com/ggerganov/llama.cpp/pull/4484" style={{ color: 'blue' }}>#4484</a>)</li>
             <li className="before:content-['-'] before:pr-2"><a href="https://github.com/ml-explore/mlx" style={{ color: 'blue' }}>mlx</a> is an array framework for apple silicon (<a href="https://github.com/ml-explore/mlx-examples/pull/202" style={{ color: 'blue' }}>#202</a> <a href="https://github.com/ml-explore/mlx-examples/pull/237" style={{ color: 'blue' }}>#237</a> <a href="https://github.com/ml-explore/mlx/pull/456" style={{ color: 'blue' }}>#456</a> <a href="https://github.com/ml-explore/mlx-examples/pull/19" style={{ color: 'blue' }}>#19</a> <a href="https://github.com/ml-explore/mlx-examples/pull/276" style={{ color: 'blue' }}>#276</a>) </li>
             <li className="before:content-['-'] before:pr-2"><a href="https://github.com/LeonEricsson/Tensor-Puzzles" style={{ color: 'blue' }}>tensor puzzles</a> and <a href="https://github.com/LeonEricsson/GPU-Puzzles" style={{ color: 'blue' }}>cuda puzzles</a> from sasha rush</li>
@@ -39,14 +40,13 @@ function AboutCard() {
             <li className="before:content-['-'] before:pr-2"><a href="https://github.com/google/jax" style={{ color: 'blue' }}>jax</a>: the lovechild of autograd and xla</li>
           </ul> 
         </p>
-      
+        
         <h2 className="text-headline text-2xl font-bold pb-3 pt-[4rem]">ideas</h2>
           <p className={`georgia leading-relaxed`}>
             things / projects i'm thinking about lately.
             <ul className="list-none ml-4 pt-2">
               <li className="before:content-['-'] before:pr-2">visual reasoning and visual spatial reasoning. non-text cot?</li>
               <li className="before:content-['-'] before:pr-2">long-form code generation benchmark.</li>
-
               <li className="before:content-['-'] before:pr-2">long-context multi-needle reasoning benchmark.</li>
             </ul> 
           </p>
