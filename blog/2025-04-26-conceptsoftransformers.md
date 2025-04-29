@@ -10,7 +10,6 @@ Mechanistic Interpretability is a tool to understand the internals of neural net
 
 ## Anthropic: On the Biology of Large Language Models
 
-
 #### Multilingual Circuits
 Neural networks have highly abstract representations which often unify the same concept across multiple languages, this is well studied but how these interact provide us with a clearer understanding of the flow of a latent through the transformer. 
 
@@ -35,8 +34,9 @@ Taking the above to the extreme, one can look at large paragraphs of translated 
 ![](/images/featureoverlap.png)
 
 
-
-**De-tokenization layers.** The early layers of a language model are involved in mapping the atrificial structure of tokens to a more natural semantically meaningful representation. Many early neurons respond to multi-token words or compound words. 
+**De-tokenization layers.** The early layers of a language model are involved in mapping the artificial structure of tokens to a more natural semantically meaningful representation. Many early neurons respond to multi-token words or compound words. 
 
 **Re-tokenization layers**. In reverse, the final layers of language models mediate conversion of words or contextualized tokens back into literal tokens of the vocabulary. There are neurons which convert or dictate a representation of the word into constituent tokens one by one for output. 
+
+This is why depth is important. This coincides with the token energy discussion seen before where the overall latent vector is mostly orthogonal to the token space throughout the early -> middle layers. While the features represented in the middle layers are multilingual they are mostly aligned with english as a result of biased pretraining. English is privileged in a way where the default output is English but the representation space is large, even though English is privileged doesn't mean models think in English.
 
