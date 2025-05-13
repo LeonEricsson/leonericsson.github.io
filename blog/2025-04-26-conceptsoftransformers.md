@@ -40,3 +40,80 @@ Taking the above to the extreme, one can look at large paragraphs of translated 
 
 This is why depth is important. This coincides with the token energy discussion seen before where the overall latent vector is mostly orthogonal to the token space throughout the early -> middle layers. While the features represented in the middle layers are multilingual they are mostly aligned with english as a result of biased pretraining. English is privileged in a way where the default output is English but the representation space is large, even though English is privileged doesn't mean models think in English.
 
+## Do Llamas think in English
+To complement the probabilistic view, let us explore a geometric perspective, analyzing the latens directly as points in Euclidean space,   i.e before mapping them to token probabilities.
+
+Simplistically the task solved by an autoregressive model is that of mapping the input embeddings of the current token to the output embeddings of the next token through incremental modification of the latent *d*-dimensional vector traveling through the transformer. Geometrically, this latent describes a path through *d*-dimensional Euclidean space. We set to characterize this path. 
+
+Every forward pass of a language model produces, at each position, a latent vector $\mathbf h\in\mathbb R^d$ whose dimensionality $d$ is fixed by model architecture. At the output end, the model applies a single unembedding matrix $U\in\mathbb R^{v\times d}$, where each row corresponds to a vocabulary token. The logits emerge purely as inner products: $\mathbf z = U\mathbf h$. No bias terms or nonlinearities intervene between the final hidden state and the logits.
+
+The effect of this structure is that only directions spanned by the rows of $U$ - that is, the token vectors - can influence the logits. This set of directions defines a **token sub-space**
+
+
+$$
+T \;:=\; \operatorname{span}\{u_t \;|\; t\in V\}
+     \;=\;\Bigl\{\,
+         \sum_{t\in V} \alpha_t\,u_t
+         \;\Bigm|\; \alpha_t\in\mathbb R
+       \Bigr\}\subseteq \mathbb R^{d}.
+$$
+Algebraically, the token vectors are full-rank, so $T$ spans all of $\mathbb R^d$, but empirical analysis show that token vector concentrate on a low-dimensional ellipsoid. 
+
+This is where things get interesting. We can decompose our latent uniquely as 
+
+$$
+\mathbf h \;=\; \underbrace{\mathbf h_{T}}_{\text{lies in }T}
+            \;+\; \underbrace{\mathbf h_{T^{\!\perp}}}_{\text{orthogonal to }T}
+$$
+
+and means that a computation of our logits $\mathbf z$ can be written as
+
+$$
+\mathbf z = U\mathbf h \;=\; U(\mathbf h_{T}) \;+\; U(\mathbf h_{T^{\!\perp}}) \;=\; U\mathbf h_{T},
+$$
+showing that logits depend only on the component that sists inside the token sub-space; anything in the orthogonal directions is invisible to the language-model head. 
+
+This observation allows a clean decomposition. The latent $\mathbf h$ separates uniquely into two orthogonal components: one inside $T$, the other in its complement $T^{\perp}$. The projection onto $T$ can be written as $P_T = U^+U$, and logits depend solely on the projected part: $U\mathbf h = U\mathbf h_T$.
+
+Remember back to our previous discussion on the anatomy of a language model, with the residual stream being a communication channel of low dimensional subspaces.
+
+The logit lens is inherently blind to $\mathbf h_T$ meanwhile the orthogonal component may be important to the computations carried out by later layers and for predicting the next token in those layers. Crucially the logit lens only sees part of the picture, a projection of the true *d*-dimensional latent onto a token plane. To qualify this, the authors establish *token energy*, a measurement which captures how much of $\mathbf h$'s "energy" translates into logit scores. By analyzing this metric throughout the layers they find that token energy remains relatively low throughout the first 40 layers, then as entropy collapses and the english language probabilities dominate, the token energy increases but only slightly, before spiking on the last 10 layers when the model probalities switch from english to chinese.
+
+What's going on here? Initial probing made it seem like english was used as a pivot language in the models middle layers before finally translating to the desired language. Further analysis shows us something even more interesting. In fact our latent contains very little information of the output tokens. However, probably due to the natural language bias of pretraining, we're slightly biased towards english output tokens. What is actually happening in these middle layers is beyond scope of the paper but we know out latents are carrying a lot of information that is orthogonal to token subspace. Imagine 2 dimensions where the x plane represents output tokens, we can imagine that the our model is freely manipulating the y dimension of this vector, manipulating information as the latent flows through the model. In the early layers there is zero movement along the x-plane and the responding probabilities are 0, as we pass layer 40, the model is still manipulating most of its information in the y dimension, but projected onto x there is now a slight bias towards the english output tokens. Then as we get closer to the final layers, our x dimension shifts and most of our token energy now comes from the x dimension and now near the chinese language tokens.
+
+### Do Multilingual LLMs Think In English?
+
+#### 4.1
+Prompt the model to generate full sentences in Dutch, French, German and Mandarin and decode every intermediate latent. A broad analysis of the latents, through logit lens, shows that lexical tokens (noun, verbs, pronouns) overwhelmingly appear in their English equivalents first; grammaticl function words rarely do. Semantic decisions are made in a representation region closest to English; whether the input/output language is Dutch or Mandarin is secondary. Degree of routing correlates with pre‑training multilingual diversity and model size.
+
+#### 4.2
+Build topic and language steering vectors from parallel corpora. Compare sucess rate when steering non-English prompts with English-derived vectors vs target-language vectors. English steering vectors consistently outperform same‑language vectors at inducing the desired topic and keeping fluency. Steering vectors across languages have high cosine similarity but retain a language‑specific offset. If the concept space were truly universal, steering effectiveness would be language‑agnostic. Superior English steering indicates the latent space is English‑centric, not language‑neutral.
+
+#### 4.3
+Use a city facts dataset containing translations of city facts such as "The capital of Canada is .." / "De hoofdstad van Canada is ...". Pinpoint the layers where these facts are stored through causal tracing; then linearly interpolate between the Dutch and English hidden states. Facts localise in the same layers regardless of language. Interpolating hidden states keeps the answer (“Ottawa”) correct while the output language drifts toward English, showing an English decoding bias. Semantic content appears shared across languages (supporting a common fact manifold), but the decoding head pulls outputs toward English, reinforcing the claim that key decisions live in an English‑tilted region.
+
+#### Relation to "Do Llamas think in English" paper
+Despite arguing against Wendler et al I believe that this paper enriches our understanding of the latent representation established before rather than contradicting them. Taken together, the two papers support a unified picture: latent computation happens in a largely language‑agnostic “concept manifold” that is tilted toward English anchors, so the small part of the vector visible to the logit lens often points to English first—especially for lexical content—but the bulk of the vector is still outside the token sub‑space and remains concept‑level.
+
+A response to each section or how to tie it into the overarching framework:
+
+**4.1** English content tokens dominate the training data, their output‑embedding vectors saturate the token plane with a dense lattice of “anchors.” During generation the model’s latent state $\mathbf h$ starts mostly outside that plane; as soon as its small token‑aligned slice $\mathbf h_T$ begins to grow, gradient‑shaped residuals nudge it toward the nearest high‑density region—usually an English content anchor—because that tiny rotation yields the greatest logit boost per unit movement. Only after the concept is stabilised and token energy has risen do later layers pay the extra angular cost of sliding $\mathbf h_T$ across the plane to a sparser Dutch (or Mandarin) anchor, producing the target‑language word. Function words behave differently: each language’s determiners, prepositions, affixes, etc. form their own dense hubs, so when the network is writing Dutch it can remain in a Dutch island of the token plane and never detour through English. Crucially, this whole English‑first phenomenon concerns the *direction* of the small visible slice; 70–80 % of the latent norm still lives in the orthogonal concept manifold and is invisible to the logit lens, reminding us to interpret these directional peaks only in tandem with token‑energy magnitude.
+
+**4.2** What actually flips the logits is the dot‑product $u_t^{\!\top}(\mathbf h+\Delta\mathbf h)$, i.e. the overlap between $\Delta\mathbf h_T$ and the dense web of token anchors.  Because English anchors tile the plane much more densely than low‑resource anchors, a vector derived from English sentences inevitably contains a **larger** and **better‑aligned** $\Delta\mathbf h_T$:
+
+* High density ⇒ many anchors with large cosine to $\Delta\mathbf h_T$ ⇒ big logit increase for the desired topic words *in any language* after the late‑layer rotation to the target surface form.
+* Low density (Dutch, Mandarin) ⇒ fewer good matches ⇒ smaller logit shift for the same ‖Δh‖.
+
+Hence an English steering vector can move the projection $\mathbf h_T$ along a “ridge” of high logit sensitivity, producing a strong topical pull while requiring only a modest perturbation—so fluency is preserved.  Steering vectors built in Dutch must push $\mathbf h_T$ into a sparser region, needing a larger magnitude that disrupts grammatical planning and hurts fluency.
+
+**4.3** Again, in accordance with 4.1, this holds under our framework. 
+
+
+In conclusion the following unified framework holds:
+
+1. Latent $\mathbf{h}$ starts almost orthogonal to $T$.
+
+2. During processing it acquires concept components $\rightarrow$ projection slips into $T$ near an English anchor (Phase 2, English logits spike).
+
+3. Final layers translate concept to surface form by sliding the projection within $T$ to a target-language anchor (Phase 3, token energy rises; correct token wins).
+
