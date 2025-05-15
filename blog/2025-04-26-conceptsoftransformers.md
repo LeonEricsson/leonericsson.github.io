@@ -8,7 +8,7 @@ type: blog
 -- placeholder --
 
 ## A transformer framework
-Within the context of this discourse, a *transformer* denotes an autoregressive, decoder-only transformer language model. Numerous variants and modifications to this foundational architecture exist, some exhibiting greater relevance than others; yet, the fundamental architectural constructs have demonstrated remarkable stability over time: a token embedding layer $\rightarrow$ a sequence of layers known henceforth as residual blocks $\rightarrow$ a token unembedding layer. Each residual block canonically comprises an attention mechanism succeeded by a multi-layer perceptron (MLP). The token embedding and unembedding layers are responsible for mapping a token—represented as a discrete integer identifier—to and from a $d$-dimensional floating-point vector representation.
+Within the context of this discourse, a *transformer* denotes an autoregressive, decoder-only transformer language model. Numerous variants and modifications to this foundational architecture exist, some exhibiting greater relevance than others; yet, the fundamental architectural constructs have demonstrated remarkable stability over time: a token embedding layer $\rightarrow$ a sequence of layers known henceforth as residual blocks $\rightarrow$ a token unembedding layer. Each residual block canonically comprises an attention mechanism succeeded by a multi-layer perceptron. The token embedding and unembedding layers are responsible for mapping a token—represented as a discrete integer identifier—to and from a $d$-dimensional floating-point vector representation.
 
 The embedding matrix operates on an input sequence of $n$ tokens:
 
