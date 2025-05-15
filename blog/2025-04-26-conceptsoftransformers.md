@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "next token prediction"
+title: "how transformers think"
 categories: []
 year: 2024
 type: blog
