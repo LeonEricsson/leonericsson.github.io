@@ -32,14 +32,14 @@ export default function NavBar() {
                 <NavLink href="/">home</NavLink>
                 <NavLink href="/about">about</NavLink>
                 <NavLink href="/indexer">blog</NavLink>
-                <NavLink href="/publications">publications</NavLink>
+                {/* <NavLink href="/publications">publications</NavLink> */}
                 <a
                   href="https://github.com/LeonEricsson?tab=repositories"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center px-1 pt-8 pb-3 text-base font-medium text-headline hover:font-bold transition-all duration-200"
                 >
-                  projects
+                  work
                 </a>
               </div>
               <div className="flex items-center md:hidden">
@@ -80,21 +80,14 @@ export default function NavBar() {
               >
                 About
               </Disclosure.Button>
-              <Disclosure.Button
+              {/* <Disclosure.Button
                 as={Link}
                 href="/publications"
                 className="block border-l-4 border-b py-2 pl-3 pr-4 text-base font-medium text-white hover:bg-white hover:text-black"
               >
                 Publications
-              </Disclosure.Button>
-              <Disclosure.Button
-                as={Link}
-                href="https://github.com/FrankLeeeee?tab=repositories"
-                target="_blank"
-                className="block border-l-4 border-b py-2 pl-3 pr-4 text-base font-medium text-white hover:bg-white hover:text-black"
-              >
-                Projects
-              </Disclosure.Button>
+              </Disclosure.Button> */}
+
             </div>
           </Disclosure.Panel>
         </>
