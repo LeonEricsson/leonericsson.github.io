@@ -9,6 +9,8 @@ having a mental model of what a transformer is and how it operates helps you qui
 
 we'll begin with a framework outlining the transformer as a whole. this is heavily inspired by early mechanistic interpretability work from anthropic. once this framework is established, we'll delve into the more opinionated components of my mental model.
 
+*i expect to come back to this post repeatedly as my model shifts, i'll probably make record of these changes somehow, don't know how yet.*
+
 ## A transformer framework
 Within the context of this discourse, a *transformer* denotes an autoregressive, decoder-only transformer language model. Numerous variants and modifications to this foundational architecture exist, some exhibiting greater relevance than others; yet, the fundamental architectural constructs have demonstrated remarkable stability over time: a token embedding layer $\rightarrow$ a sequence of layers known henceforth as residual blocks $\rightarrow$ a token unembedding layer. Each residual block canonically comprises an attention mechanism succeeded by a multi-layer perceptron. The token embedding and unembedding layers are responsible for mapping a token—represented as a discrete integer identifier—to and from a $d$-dimensional floating-point vector representation.
 
