@@ -31,7 +31,7 @@ export default function NavBar() {
                 {/* only show this tabs when size is > md */}
                 <NavLink href="/">home</NavLink>
                 <NavLink href="/about">about</NavLink>
-                <NavLink href="/indexer">blog</NavLink>
+                <NavLink href="/blog">blog</NavLink>
                 {/* <NavLink href="/publications">publications</NavLink> */}
                 <a
                   href="https://github.com/LeonEricsson?tab=repositories"

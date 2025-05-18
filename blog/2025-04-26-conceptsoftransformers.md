@@ -24,9 +24,8 @@ $H \in \mathbb{R}^{n \times d}$
 
 where $H = [h_1, h_2, \dots, h_n]^T$ and each $h_i \in \mathbb{R}^{d}$ is the embedding for token $t_i$. However, for conceptual clarity, our analysis will concentrate on the embedding vector at the final sequence position, $h_n \in \mathbb{R}^{d}$, as this represents the next token prediction. Henceforth, the subscript $n$ on $h$ will be omitted for brevity, assuming we are referring to this final-position embedding, unless explicitly required for disambiguation. Consider the trajectory of this vector, $h \in \mathbb{R}^{d}$, as it propagates through the transformer's layers.
 
-<div style="text-align: center;">
-  <img src="/images/transformerstream.png" style="width: 50%;" />
-</div>
+<img src="/images/transformerstream.png" style="width: 50%; display: block; margin: 0 auto;" />
+
 
 The most important concept to grasp here is the **residual stream**. For the present, defer a detailed examination of the internal operations within the attention and MLP layers. Instead, concentrate on the overarching information flow. Observe that each layer within this architecture interfaces with the residual stream by both **reading** from and **writing** to it. The residual stream, intrinsically, performs no computation; rather, it functions as a high-bandwidth communication bus facilitating inter-layer information exchange and state propagation. I find this to be one of the most insightful ways of thinking about the transformer. Each layer applies a learned linear transformation to project information from the incoming residual stream into its operational space (a "read" operation). Subsequent to its internal computations (e.g., attention or MLP), it employs another learned linear transformation to project its output, which is then additively merged back into the residual stream, forming the input for the subsequent layer (a "write" operation).
 
