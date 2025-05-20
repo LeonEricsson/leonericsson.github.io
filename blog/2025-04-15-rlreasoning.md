@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "rl trains *how* to reason, not *to* reason"
+title: "rl elicits the procedural art of reasoning"
 categories: []
 year: 2025
 type: blog
