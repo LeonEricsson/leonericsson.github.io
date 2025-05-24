@@ -17,7 +17,7 @@ export default function Document() {
         <meta property="og:type" content="website" />
         <meta
           property="og:title"
-          content="Leon Ericsson | Deep learner"
+          content="Leon Ericsson | Learning..."
         />
         <meta
           property="og:description"
@@ -25,7 +25,7 @@ export default function Document() {
         />
         <meta
           property="og:site_name"
-          content="Leon Ericsson | Deep learner"
+          content="Leon Ericsson | Learning..."
         />
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />

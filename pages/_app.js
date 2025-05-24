@@ -14,7 +14,7 @@ export default function MyApp({ Component, pageProps }) {
   return (
     <main className={courierPrime.className}>
       <Head>
-        <title>Leon Ericsson | Deep Learner</title>
+        <title>Leon Ericsson | Learning...</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <Component {...pageProps} />
