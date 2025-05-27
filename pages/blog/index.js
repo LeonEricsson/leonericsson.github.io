@@ -17,7 +17,7 @@ export async function getStaticProps() {
   };
 }
 
-export default function Blog({ allPostsData }) {
+export default function BlogPreview({ allPostsData }) {
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 5;
   const indexOfLastPost = currentPage * postsPerPage;
