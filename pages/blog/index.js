@@ -1,101 +1,70 @@
-import { getSortedPostsData } from "../../lib/posts";
+import React from "react";
 import Link from "next/link";
 import Layout from "../../components/Layout";
-import { useState } from "react";
-import Markdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import rehypeKatex from "rehype-katex";
-import remarkMath from "remark-math";
-import "katex/dist/katex.min.css"; // `rehype-katex` does not import the CSS for you
+import { getSortedPostsData } from "../../lib/posts";
+import { format } from 'date-fns'; 
 
 export async function getStaticProps() {
   const allPostsData = getSortedPostsData();
+
+  const blogPosts = allPostsData.filter((post) => post.type === "blog");
+  const reviews = allPostsData.filter((post) => post.type === "paper");
+
   return {
     props: {
-      allPostsData,
+      blogPosts,
+      reviews,
     },
   };
 }
 
-export default function BlogPreview({ allPostsData }) {
-  const [currentPage, setCurrentPage] = useState(1);
-  const postsPerPage = 5;
-  const indexOfLastPost = currentPage * postsPerPage;
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = allPostsData.slice(indexOfFirstPost, indexOfLastPost);
-
-  const formatDate = (dateString) => {
-    const options = { year: "numeric", month: "long", day: "numeric" };
-    return new Date(dateString).toLocaleDateString("en-US", options);
-  };
-
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
+export default function Blog({ blogPosts, reviews }) { 
   return (
     <Layout>
-      <div className="container mx-auto py-12 px-4 sm:px-6 lg:px-8 flex justify-center">
-        <div className="w-full lg:w-3/5">
-          <p className={`text-base italic mb-4 font-serif`}>
-          this is a space to document and distill my thoughts on publications
-            and articles within the research community. literature reviews are personal
-            and messy; blog post are intended for a wider audience (marked with a{" "}
-              <span style={{ color: "#5688a9" }}>dot</span>).
-            <br />
-            <br />
-            i write for my own edification; and posts are subject to my own interest
-            for the topic at the time of writing.
-          </p>
-          <div className="vertical-line"></div>
-          {currentPosts.map(({ id, date, title, excerpt, type }) => (
-            <div key={id} className="pb-16">
-              <Link href={`/blog/${id}`}>
-                <span className="text-2xl cursor-pointer text-center block georgia font-bold text-headline">
-                {type === "blog" && (
-                    <span
-                      style={{
-                        height: "4px",
-                        width: "4px",
-                        backgroundColor: "#5688a9",
-                        borderRadius: "50%",
-                        display: "inline-block",
-                        marginRight: "5px",
-                        verticalAlign: "middle",
-                      }}
-                    ></span>
-                  )}
-                  {title}
-                </span>
-                <p className="text-gray-400 text-base text-center pb-4 pt-1">
-                  {formatDate(date)}
-                </p>
-                <p className={`text-gray-600 text-l text-left pb-14 georgia`}>
-                  <Markdown
-                    remarkPlugins={[remarkGfm, remarkMath]}
-                    rehypePlugins={[rehypeKatex]}
-                    className="markdown georgia leading-relaxed"
-                  >
-                    {excerpt}
-                  </Markdown>
-                </p>
-              </Link>
-              <hr className="border-opacity-20 border-black" />
-            </div>
-          ))}
-          <div className="pt-10 text-center">
-            {[
-              ...Array(Math.ceil(allPostsData.length / postsPerPage)).keys(),
-            ].map((number) => (
-              <button
-                key={number}
-                onClick={() => paginate(number + 1)}
-                className="text-xl p-3 hover:bg-gray-200"
-              >
-                {number + 1}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-    </Layout>
+  <div className="relative pl-[25rem] py-4">
+    {/* Top-right narrow paragraph */}
+    <div className="absolute top-8 right-4 w-[18rem]">
+      <p className="text-xs italic palatino">
+        this is a space to document and distill my thoughts on publications
+        and articles within the research community. literature reviews are personal
+        and messy; blog posts are slightly more refined.
+        <br />
+        <br />
+        i write for my own edification - posts are subject to my own interests
+      </p>
+    </div>
+
+    {/* Main blog section */}
+    <h2 className="text-xl mt-8 mb-2 ml-18 font-bold text-headline inline-block px-1 rounded">
+      Blog posts
+    </h2>
+    <ul className="list-none">
+      {blogPosts.map(({ id, title, date }) => (
+        <li key={id} className="mt-2 flex items-center">
+          <span className="text-gray-400 mr-4">{format(new Date(date), 'dd MMM yyyy')}</span>
+          <Link href={`/blog/${id}`}>
+            <span className="hover:text-blue-800 text-gray-800 cursor-pointer">{title}</span>
+          </Link>
+        </li>
+      ))}
+    </ul>
+
+    <h2 className="text-xl mt-12 mb-1 ml-18 font-bold text-headline inline-block px-1 rounded">
+      Literature reviews
+    </h2>
+    <ul className="list-none">
+      {reviews.map(({ id, title, date }) => (
+        <li key={id} className="mt-2 flex items-center">
+          <span className="text-gray-400 mr-4">{format(new Date(date), 'dd MMM yyyy')}</span>
+          <Link href={`/blog/${id}`}>
+            <span className="hover:text-blue-800 text-gray-800 cursor-pointer">{title}</span>
+          </Link>
+        </li>
+      ))}
+    </ul>
+  </div>
+</Layout>
+
   );
 }
+
