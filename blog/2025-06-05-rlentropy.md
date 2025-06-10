@@ -1,82 +1,54 @@
 ---
 layout: post
-title: "Spurious Rewards: Rethinking Training Signals in RLVR"
+title: "The Entropy Mechanism of Reinforcement Learning for Reasoning Language Models"
 categories: []
 year: 2025
 type: paper
 ---
-The Qwen model family—particularly Qwen2.5—has become the de facto foundation for reinforcement learning research in 2025. Much of the recent hype around Reinforcement Learning from Verifiable Rewards (RLVR) has centered on Qwen2.5-Math models, with numerous studies building RLVR pipelines atop them. However, the field has grown increasingly skeptical of the actual gains conferred by RL, as recent findings suggest that models can achieve surprising improvements with just a single training sample—or even in the absence of meaningful reward signals.
+The authors explore four model families across eleven popular open-source checkpoints. Starting from these base models, they apply three reinforcement-learning algorithms—**GRPO**, **REINFORCE**, and **PRIME**—with the KL-divergence coefficient fixed at 0.
 
-Conventional wisdom in RLVR posits that high-quality supervision is crucial. But this paper challenges that assumption. It shows that Qwen2.5-Math-7B can achieve significant performance gains on MATH-500 benchmarks using "spurious" rewards—signals that are weakly informative or even misleading. In several cases, the results nearly match those obtained with ground-truth labels.
+A striking pattern emerges everywhere: **policy entropy plummets almost immediately and then continues its monotonic slide to ≈ 0, while validation performance rises in near perfect anti-phase**. After just *200 gradient steps* (≈ 1∕12 of total training), entropy has already fallen by **73 %**, and *76 %* of the eventual performance gain has been realized.
 
-### When Nonsense Rewards Work
+Empirically, the trade-off is well-captured by the exponential fit
 
-Starting with Qwen2.5-Math-7B, the authors demonstrate that various forms of spurious feedback can produce substantial gains:
+$$
+R \;=\; -a\,e^{H} + b,
+$$
 
-* **Ground Truth**: Standard RLVR using correct answers leads to a 28.8% gain.
-* **One-Shot RL**: Training on a single correct sample achieves a 24.4% boost.
-* **Majority Vote**: Using the most common answer from 64 model samples yields a 26.5% improvement.
-* **Incorrect Rewards**: Even when rewarding *wrong* answers, the model still improves by 24.6%.
-* **Format Reward**: Rewarding outputs with a `\boxed{}` expression (irrespective of correctness) gives a 16.4% gain.
-* **Random Reward**: Using Bernoulli(0.5) random rewards results in a 21.4% gain.
+where $R$ is validation score and $H$ is entropy. The figure below (omitted here) shows the tight fit across models.
 
-Critically, these gains are unique to Qwen models. When applied to Llama3 and OLMo2, the same reward strategies yield negligible or even negative results.
+Using coefficients $a, b$ estimated from the *first 36* steps, the authors predict performance for the next 200 steps with an RMSE ≈ 1 %. Setting $H = 0$ also gives an *upper bound* on achievable validation performance.
 
-### Reward Ablation Across Models
+#### Interpreting $a$ and $b$
 
-To investigate generality, the study applies the same reward schedules to:
+Both coefficients are **algorithm-agnostic**: for a fixed model size they stay constant regardless of the RL method, suggesting they encode intrinsic properties of the policy prior and data distribution.
 
-* Qwen2.5 base models (7B and 1.5B),
-* OLMo2-7B (standard and SFT variants),
-* Llama3.1-8B, Llama3.2-3B, and their Instruct variants.
+$$
+\frac{dR}{dH} = -a\,e^{H} \;\;\Longrightarrow\;\; a
+$$
 
-The results are striking. Only Qwen models reliably benefit from spurious rewards. Other families require high-quality supervision to improve and often degrade under weak reward signals. These divergences are likely due to differences in pretraining data and reasoning priors.
+is literally the *conversion rate* between entropy and downstream reward, while $-a + b$ is the theoretical performance ceiling. Empirically, $a$ and $b$ vary *log-linearly* with model size—so once you have them for small models, you can extrapolate to larger ones and **predict their final RL-tuned performance without training them**.
 
-### Why Does This Work?
+A common concern is that RL can only *elicit* behaviors latent in the pre-trained distribution, never exceed them. The data partially corroborate that fear: once entropy has collapsed, the ceiling is both real and predictable. Crucially, the authors argue the culprit is not RL per se but the **entropy dynamics of large language models**—strong priors narrow the output distribution, limiting exploration.
 
-The authors hypothesize that RLVR in Qwen models amplifies latent reasoning strategies—particularly *code reasoning*. For example:
+### The Dynamics of Policy Entropy
 
-* **Pre-RLVR**, Qwen2.5-Math-7B solves 65% of math problems by generating Python code (without code execution).
-* **Post-RLVR**, regardless of reward quality, code reasoning usage rises to over 90% of completions.
-* Performance increases correlate tightly with increased code usage frequency.
+Given that entropy collapse appears to be a primary obstacle for scaling RL in language model reasoning, it's critical to understand *when* entropy will increase or decrease. The paper provides a mathematical derivation for the change in entropy under policy gradient algorithms, starting from the fact that an LLM is a softmax policy.
 
-This is not true for other models. In Llama and Olmo, either code generation is absent or harmful. When spurious rewards encourage code usage in these models, accuracy drops.
+The core finding is that a strong positive correlation between an action's probability under the current policy, $P(a)$, and its corresponding advantage value, $A(a)$, leads to a **decrease in policy entropy**. More formally, the change in entropy is determined by the covariance between the log-probability of an action (the model's confidence) and the advantage of that action (how good it was relative to the expected outcome).
 
-### The Random Reward Paradox
+-   A **positive covariance** decreases entropy. This occurs during **exploitation**, where a high-probability action yields a high reward, or during **confirmation**, where a low-probability action results in a low reward. In both cases, the model's beliefs are reinforced, narrowing the policy.
+-   A **negative covariance** increases entropy. This happens during **exploration**, where a low-probability action leads to a surprisingly high reward, or during **correction**, where a confident action results in a poor outcome. Both scenarios challenge the model's current beliefs, encouraging it to broaden its policy.
 
-One of the most counterintuitive findings is that even *completely random* rewards (e.g., reward = 1 if `random.random() < 0.5`) consistently improve Qwen2.5-Math performance. This led the authors to explore the internals of GRPO (Group Relative Policy Optimization) to identify why.
+In practice, RL for reasoning tasks is dominated by **exploitation**. The model rapidly identifies "easy wins"—high-probability actions that yield high advantages—causing the policy entropy to collapse.
 
-They isolate a key mechanism: **clipping bias** in GRPO. This bias arises because the clipping term in the loss favors responses that resemble the model's existing priors. When rewards are random, this has the unintended effect of reinforcing behaviors the model already strongly exhibits—namely, code reasoning. Ablation studies show that:
+### Entropy Control via Covariance Regularization
 
-* With clipping, random rewards yield a 21% gain.
-* Without clipping (via disabling or matching πₜ = πₒₗd), no reliable improvement occurs.
-* Without clipping, training becomes stochastic and unstable across seeds.
+To counteract this dynamic, the authors propose controlling policy updates through regularization. Standard approaches like adding an entropy bonus or a reference-KL penalty to the loss function proved ineffective. Instead, the authors developed a filtering-based approach motivated by the observation that a small fraction of tokens contributes disproportionately high covariance.
 
-Thus, the reward signal is not in the randomness itself, but in the optimization algorithm’s structure.
+They propose two methods:
 
-### Strategy Switching and Partial Attribution
+1.  **Clip-Cov**: After calculating the covariance of each token in a batch, this method clips a small fraction of the highest-covariance tokens from the policy gradient update by zeroing out their gradients.
+2.  **KL-Cov**: A simpler approach that first ranks tokens by their covariance and then applies a KL penalty only to the top-$k$ proportion.
 
-The authors perform a fine-grained analysis, categorizing reasoning patterns into:
-
-* Code → Code
-* Code → Language
-* Language → Code
-* Language → Language
-
-The majority of performance gain arises from *Language → Code* transitions, affirming the hypothesis that RLVR acts by reinforcing latent but effective reasoning strategies.
-
-Interestingly, for "bad-code" models like Qwen2.5-7B and OLMo2-7B-SFT, suppressing code generation via "no Python" compound rewards *improves* performance.
-
-### Beyond Code: The Role of Repetition
-
-Another elicitable behavior examined is repetition. Qwen models sometimes produce repetitive outputs, but this can be countered by a simple reward: penalize responses that repeat substrings more than 10 times. This “no-repetition” reward also boosts performance in Qwen models—but not others.
-
-### Implications
-
-This paper makes three crucial points:
-
-1. **Pretraining priors dominate RLVR outcomes**. Without strong base behaviors (e.g., code reasoning), even good RLVR won't help.
-2. **Spurious rewards work because they reinforce these priors**, not because they teach anything new.
-3. **Clipping bias acts as a signal amplifier**, allowing even random noise to become a form of curriculum for models with useful latent behaviors.
-
-This calls into question the current RLVR benchmarking landscape. Much of it may overfit to Qwen-like models, giving a misleading picture of reward design efficacy. Future RLVR work must test across diverse base models to ensure generalizability.
+Both methods are designed to mitigate the entropy collapse driven by high-covariance exploitation events, thereby preserving the model's ability to explore and improve performance.
