@@ -3,7 +3,7 @@ layout: post
 title: "what's going on with RLVR"
 categories: []
 year: 2025
-type: paper
+type: blog
 ---
 
 more to talk about in the RLVR space today, the wave of papers in this space hasn't slowed down yet, although we've getting less hill-climbs on MATH now so I think we're moving in a solid direction. i'm certainly a RL devotee, i think scaling RL and particularly long horizon RL is going to accelerate automation big time, the open research community probably doesn't have the compute to just purely scale RL to the moon but there is a lot of work that needs to be done on long horizon rl, and especially multi-turn rl which has yet to see the attention it deserves. if your interested in material related to the where the RL space is heading, and why it's important i recommend: (1) blog post from nathan lambert [*what comes next with reinforcement learning*](https://www.interconnects.ai/p/what-comes-next-with-reinforcement), (2) [podcast episode with sholto douglas and trenton bricken from anthropic](https://www.youtube.com/watch?v=64lXQP6cs5M), and (3) a blog post from semianalysis [*Scaling Reinforcement Learning: Environments, Reward Hacking, Agents, Scaling Data*](https://semianalysis.com/2025/06/08/scaling-reinforcement-learning-environments-reward-hacking-agents-scaling-data/). 
