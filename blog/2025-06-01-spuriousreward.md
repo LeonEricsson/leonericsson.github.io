@@ -67,16 +67,6 @@ The majority of performance gain arises from *Language → Code* transitions, af
 
 Interestingly, for "bad-code" models like Qwen2.5-7B and OLMo2-7B-SFT, suppressing code generation via "no Python" compound rewards *improves* performance.
 
-### Beyond Code: The Role of Repetition
-
-Another elicitable behavior examined is repetition. Qwen models sometimes produce repetitive outputs, but this can be countered by a simple reward: penalize responses that repeat substrings more than 10 times. This “no-repetition” reward also boosts performance in Qwen models—but not others.
-
-### Implications
-
-This paper makes three crucial points:
-
-1. **Pretraining priors dominate RLVR outcomes**. Without strong base behaviors (e.g., code reasoning), even good RLVR won't help.
-2. **Spurious rewards work because they reinforce these priors**, not because they teach anything new.
-3. **Clipping bias acts as a signal amplifier**, allowing even random noise to become a form of curriculum for models with useful latent behaviors.
+### Takeaway
 
 This calls into question the current RLVR benchmarking landscape. Much of it may overfit to Qwen-like models, giving a misleading picture of reward design efficacy. Future RLVR work must test across diverse base models to ensure generalizability.
