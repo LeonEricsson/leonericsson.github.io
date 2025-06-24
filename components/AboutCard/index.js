@@ -5,11 +5,11 @@ function AboutCard() {
     <div>
       <h2 className="text-headline text-2xl font-bold pb-3">about me</h2>
       <p className={`palatino leading-relaxed`}>
-        hi! i'm leon, i live with my <i><a href="https://sverigesradio.se/artikel/what-does-it-mean-to-be-a-sambo-in-sweden" style={{ color: 'blue' }}>sambo</a></i> in stockholm. i'm big on all kinds of ml research. i enjoy eating food, making food, traveling and working out.
+        hi! i'm leon, i'm a research engineer living in stockholm, lived here for almost 2 years now with my <i><a href="https://sverigesradio.se/artikel/what-does-it-mean-to-be-a-sambo-in-sweden" style={{ color: 'blue' }}>sambo</a></i>. big fan of ml research, and just understanding how things work. otherwise i enjoy eating food, making food, traveling and working out.
       </p>
       <br />
       <p className={`palatino leading-relaxed`}>
-        i've got a background in software engineering but as of last year i work as a research engineer. i'm interested in: <b>foundational models</b>, <b>policy learning</b>, <b>medical ai</b>, and <b>reasoning</b>. if you're curious about my current fixations, skim the blog. 
+        i've got a background in software engineering, with a master's in compsci. but today i'm focused on <b>language models</b>, <b>reinforcement learning</b>, <b>mech interp.</b>, and <b>reasoning</b>. although i have limited experience with it i'm also very keen on health/medicine as a field of application for the aforementioned fields. if you're curious about my current fixations, skim the blog. 
       </p>
       <h2 className="text-headline text-2xl font-bold pb-3 pt-[4rem]">i like making things</h2>
       <p className={`palatino leading-relaxed`}>
@@ -38,6 +38,20 @@ function AboutCard() {
             <li className="before:content-['-'] before:pr-2"><a href="https://github.com/LeonEricsson/Tensor-Puzzles" style={{ color: 'blue' }}>tensor puzzles</a> and <a href="https://github.com/LeonEricsson/GPU-Puzzles" style={{ color: 'blue' }}>cuda puzzles</a> from sasha rush</li>
             <li className="before:content-['-'] before:pr-2">community driven <a href="https://github.com/ohmyzsh/ohmyzsh" style={{ color: 'blue' }}>ohmyzsh</a></li>
             <li className="before:content-['-'] before:pr-2"><a href="https://github.com/google/jax" style={{ color: 'blue' }}>jax</a>: the lovechild of autograd and xla</li>
+          </ul> 
+        </p>
+
+        <h2 className="text-headline text-2xl font-bold pb-3 pt-[4rem]">i like reading papers</h2>
+        <p className={`palatino leading-relaxed`}>
+          selection of lesser known ones that stand out to me.
+          <ul className="list-none ml-4 pt-2">
+            <li className="before:content-['-'] before:pr-2"><a href="https://physics.allen-zhu.com/" style={{ color: 'blue' }}>Physics of Language Models</a> </li>
+            <li className="before:content-['-'] before:pr-2"><a href="https://arxiv.org/pdf/2402.10588" style={{ color: 'blue' }}>On the Latent Language of Multilingual Transformers</a> </li>
+            <li className="before:content-['-'] before:pr-2"><a href="https://cohere.com/research/papers/command-a-technical-report.pdf" style={{ color: 'blue' }}>Command-A</a> </li>
+            <li className="before:content-['-'] before:pr-2"><a href="https://arxiv.org/pdf/2405.04434" style={{ color: 'blue' }}>DeepSeek-V2</a> </li>
+            <li className="before:content-['-'] before:pr-2"><a href="https://arxiv.org/abs/1911.08265" style={{ color: 'blue' }}>MuZero</a> </li>
+            <li className="before:content-['-'] before:pr-2"><a href="https://spaces.ac.cn/archives/10091" style={{ color: 'blue' }}>MHA, MQA, GQA, MLA (by Jianlin Su)</a> </li>
+            <li className="before:content-['-'] before:pr-2"><a href="https://arxiv.org/pdf/2306.00978" style={{ color: 'blue' }}>Activation-aware weight quantization</a> </li>
           </ul> 
         </p>
         
