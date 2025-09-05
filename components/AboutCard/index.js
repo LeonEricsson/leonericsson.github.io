@@ -9,7 +9,7 @@ function AboutCard() {
       </p>
       <br />
       <p className={`palatino leading-relaxed`}>
-        i've got a background in software engineering, with a master's in compsci. but today i'm focused on <b>language models</b>, <b>reinforcement learning</b>, <b>mech interp.</b>, and <b>reasoning</b>. although i have limited experience with it i'm also very keen on health/medicine as a field of application for the aforementioned fields. if you're curious about my current fixations, skim the blog. 
+        i've got a background in software engineering, with a master's in compsci. but today i'm focused on <b>language models</b>, <b>reinforcement learning</b>, <b>mech interp</b>, and <b>reasoning</b>. although i have limited experience with it i'm also very keen on health/medicine as a field of application for the aforementioned fields. if you're curious about my current fixations, skim the blog. 
       </p>
       <h2 className="text-headline text-2xl font-bold pb-3 pt-[4rem]">i like making things</h2>
       <p className={`palatino leading-relaxed`}>
@@ -30,9 +30,9 @@ function AboutCard() {
         <p className={`palatino leading-relaxed`}>
           these are my favorite, some of which i contribute to.
           <ul className="list-none ml-4 pt-2">
+            <li className="before:content-['-'] before:pr-2">rl with <a href="https://github.com/huggingface/trl" style={{ color: 'blue' }}>trl</a> (<a href="https://github.com/huggingface/trl/" style={{ color: 'blue' }}>core maintainer</a>) </li>
             <li className="before:content-['-'] before:pr-2">inference engine <a href="https://github.com/vllm-project/vllm" style={{ color: 'blue' }}>vllm</a> </li>
             <li className="before:content-['-'] before:pr-2">finetuning with <a href="https://github.com/unslothai/unsloth" style={{ color: 'blue' }}>unsloth</a> </li>
-            <li className="before:content-['-'] before:pr-2">finetuning with <a href="https://github.com/huggingface/trl" style={{ color: 'blue' }}>trl</a> (<a href="https://github.com/huggingface/trl/pulls?q=is%3Apr+author%3ALeonEricsson" style={{ color: 'blue' }}>several PRs</a>) </li>
             <li className="before:content-['-'] before:pr-2">ggerganov's <a href="https://github.com/ggerganov/llama.cpp" style={{ color: 'blue' }}>llama.cpp</a> (<a href="https://github.com/ggerganov/llama.cpp/pull/4484" style={{ color: 'blue' }}>#4484</a>)</li>
             <li className="before:content-['-'] before:pr-2"><a href="https://github.com/ml-explore/mlx" style={{ color: 'blue' }}>mlx</a> is an array framework for apple silicon (<a href="https://github.com/ml-explore/mlx-examples/pull/202" style={{ color: 'blue' }}>#202</a> <a href="https://github.com/ml-explore/mlx-examples/pull/237" style={{ color: 'blue' }}>#237</a> <a href="https://github.com/ml-explore/mlx/pull/456" style={{ color: 'blue' }}>#456</a> <a href="https://github.com/ml-explore/mlx-examples/pull/19" style={{ color: 'blue' }}>#19</a> <a href="https://github.com/ml-explore/mlx-examples/pull/276" style={{ color: 'blue' }}>#276</a>) </li>
             <li className="before:content-['-'] before:pr-2"><a href="https://github.com/LeonEricsson/Tensor-Puzzles" style={{ color: 'blue' }}>tensor puzzles</a> and <a href="https://github.com/LeonEricsson/GPU-Puzzles" style={{ color: 'blue' }}>cuda puzzles</a> from sasha rush</li>
@@ -43,7 +43,7 @@ function AboutCard() {
 
         <h2 className="text-headline text-2xl font-bold pb-3 pt-[4rem]">i like reading papers</h2>
         <p className={`palatino leading-relaxed`}>
-          selection of lesser known ones that stand out to me.
+          some lesser-known favorites of mine.
           <ul className="list-none ml-4 pt-2">
             <li className="before:content-['-'] before:pr-2"><a href="https://physics.allen-zhu.com/" style={{ color: 'blue' }}>Physics of Language Models</a> </li>
             <li className="before:content-['-'] before:pr-2"><a href="https://arxiv.org/pdf/2402.10588" style={{ color: 'blue' }}>On the Latent Language of Multilingual Transformers</a> </li>
