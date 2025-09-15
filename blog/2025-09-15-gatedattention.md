@@ -4,6 +4,8 @@ title: "Gated Attention"
 categories: []
 year: 2025
 type: paper
+author: Qiu
+exturl: https://arxiv.org/abs/2505.06708
 ---
 
 Qwen3-Next is, according to the team themselves, a representation of the *next-generation architecture*, built as a hybrid attention model that alternates between global attention layers (in the form of **Gated Attention**) and linear attention layers (**Gated DeltaNet**). [DeltaNet](https://sustcsonglin.github.io/blog/2024/deltanet-1/) has been on my reading list for some time now, but linear attention is a whole field in its own right at this point so I've sort of put it off until I have time for a justified deeper dive. We'll get there. Hybrid architectures are slowly gaining popularity in the open space and I don't see this trend slowing down, it seems like a necessity towards longer contexts; the time of full attention timemixing is coming to an end. 
