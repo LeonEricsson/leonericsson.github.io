@@ -6,6 +6,7 @@ year: 2025
 type: paper
 author: Yuan
 exturl: https://husky-morocco-f72.notion.site/From-f-x-and-g-x-to-f-g-x-LLMs-Learn-New-Skills-in-RL-by-Composing-Old-Ones-2499aba4486f802c8108e76a12af3020
+---
 
 This post analyzes another entry in the ongoing debate about whether reinforcement learning (RL) teaches language models genuinely new skills. This topic has been a source of significant discussion, particularly since the release of a paper showing that `pass@k` on coding tasks did not improve during RL. This suggested that models weren't learning to solve problems they couldn't previously solve but were merely amplifying existing capabilities. This begs the question: do LLMs learn new skills during RL, and if so, what is learned and how do we incentivize it?
 
