@@ -6,8 +6,7 @@ year: 2025
 type: paper
 ---
 
-This is an extremely long winded, scattered, and at many times incoherent notes I took while reading the entire "How To Scale Your Model" series. I **highly** recommend reading this, it was super interesting and very
-giving. I hope to gain more practical experience with this, would be a dream come true! 
+This is an extremely long winded, scattered, and at many times incoherent post; a result of my notetaking while reading the entire "How To Scale Your Model" series. I **highly** recommend the series, was a great read. I'd love to get more hands on experience with large scale training, would be a dream come true. 
 
 Again, don't try and read this. This is for my own reference.
 I've answered most quizzes, might be the only thing worth looking at here if your not me. 
