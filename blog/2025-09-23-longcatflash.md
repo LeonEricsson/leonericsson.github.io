@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "LongCat-Flash"
+title: "LongCat -Base and -Thinking"
 categories: []
 year: 2025
 type: paper
@@ -77,8 +77,86 @@ The model uses MLA, consists of only 28 layers, and contains a staggering 512 FF
 
 The training methodology also includes some interesting techniques.
 
-LongCat-Flash uses **model growth initialization**, a strategy I haven't seen in a production model before. Instead of training the full 28-layer model from a random initialization, they first train a half-scale model (14 layers) on tens of billions of tokens. They then use a layer stacking technique to duplicate this pre-trained model, creating a 28-layer checkpoint that serves as the initialization for the full training run. The paper shows this leads to faster convergence and ultimately better performance compared to random initialization.
+LongCat-Flash uses **model growth initialization**, a strategy I haven't seen in a production model before. Instead of training the full 28-layer model from a random initialization, they first train a half-scale model (14 layers) on tens of billions of tokens. They then use a layer stacking technique to duplicate this pre-trained model, creating a 28-layer checkpoint that serves as the initialization for the full training run.
 
-Another impressive engineering detail is the focus on **determinism**. The team developed custom, deterministic kernels for key operations like FlashAttention Gradients (FAG) and ScatterAdd that improve on existing deterministic implementations while maintaining high performance. This guarantees bitwise reproducibility of experiments, a critical feature for debugging and reliable research at scale. The recent interest in deterministic training makes it very cool to see this level of engineering detailed in a paper.
+the team hand designs deterministic kernels that improve on existing deterministic implementations. this is really cool to see. there was a recent blog article from Thinking Machines by Horace He on this topic and how to achieve determinism. really cool to see this topic in a paper released before the blog post. speaks to the level of this team.
 
-The paper continues with an in-depth discussion of their distributed training strategy and inference optimizations, including communication/computation overlapping, custom kernels, and speculative decoding. It's a dense and highly informative read that I recommend for anyone interested in the systems side of training and serving massive models.
+The paper continues with an in-depth discussion of their distributed training strategy and inference optimizations, including communication/computation overlapping, custom kernels, and speculative decoding. It's a dense and highly informative read that I recommend, but I won't cover it.
+
+## LongCat-Flash-Thinking
+
+If you're going to be a frontier lab in 2025, you've got to be able to create a strong reasoning model, which typically means building first-rate RL infra. The LongCat team set a high bar for themselves by starting with a massive 560B MoE base model. I'm looking forward to get answers to several things: What's the training recipe, e.g what combination of cold start SFT + RL? How do you handle the negative transfer that often plagues cross-domain RL? On the infrastructure side, how do you tackle long-horizon RL tasks, especially the agentic workflows that are now central to frontier models. Finally, on the algorithmic side, how do they approach the exploration-exploitation trade-off and what tools are you using to achieve prolonged, stable RL.
+
+### cold start training phases
+
+We begin with the **LongCat-Flash-Base** model. While generally capable, the authors identified its limitations in handling complex, multi-step reasoning. Ultimately, the goal is to prepare the model for large-scale RL, but before that, they introduce a two-phase cold-start process designed to unlock the model's latent reasoning abilities without degrading its foundational knowledge.
+
+First is a **mid-training phase**. The intuition here stems from a key deficiency in general pre-training corpora: while vast, they contain an insufficient proportion of data from reasoning-intensive domains (like STEM and coding), and more critically, explicit long CoT patterns are naturally scarce. This stunts the model's intrinsic reasoning potential. The mid-training phase addresses this by infusing the training corpus with a meticulously curated dataset of reasoning-intensive problems, aiming to "cold-start" the model's latent reasoning abilities without degrading its foundational generalist knowledge. 
+
+Following mid-training is a **reasoning-oriented SFT phase**, aimed at aligning the model with high-quality, instruction-following patterns to establish a strong foundation for RL. This stage focuses on three distinct capabilities:
+
+* **General Reasoning**: High-quality data is curated from STEM, code, logic, and general QA domains using a rigorous multi-stage filtering pipeline for prompts (screening, ground-truth validation, and difficulty filtering).
+* **Formal Reasoning**: To tackle Automatic Theorem Proving (ATP), the team developed an expert-iteration pipeline integrated with a Lean4 server. This process synthetically generates a dataset of formal statements, a "thinking process" in natural language, and a machine-verified proof.
+* **Agentic Reasoning**: The key challenge here is curating a dataset where tool use is indispensable, not just helpful. They introduce a dual-path evaluation to select queries that show a significant performance gain only when tools are available. This "tool-necessity value" is defined as $v_{x} = s_{w/.tool}(x) - s_{w/o.tool}(x)$, where $s$ is the pass rate with and without tools. The selected queries are then paired with high-quality, multi-turn tool-use trajectories.
+
+### rl
+With its reasoning capabilities primed, the model is ready for large-scale RL.
+
+#### DORA: Dynamic ORchestration for Asynchronous rollout
+RL at scale is notoriously inefficient. A disaggregated architecture (separate devices for generation and training) risks device idleness due to sequential dependencies. Conversely, a colocated architecture (all roles on the same devices) suffers from suboptimal performance, as generation is memory-bound while training is compute-bound, demanding different parallelization strategies. A further problem is skewed generation, where synchronous training forces the entire batch to wait for the single longest output—a frequent bottleneck in agentic tasks. Asynchronous training is a common solution, often breaking long responses into segments generated by the latest available policy. However, this introduces its own problems: updating the policy mid-generation forces an inefficient re-prefill of all ongoing sequences, and using inconsistent policy versions for different segments of a single response may harm convergence.
+
+DORA is LongCat's answer to these challenges. Under DORA, accelerators are split into two distinct groups, a generation group and a elastic group. The generation group is exclusively dedicated to generating, while the elastic group switches between generation and training. DORA exposes a staleness setting to the user, dictating how old policy's are allowed to be before being discarded. Let me describe the timeline under DORA before showing you an image. 
+
+DORA is LongCat's answer to these challenges. The system divides accelerators into two groups: a Standalone Group dedicated exclusively to generation and an Elastic Group that dynamically switches between generation and training roles. The system is governed by a user-defined `staleness` parameter, which dictates how many older policy versions can be used for generation.
+
+The workflow proceeds in three phases, assuming a training batch size of 6 and a staleness of 2 (allowing policies $\pi_{\theta_{n-2}}$, $\pi_{\theta_{n-1}}$, and $\pi_{\theta_{n}}$ to coexist):
+
+1.  **Generation Phase**: Both the Standalone and Elastic groups perform rollouts using the allowed policy versions. As soon as a response is completed, it's sent to an experience buffer, and the generator immediately starts on a new prompt. This continues until the buffer has enough samples for a training batch. At this point, any ongoing generations using the oldest policy ($\pi_{\theta_{n-2}}$) are discarded, as it's about to be evicted by the new policy from the upcoming training step ($\pi_{\theta_{n+1}}$). The KV-caches of ongoing generations in the Elastic Group are saved, while those in the Standalone Group are effectively "paused."
+
+2.  **Experience-Maker Phase**: All accelerators are repurposed to compute log probabilities, reference model probabilities, and reward signals in parallel. Once this is done, the Standalone Group's generators spin up the inference engines and resume their paused rollouts (reloading the KV-cache) or start new ones. They may also receive a KV-cache transfer from the Elastic Group if a sequence needs to be continued with the same policy version.
+
+3.  **Model Training Phase**: The Elastic Group devices now assume a training role and perform a gradient update on the collected batch of 6 samples. The Standalone Group continues generating rollouts uninterrupted. Once training is complete, the Elastic Group switches back to a generation role, loading the newly updated policy weights ($\pi_{\theta_{n+1}}$).
+
+The whole process is illustrated in the following figure
+
+![](/images/dora.png)
+
+DORA's design ensures that each response is generated entirely by a single, consistent policy, which improves convergence stability and reduces the overhead from re-prefilling. It also achieves near-zero device idleness by eliminating the skewed generation bottleneck; the only inefficiency comes from the discarded samples using the oldest policy.
+
+#### algo
+LCFT is trained with a modified GRPO
+
+- The KL divergence term in the loss is removed. GRPO, when introduced by DeepSeek, moved the KL divergence penalty from the rewards directly into the loss function through a KL divergence between the learned policy and the reference policy. However, it has been [shown that the gradient of this term, (the KL estimator) ends up being biased](https://hongyuzang.notion.site/The-critical-implementation-detail-of-KL-loss-in-GRPO-1ae3fe2c1ff9809a9307c5402e190373).
+- Applies the Dr.GRPO fix of calculating token-level loss, utilizing a global constant of maximum generation length as the denominator when calculating said token loss.
+- Utilize Truncated Importance Sampling to mitigate the distribution mismatch between inference engine and the train engine. This method was only publishes a bit over a month ago so they must have just recently finished the RL training. 
+
+The standard GRPO objective is:
+$$\mathcal{L}_{GRPO}(\theta)=\mathbb{E}_{\{y_{i}\}_{i=1}^{G}\sim\pi_{\mu}(\cdot|x)}[\frac{1}{G}\sum_{i=1}^{G}\frac{1}{|y_{i}|}\sum_{t=1}^{|y_{i}|}(\min(r_{i,t}(\theta)\hat{A}_{i,t}, \text{clip}_{\epsilon}(r_{i,t}(\theta))\hat{A}_{i,t}) - \beta\mathbb{D}_{KL}[\pi_{\theta}||\pi_{ref}])]$$
+
+LongCat-Flash-Thinking is, as expected, trained with a modified GRPO. Several key modifications are introduced, primarily targeted at stabilizing asynchronous training.
+
+* The **KL divergence term is removed**. The standard $k_3$ estimator used for the KL term's gradient [has been shown to be biased during optimization despite its unbiased expectation](https://hongyuzang.notion.site/The-critical-implementation-detail-of-KL-loss-in-GRPO-1ae3fe2c1ff9809a9307c5402e190373).
+* It adopts the **token-level loss** formulation from Dr.GRPO, using a global maximum generation length constant as the denominator. 
+* **Truncated Importance Sampling** is used to mitigate the distributional mismatch between the inference and training engines.
+* A **triplet clipping scheme** ($\epsilon_{neg_{low}}$, $\epsilon_{neg_{high}}$, $\epsilon_{pos_{high}}$) is employed to bound the importance ratio, preventing unbounded variance and model collapse, which is especially critical for sparse MoE models where expert routing can change between policy versions.
+
+The final objective function is:
+$$J(\theta) = \mathbb{E}_{x \sim \mathcal{D}, \{y_i\}_{i=1}^G \sim \pi_\mu(\cdot|x)} \left[ \frac{1}{G} \frac{1}{T_{max}} \sum_{i=1}^G \sum_{t=1}^{|y_i|} \max(\min(r_{i,t}(\theta)\hat{A}_{i,t}, \text{clip}(r_{i,t}(\theta), 1-\epsilon_{neg_{low}}, 1+\epsilon_{pos_{high}})\hat{A}_{i,t}), \epsilon_{neg_{high}}\hat{A}_{i,t}) \right]$$
+
+#### rewards
+
+For non-verifiable tasks like creative writing, LongCat-Flash-Thinking uses a standard discriminative reward model.
+
+For verifiable tasks (e.g., STEM), they depart from typical rule-based systems and instead use a Generative Reward Model (GenRM). This model compares the reference answer with the model's response and generates a natural language justification for its correctness judgment. This allows for more flexible evaluation, accommodating various equivalent expressions (e.g., recognizing that $a^2 - b^2$ is the same as $(a+b)(a-b)$). The GenRM proved far more accurate than alternatives on a human-labeled test set, achieving 98.8% accuracy compared to 94.0% for a non-reasoning GenRM and just 80.9% for a rule-based system.
+
+#### training
+
+As others have found, performing RL on a mixed-domain dataset is difficult. The large distributional shift between batches from different domains (e.g., short general QA vs. long agentic traces) often leads to inefficient training and sub-optimal performance. Sequential training can mitigate this but is inflexible and prone to catastrophic forgetting.
+
+Instead, the team adopts a **domain-parallel RL** approach. They train separate expert models for distinct domains (STEM, Code, Agentic) and then merge them into a single, nearly Pareto-optimal model. The merging strategy is a three-pronged approach to mitigate parameter interference:
+
+1.  **Normalization**: The magnitude of each task vector ($\tau_i = \theta_{RL}^i - \theta_{SFT}$) is normalized to balance the contributions from different domains.
+2.  **Dropout**: Inspired by DARE, dropout is applied to the delta parameters ($\tau_i$) to prune redundant values.
+3.  **Erase**: Inspired by SCE, parameter elements where the update direction conflicts across a majority of experts are erased.
+
+Finally, the merged model undergoes a final alignment phase using RL on a general domain dataset. This step enhances its capabilities in broader scenarios like instruction following and reinforces safety guardrails after the fusion process.
