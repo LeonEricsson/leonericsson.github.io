@@ -71,23 +71,34 @@ Using **log loss** (rather than sampling-based metrics) gave clean scaling relat
 
 Training on *Tulu-3* and subsets of *OpenThoughts-3*, FullFT and high-rank LoRAs show near-identical linear log-loss decay. Lower-rank LoRAs eventually flatten, reflecting insufficient capacity—once the adapter saturates, the model stops improving.
 
+![](/images/lora1.png)
+
 Interestingly, optimal learning rates vary little with rank: lower ranks favor slightly smaller LRs, but overall variation stays within a factor of two between ranks 4–512. FullFT, however, converges best at a learning rate roughly an order of magnitude lower than LoRA’s.
+
+![](/images/lora2.png)
 
 #### **Batch Size Sensitivity**
 
 LoRA is **less tolerant to large batch sizes** than FullFT. As batch size increases, LoRA suffers a steeper performance penalty, independent of rank. This sensitivity appears intrinsic to LoRA’s product-of-matrices parameterization, not merely a consequence of limited capacity.
+
+![](/images/lora3.png)
 
 #### **Target Module Selection**
 
 Practitioners often follow the original LoRA paper’s convention of applying adapters only to attention matrices ($W_Q, W_K, W_V, W_O$).
 However, *LoRA Without Regret* finds this suboptimal. Applying LoRA to **MLP layers** alone achieves the same minimum loss as full MLP+attention LoRA, while attention-only LoRA significantly underperforms. For MoE architectures, the authors train per-expert LoRA modules, scaling rank by the number of active experts to maintain a constant LoRA-to-FullFT parameter ratio.
 
+![](/images/lora4.png)
+
 #### **Reinforcement Learning**
 
 In reinforcement learning (RL), LoRA performs strikingly well—even at rank 1. Using a GRPO variant on *MATH* and *GSM* datasets, LoRA matched FullFT in both sample efficiency and peak performance.
+
+![](/images/lora5.png)
 
 The explanation is **information-theoretic**: supervised learning provides $O(\text{tokens})$ bits per episode, while policy gradients yield only $O(1)$ bits per episode (via the advantage signal). Thus, the effective information content of RL training is orders of magnitude smaller, easily captured by low-rank adapters.
 For example, in the *MATH* experiment (10k problems × 32 samples), only $\sim 320\text{k}$ bits of signal are available—far less than the 3M parameters in a rank-1 LoRA for Llama-3.1-8B. Similarly, DeepSeek-R1-Zero’s 5.3M episodes correspond to $<5.3\text{M}$ bits, again within LoRA’s representational capacity.
 
 Follow-up experiments with *Qwen3-8B-base* on *DeepMath* confirmed the same trend: LoRA matches FullFT performance at ranks as low as 8, with a wider plateau of near-optimal learning rates.
 
+![](/images/lora6.png)
