@@ -8,6 +8,8 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import rehypeRaw from "rehype-raw";
 import "katex/dist/katex.min.css"; // `rehype-katex` does not import the CSS for you
+import rehypeHighlight from "rehype-highlight";
+import "highlight.js/styles/github-dark-dimmed.css";
 
 export async function getStaticPaths() {
   const paths = getAllPostIds();
@@ -63,12 +65,16 @@ export default function Post({ postData }) {
           </p>
           <div className={`entry text-base text-gray-600 mb-4 palatino leading-relaxed`}>
             <Markdown
-              remarkPlugins={[remarkGfm, remarkMath]}
-              rehypePlugins={[rehypeKatex, rehypeRaw]}
-              className="markdown"
-            >
-              {postData.contentMarkdown}
-            </Markdown>
+          remarkPlugins={[remarkGfm, remarkMath]}
+          rehypePlugins={[
+            rehypeKatex,
+            rehypeRaw,
+            [rehypeHighlight, { detect: true }]
+          ]}
+          className="markdown"
+        >
+          {postData.contentMarkdown}
+        </Markdown>
           </div>
         </div>
       </article>
