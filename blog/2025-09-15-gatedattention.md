@@ -14,7 +14,9 @@ Anyway, I'm still putting off DeltaNet for now, instead I want to look at the ga
 
 The paper's investigation focuses on applying various gating setups to a standard multi-head attention module. The gating mechanism is formalized as:
 
-$$Y' = g(Y, X, W_\theta, \sigma) = Y \odot \sigma(XW_\theta)$$
+$$
+Y' = g(Y, X, W_\theta, \sigma) = Y \odot \sigma(XW_\theta)
+$$
 
 where $Y$ is the input tensor to be modulated, $X$ is a separate input used to compute the gating scores (in this case, the pre-normalization hidden state), $W_\theta$ represents the learnable parameters of the gate, and $\sigma$ is an activation function, typically a sigmoid.
 

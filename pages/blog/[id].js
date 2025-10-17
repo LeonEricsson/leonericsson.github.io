@@ -39,7 +39,7 @@ export default function Post({ postData }) {
       <Head></Head>
 
       <article className="container mx-auto py-20 px-4 sm:px-6 lg:px-8 flex justify-center">
-        <div className="w-full lg:w-4/5">
+        <div className="w-full lg:w-8/12">
           {" "}
           {/* Same proportions as in Blog component */}
           <h1 className="text-4xl font-bold mb-4 charter text-center">
