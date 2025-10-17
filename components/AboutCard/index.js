@@ -48,11 +48,10 @@ function AboutCard() {
           <ul className="list-none ml-4 pt-2">
             <li className="before:content-['-'] before:pr-2"><a href="https://physics.allen-zhu.com/" style={{ color: 'blue' }}>Physics of Language Models</a> </li>
             <li className="before:content-['-'] before:pr-2"><a href="https://arxiv.org/pdf/2402.10588" style={{ color: 'blue' }}>On the Latent Language of Multilingual Transformers</a> </li>
-</a> </li>
             <li className="before:content-['-'] before:pr-2"><a href="https://transformer-circuits.pub/" style={{ color: 'blue' }}>Transformer Circuits</a> </li>
             <li className="before:content-['-'] before:pr-2"><a href="https://arxiv.org/abs/2508.06471" style={{ color: 'blue' }}>GLM 4.5</a> </li>
             <li className="before:content-['-'] before:pr-2"><a href="https://arxiv.org/abs/2505.24298" style={{ color: 'blue' }}>AReaL</a> </li>
-            <li className="before:content-['-'] before:pr-2"><a href="https://arxiv.org/abs/2508.08221" style={{ color: 'blue' }}>Part I: Tricks or Traps? A Deep Dive into RL for LLM Reasoning
+            <li className="before:content-['-'] before:pr-2"><a href="https://arxiv.org/abs/2508.08221" style={{ color: 'blue' }}>Part I: Tricks or Traps? A Deep Dive into RL for LLM Reasoning </a> </li>
             <li className="before:content-['-'] before:pr-2"><a href="https://cohere.com/research/papers/command-a-technical-report.pdf" style={{ color: 'blue' }}>Command-A</a> </li>
             <li className="before:content-['-'] before:pr-2"><a href="https://arxiv.org/pdf/2405.04434" style={{ color: 'blue' }}>DeepSeek-V2</a> </li>
             <li className="before:content-['-'] before:pr-2"><a href="https://arxiv.org/abs/1911.08265" style={{ color: 'blue' }}>MuZero</a> </li>
