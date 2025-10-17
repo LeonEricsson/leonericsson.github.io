@@ -11,7 +11,6 @@ function AboutCard() {
       <p className={`palatino leading-relaxed`}>
         i've got a background in software engineering, with a master's in compsci. but today i'm focused on <b>language models</b>, <b>reinforcement learning</b>, <b>mech interp</b>, and <b>reasoning</b>. although my experience is limited i'm very keen on health/medicine as a field of application for the above. if you're curious about my current fixations, skim the blog. 
       </p>
-      <h2 className="text-headline text-2xl font-bold pb-3 pt-[4rem]">i like making things</h2>
       <h2 className="text-headline text-2xl font-bold pb-3 pt-[4rem]">i like open source</h2>
         <p className={`palatino leading-relaxed`}>
           these are my favorite, some of which i contribute to.
@@ -26,7 +25,7 @@ function AboutCard() {
             <li className="before:content-['-'] before:pr-2"><a href="https://github.com/google/jax" style={{ color: 'blue' }}>jax</a>: the lovechild of autograd and xla</li>
           </ul> 
         </p>
-
+      <h2 className="text-headline text-2xl font-bold pb-3 pt-[4rem]">i like making things</h2>
         <p className={`palatino leading-relaxed`}>
         healthy mix of research, experiments, and scratch projects.
         <ul className="list-none ml-4 pt-2">
