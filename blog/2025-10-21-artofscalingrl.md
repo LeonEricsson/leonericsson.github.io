@@ -7,6 +7,9 @@ type: paper
 author: Khatri
 exturl: https://arxiv.org/abs/2510.13786
 ---
+[WIP]
+
+
 First attempts at establishing proper scaling laws for **large scale** reinforcement learning. The study explores numerous design choices through individual runs at 8-16k GPU hours and use them to fit a sigmoid scaling curve then validate these curves through continued training.
 
 RL is currently much more of an art than a science. There is limited work in trying to understand how different design choices **scale**. RL papers in 2025 have been extremely hill-climby, focusing on minor algorithmic tweaks that lead to empirical improvements at minimal scales making the space even more scattered. The best thing we had before this was probably the ProRL paper from NVIDIA that actually did some prolonged training runs ablating existing methods. However, no papers have looked at how different methods **scale**. The paper first ablates different design choices, fitting curves to these, then extends training to confirm these curves.
