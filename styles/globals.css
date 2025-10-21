@@ -151,3 +151,18 @@ body {
   /* optional: add padding to further separate from text rules like borders/prose */
   padding-block: 0rem;
 }
+
+
+/* Base rule applied to all markdown headings */
+.markdown :is(h1,h2,h3,h4,h5,h6) {
+  /* after the heading */
+  margin-block-end: 0.3em;    
+}
+
+/* Scale the space *above* by level (em scales with the heading’s own font-size) */
+.markdown h1 { margin-block-start: 2em; }
+.markdown h2 { margin-block-start: 2em;  }
+.markdown h3 { margin-block-start: 1.7em; }
+.markdown h4 { margin-block-start: 1.5em;  }
+.markdown h5 { margin-block-start: 1.3em;    }
+.markdown h6 { margin-block-start: 1.1em;  }
