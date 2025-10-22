@@ -4,38 +4,60 @@ title: "DeepSeek OCR"
 categories: []
 year: 2025
 type: paper
-author: 
-exturl: 
+author: Wei
+exturl: https://github.com/deepseek-ai/DeepSeek-OCR/blob/main/DeepSeek_OCR_paper.pdf
 ---
-[WIP]
+Rushed notes from reading the DeepSeek OCR paper.
 
-First a recap on the state of vision encoders. 
+The quadratic scaling of attention in LLMs remains a primary bottleneck for processing long contexts. DeepSeek (interns?) investigate a novel approach to this problem: **contexts optical compression**. The core idea is to leverage the visual modality as an efficient compression medium for text. Instead of processing a long sequence of text tokens, the text is first rendered into a 2D image, which is then processed by a VLM.
 
-Vision Encoders are responsible for encoding the visual input to VLMs, often done with some ViT architecture. However, handling dynamic, or native input resolution is not supported in vanilla ViTs, so VLMs adopt technices to get around this. The core architectural challenge is adapting standard ViTs for high-resolution, variable-aspect-ratio inputs. Most ViTs are pre-trained with fixed-resolution inputs (e.g., 224x224, 384x384), which is a suboptimal convention. This fixed-input paradigm forces a trade-off: either downsample the image, which causes a significant loss of detailed information, or pad the image, which is computationally inefficient.
+OCR provides an ideal testbed for this compression-decompression paradigm, offering a clear, natural mapping between the visual representation and the original text, complete with quantitative evaluation metrics. The paper's headline claim is that this method can achieve a **~10x compression ratio** (text tokens to vision tokens) while maintaining ~97% decoding precision. Even at 20x compression, accuracy is reportedly ~60%.
 
-To process real-world data like documents, which are both high-resolution and have extreme aspect ratios, two primary strategies have emerged: tiling and adaptive resolution.
+This entire paradigm, however, is contingent on the VLM's vision encoder. To be viable, the encoder must efficiently process extremely high-resolution, text-dense images and output a manageable number of vision tokens, all while maintaining low activation memory. The paper notes that existing open-source encoders can't fully satisfy all these conditions, which motivates their focus on a novel architecture. This specific set of constraints makes it useful to review the current landscape.
+
+### Vision Encoders
+
+Here’s a recap on the state of vision encoders.
+
+Vision Encoders are responsible for encoding the visual input to VLMs, often with some ViT architecture. However, handling dynamic, or native input resolution isn't supported in vanilla ViTs, so VLMs adopt techniques to get around this. The core architectural challenge is adapting standard ViTs for high-resolution, variable-aspect-ratio inputs. Most ViTs are pre-trained with fixed-resolution inputs, a suboptimal convention that forces a trade-off: either downsample the image, losing significant detail, or pad the image, which is computationally inefficient.
+
+To process real-world data like documents—which are both high-resolution and have extreme aspect ratios—two primary strategies have emerged: tiling and adaptive resolution.
+
+<img src="/images/visionencoders.png" alt="DSA decoding cost" style="width: 40%; height: auto; display: block; margin: 2rem auto;" />
+
 #### Tiling (InternVL, DeepSeek-VL2)
-This is a "divide and conquer" or tile-based method. The high-resolution input is dynamically resized to match a pre-defined aspect ratio and then split into a grid of fixed-size tiles (e.g., $448 \times 448$ for InternVL 2.5, $384 \times 384$ for DeepSeek-VL2). A global "thumbnail" of the entire image, resized to a single tile, is also generated to retain global context. All tiles are then processed by a shared ViT encoder, and the resulting tokens from each tile are compressed (e.g., via "pixel unshuffle") and projected into the LLM's embedding space via an MLP adaptor. Fusion is not handled by the encoder; it's implicitly managed by the LLM's self-attention. The 2D layout is communicated by flattening the token sequence and inserting special structural tokens like `<tile_newline>`. The main critique is that this can lead to "excessive fragmentation" and a very long token sequence for the LLM.
+
+This is a "divide and conquer" or tile-based method. The high-resolution input is dynamically resized and split into a grid of fixed-size tiles (e.g., $448 \times 448$). A global "thumbnail" of the entire image, resized to a single tile, is also generated to retain global context. All tiles are processed by a shared ViT encoder, and the resulting tokens are compressed and projected into the LLM's embedding space. Fusion isn't handled by the encoder; it's implicitly managed by the LLM's self-attention. The main critique is that this can lead to "excessive fragmentation" and a very long token sequence for the LLM.
 
 #### Adaptive Resolution (Qwen2-VL)
-This method adopts the NaViT paradigm, processing the full image directly via patch-based segmentation. The entire image is treated as a single canvas, and the ViT's patchification (e.g., $14 \times 14$ patches) is applied directly. This "Naive Dynamic Resolution" mechanism inherently produces a variable number of visual tokens that scales with the image's resolution. This strategy requires modifying the ViT; standard absolute position embeddings are removed and replaced with 2D Rotary Position Embedding (2D-RoPE), which can dynamically compute relative positional information. Consequently, fusion is handled _within the ViT itself_, as its global self-attention processes all patches simultaneously to create a holistic representation. The primary critique is that processing a single, massive image with global attention results in "massive activation memory consumption" due to the $N^2$ quadratic complexity of attention.
 
-### DeepEncoder
-DeepEncoder is architected to maintain low activation memory while producing a small, fixed number of highly informed vision tokens. It achieves this by explicitly separating the tasks of local perception and global knowledge fusion.
+This method adopts the NaViT paradigm, processing the full image directly via patch-based segmentation. The ViT's patchification (e.g., $14 \times 14$ patches) is applied directly, producing a variable number of visual tokens that scales with the image's resolution. This requires modifying the ViT; standard absolute position embeddings are replaced with 2D Rotary Position Embedding (2D-RoPE). Consequently, fusion is handled *within the ViT itself*, as its global self-attention processes all patches simultaneously. The primary critique is that processing a single, massive image with global attention results in "massive activation memory consumption" due to the $N^2$ quadratic complexity.
 
-The architecture is a three-stage pipeline:
+### DeepSeek-OCR
+is a VLM model trained primarily on OCR data. The arch combines a 380M vision encoder with a 3B A570M MoE decoder.
 
-**Local Perception (SAM-base / ViTDet):** The high-resolution image (e.g., $1024 \times 1024$) is first processed by an 80M SAM-base (ViTDet) backbone. Using a fixed 16x16 patch size, this stage generates a very long sequence of patch tokens (e.g., 4096). The computational cost and activation memory are kept low because this component uses primarily window attention which confines self-attention to small, local regions.
-    
-**Local Downsampling (Conv 16x):** The resulting 4096 tokens are reshaped into a 2D grid and passed through a 2-layer convolutional module. This compressor performs a 16x downsampling, reducing the token count from 4096 to 256. Due to the small kernel size (3x3) and shallow depth, this CNN acts as a _local fuser_, merging features only from adjacent token positions.
-    
-**Global Fusion (CLIP-large):** The 256 locally-fused tokens are then fed into a 300M CLIP-large ViT, which acts as the "global attention" knowledge component. The initial patch embedding layer of this ViT is removed, as its input is already a sequence of tokens. This stack of Transformer blocks performs dense, global self-attention over the 256 tokens, finally enabling the long-range information fusion that was absent in the first two stages.
-    
-### DeepSeekMoE 3B A570M
+<img src="/images/deepseekocr.png" alt="DSA decoding cost" style="width: 40%; height: auto; display: block; margin: 2rem auto;" />
 
-The MoE fits into the VLM pipeline just as any other would, taking the compressed latent vision tokens from the DeepEncoder and mapping them to match the language models hidden dimension.
+#### DeepEncoder
 
-The MoE architecture is quite odd, at least now adays. It's got a very high activation ratio of 12.1% with **2** shared experts? It's also using MHA, not MLA or even GQA. The experts are also **very** wide for this size, with a intermediate size of 896, compared to the models hidden dimension of 1280 this means our granularity is as low as 2.85, far lower than anything we've seen recently from a MoE release. 
+DeepEncoder is architected to get the best of both worlds: maintain low activation memory (like tiling) while producing a small, fixed number of highly informed vision tokens (like adaptive resolution). It achieves this by explicitly separating the tasks of local perception and global knowledge fusion in a three-stage pipeline.
 
-Quite odd MoE architecture.
+**Local Perception (SAM-base / ViTDet):** The high-resolution image (e.g., $1024 \times 1024$) is first processed by an 80M SAM-base backbone. Using a 16x16 patch size, this stage generates a very long sequence of patch tokens (e.g., 4096). The computational cost is kept low because this component uses primarily window attention.
 
+**Local Downsampling (Conv 16x):** The resulting 4096 tokens are passed through a 2-layer convolutional module. This compressor performs a 16x downsampling, reducing the token count from 4096 to 256, acting as a *local fuser* that merges features from adjacent token positions.
+
+**Global Fusion (CLIP-large):** The 256 locally-fused tokens are then fed into a 300M CLIP-large ViT, which acts as the "global attention" knowledge component. This stack of Transformer blocks performs dense, global self-attention over the 256 tokens, finally enabling the long-range information fusion.
+
+#### DeepSeekMoE 3B A570M
+
+The decoder side is a DeepSeek-3B-MoE. It fits into the VLM pipeline just as any other would, taking the compressed latent vision tokens from the DeepEncoder and mapping them to match the language model's hidden dimension.
+
+But the MoE architecture itself is quite odd, at least by modern standards. It's got a very high activation ratio of 12.1% with **two** shared experts. It's also using standard Multi-Head Attention (MHA), not Multi-Layer Attention (MLA) or even Grouped-Query Attention (GQA). The experts are also **very** wide for this size; with an intermediate size of 896 compared to the model's hidden dimension of 1280, our granularity is as low as 2.85. Recent models usually have around 6-8 in granularity.
+
+### concluding thoughts
+
+The *real* interesting prospect here is the headline idea: using visual compression for text as a better compression method than normal text tokenizers. The paper indicates that 7-10x compression is possible. How does this translate to actual compression? We don't know yet. Could the KV cache be compressed using visual-text compression, perhaps? It's an interesting thought.
+
+That said, the paper overall feels like an older intern project, and it doesn't have the cadence of a typical DeepSeek release. We've grown accustomed to DeepSeek releases being close to groundbreaking, and that's the expectation they've built. But if we go back to mid-2024, I think we would have just seen this as a normal paper.
+
+Certain aspects make it seem like this work was done some time ago. The components are dated: SAM-1 and CLIP for the vision encoder. The whole idea of using a cheap local attention SAM, then compressing that using conv nets before the more expensive global attention CLIP, seems quite reminiscent of MLA.
