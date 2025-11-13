@@ -7,7 +7,7 @@ type: paper
 author: Agarwal
 exturl: https://arxiv.org/abs/2306.13649
 ---
-A bit of a mess in here, I started reading the on-policy distillation paper and went on a tangent reading about MLE and the connections to KL Divergence.  
+A bit of a mess in here, I started reading the on-policy distillation paper and went on a tangent reading about MLE and the connections to KL Divergence. Would not recommend reading this, too scattered.
 
 ## Maximum Likelihood Estimation
 Imagine we observe samples drawn from a distribution $x \sim X$ where each observation is drawn independently from the domain with the same probability distribution (I.I.D). Density estimation describes the process of selecting a probability distribution function and the parameters of that distribution that best explain the joint probability distribution of the observed data.   How do we choose such function, and its parameters? The problem is made more difficult as samples drawn from the population are typically noisy. There are many techniques to solve this problem, although the two common approaches are Maximum a Posteriori (MAP), a bayesian method, and Maximum Likelihood Estimation (MLE), a frequentist method.
@@ -186,7 +186,7 @@ This expression is the sum of squared errors. Minimizing this is equivalent to m
 
 ## Paper
 
-**Knowledge Distillation** is a well established method for compressing certain skills from a trainer into a student. To be able to properly serve a wide vareity of use cases, cost, speed, quality, being able to compress knowledge into smaller version of a model is very useful and has been used in many cases to improve smaller models in a model family release. Distillation is a great way to transfer certain tasks effectively into a student model, assuming that the model has capacity for the task. This, as we will see, can be more effective than trying to learn the task yourself.
+**Knowledge Distillation** is a well established method for compressing certain skills from a trainer into a student. To be able to properly serve a wide variety of use cases, cost, speed, quality, being able to compress knowledge into smaller version of a model is very useful and has been used in many cases to improve smaller models in a model family release. Distillation is a great way to transfer certain tasks effectively into a student model, assuming that the model has capacity for the task. This, as we will see, can be more effective than trying to learn the task yourself.
 
 **Forward KL is maximum likelihood**
 "Forward KL under an empirical data distribution corresponds to maximum likelihood, which we optimize in supervised learning"
@@ -217,30 +217,27 @@ $$
 $$
 which is equivalent to Maximum Likelihood. So saying they are always equivalent is not correct I think, but in this case, if we assume a learning problem it is correct to say that minimizing forward KL is the same as maximum likelihood.
 
-## Distillation
-Our starting point, Supervised Fine-Tuning (SFT), is essentially the standard conditional **Maximum Likelihood Estimation (MLE)** we first discussed. The objective $L_{SFT}(\theta)=\mathbb{E}_{(x,y)\sim(X,Y)}[-log~p_{S}^{\theta}(y|x)]$ seeks to find student parameters $\theta$ that maximize the log-probability of the ground-truth sequences $Y$.
+### Distillation
 
-As we derived, this MLE objective is mathematically equivalent to minimizing the **forward KL divergence** between the empirical data distribution $\hat{p}_{\text{data}}$ (represented by the one-hot-encoded "hard" targets in $Y$) and the student's model distribution $p_S^\theta$. And since the entropy of a one-hot distribution is zero, this is _also_ identical to minimizing the **cross-entropy** $H(\hat{p}_{\text{data}}, p_S^\theta)$. In practice, this means minimizing the negative log-probability of the correct token at each step.
+The paper's starting point is the standard **Supervised Fine-Tuning (SFT)**, which we've established is a conditional **Maximum Likelihood Estimation (MLE)** problem. The objective $L_{SFT}(\theta)=\mathbb{E}_{(x,y)\sim(X,Y)}[-log~p_{S}^{\theta}(y|x)]$ seeks to find student parameters $\theta$ that maximize the log-probability of ground-truth sequences. As we've derived, this MLE objective is mathematically equivalent to minimizing the **forward KL divergence** $D_{\mathrm{KL}}(\hat{p}_{\text{data}} || p_S^\theta)$, where $\hat{p}_{\text{data}}$ is the empirical distribution represented by "hard" one-hot targets. Given that the entropy of this deterministic (one-hot) distribution is zero, this optimization is identical to minimizing the **cross-entropy** $H(\hat{p}_{\text{data}}, p_S^\theta)$. In practice, this simplifies to minimizing the negative log-probability of the single correct token at each step in the sequence.
 
-### Supervised KD
-This is the classic distillation setup. The key shift is what we use as the "true" distribution. Instead of learning from "hard" one-hot targets, the student learns from the "soft" full probability distribution of the teacher, $p_T$.
+The classic **Supervised Knowledge Distillation (KD)** modifies this by changing the target distribution. Instead of learning from "hard" one-hot targets, the student learns from the "soft" full probability distribution provided by the teacher, $p_T$. The objective is stated as minimizing the forward KL divergence: $L_{SD}(\theta):=\mathbb{E}_{(x,y)\sim(X,Y)}[\mathcal{D}_{KL}(p_{T}||p_{S}^{\theta})(y|x)]$. This is a "distribution matching" problem where the student is trained to mimic the teacher's "thought process."
 
-- **Objective:** The paper states this as minimizing the forward KL divergence: $L_{SD}(\theta):=\mathbb{E}_{(x,y)\sim(X,Y)}[\mathcal{D}_{KL}(p_{T}||p_{S}^{\theta})(y|x)]$.
-- **Intuition:** This is "distribution matching." The student is trained to think like the teacher.
-- **Connection:** As we discussed, minimizing this KL divergence is equivalent to minimizing the **cross-entropy $H(p_T, p_S^\theta)$**. The entropy of the teacher $H(p_T)$ is a non-zero constant, but since it doesn't depend on the student's parameters $\theta$, it drops out of the optimization. The student now minimizes $-\sum_{c} p_T(c) \log(p_S^\theta(c))$, which is a much richer signal than just minimizing the log-probability of a single correct token. The dataset of $(x, y)$ pairs is _fixed_, making this an "off-policy" method.
+This KL minimization is equivalent to minimizing the cross-entropy $H(p_T, p_S^\theta)$. The teacher's own entropy, $H(p_T)$, is a non-zero constant, but as it does not depend on the student's parameters $\theta$, it drops out of the optimization gradient. The resulting loss, $-\sum_{c} p_T(c) \log(p_S^\theta(c))$, provides a much richer training signal than the SFT objective. Both SFT and this form of Supervised KD are fundamentally **off-policy**, as they train on a fixed, static dataset $(X,Y)$.
 
-### On-Policy KD
-This is a core proposal of the paper, designed to address the train-inference distribution mismatch 6. The student is trained on sequences it _generates itself_.
+#### GKD and On-Policy Data
 
-- **Objective:** The loss function is the same, but the data distribution is different: $L_{OD}(\theta):=\mathbb{E}_{x\sim X}[\mathbb{E}_{y\sim p_{s}(\cdot|x)}[\mathcal{D}_{KL}(p_{T}||p_{S}^{\theta})(y|x)]]$.
-- **Intuition:** This is "imitation learning". The student generates a sequence $y$ (including its own errors), and the teacher then provides the "soft" target distribution $p_T$ for that _same sequence_. The student is forced to learn how to recover from its own mistakes, making the training distribution much closer to what it will encounter during actual inference.
-- **Connection:** The inner objective is still minimizing $H(p_T, p_S^\theta)$. The crucial difference is the outer expectation: $\mathbb{E}_{y\sim p_{s}(\cdot|x)}$ (on-policy) instead of $\mathbb{E}_{(x,y)\sim(X,Y)}$ (off-policy).
+The paper's primary contribution is to address the **train-inference distribution mismatch** that arises from off-policy training. The **On-Policy KD** objective, $L_{OD}(\theta)$, achieves this by altering the data distribution for the expectation: $\mathbb{E}_{x\sim X}[\mathbb{E}_{y\sim p_{s}(\cdot|x)}[\mathcal{D}_{KL}(p_{T}||p_{S}^{\theta})(y|x)]]$.
 
-### GKD and RL
-**Generalized Knowledge Distillation (GKD)** simply unifies the previous two approaches with a mixing coefficient $\lambda$. When $\lambda=0$, we get pure Supervised KD. When $\lambda=1$, we get pure On-Policy KD.
+The inner loss function remains the same (the KL divergence from teacher to student), but the outer expectation is now over sequences $y$ sampled *from the student's own policy* $p_s$. This reframes the problem as **on-policy imitation learning** (akin to DAgger). The student generates a sequence, including its own errors, and the teacher provides "soft" corrective labels for that *same sequence*. This forces the student to learn how to recover from its own mistakes, aligning the training distribution with the inference-time distribution. The authors note this is done without backpropagating through the student's sampling process, ensuring computational stability.
 
-**GKD + RL** then reframes the distillation objective as a _regularizer_ for a standard reinforcement learning problem.
+The **Generalized Knowledge Distillation (GKD)** framework is then introduced to unify these approaches. It uses a hyperparameter $\lambda$ to control the mixture of on-policy ($y \sim p_s$) and off-policy ($y \sim (X,Y)$) data.
+* When $\lambda=0$, we recover pure Supervised KD.
+* When $\lambda=1$, we recover pure On-Policy KD.
+* This GKD framework also generalizes the *divergence function* itself, allowing for Forward KL (mode-covering), Reverse KL (mode-seeking), and JSD.
 
-- **Objective:** $\mathbb{E}_{y\sim p_{S}^{\theta}}[(1-\alpha)r(y) - \alpha\mathcal{D}(p_{T}||p_{S}^{\theta})]$.
-- **Intuition:** This is a multi-objective optimization. The model tries to maximize a scalar reward $r(y)$ (the RL goal) while simultaneously being penalized for straying too far from the teacher's "sensible" distribution (the GKD goal).
-- **Connection:** This is a very common and powerful paradigm. The KL divergence term acts as a constraint, preventing the student from over-optimizing on the reward $r(y)$ and finding a "pathological" policy that performs well on the metric but fails at generation quality. It's a direct way to combat the "alignment tax".
+#### RL + KD
+
+Finally, the paper situates GKD within a standard **Reinforcement Learning** context. The on-policy GKD objective is reframed as a **regularizer** for an RL objective: $\mathbb{E}_{y\sim p_{S}^{\theta}}[(1-\alpha)r(y) - \alpha\mathcal{D}(p_{T}||p_{S}^{\theta})]$.
+
+This is a powerful multi-objective formulation. The model is trained to maximize a scalar reward $r(y)$ (the RL goal) while the $\alpha$-weighted GKD term penalizes the policy for diverging from the teacher $p_T$. This KL regularization acts as a constraint, preventing the student from discovering a "pathological" policy that overfits to the reward metric while sacrificing generative quality. This directly addresses the "alignment tax," where models fine-tuned for a specific capability (e.g., factual consistency) suffer a decrease in general performance. The framework is shown to be easily implemented by modifying existing RLHF/RLAIF pipelines, simply by setting the reward to zero and replacing the SFT reference policy with the teacher policy.
