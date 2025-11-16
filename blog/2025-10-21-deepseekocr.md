@@ -23,7 +23,7 @@ Vision Encoders are responsible for encoding the visual input to VLMs, often wit
 
 To process real-world data like documents—which are both high-resolution and have extreme aspect ratios—two primary strategies have emerged: tiling and adaptive resolution.
 
-<img src="/images/visionencoders.png" alt="DSA decoding cost" style="width: 40%; height: auto; display: block; margin: 2rem auto;" />
+<img src="/images/visionencoders.png" alt="DSA decoding cost" style="width: 55%; height: auto; display: block; margin: 2rem auto;" />
 
 ### Tiling (InternVL, DeepSeek-VL2)
 
@@ -36,7 +36,7 @@ This method adopts the NaViT paradigm, processing the full image directly via pa
 ## DeepSeek-OCR
 is a VLM model trained primarily on OCR data. The arch combines a 380M vision encoder with a 3B A570M MoE decoder.
 
-<img src="/images/deepseekocr.png" alt="DSA decoding cost" style="width: 50%; height: auto; display: block; margin: 2rem auto;" />
+<img src="/images/deepseekocr.png" alt="DSA decoding cost" style="width: 55%; height: auto; display: block; margin: 2rem auto;" />
 
 ### DeepEncoder
 

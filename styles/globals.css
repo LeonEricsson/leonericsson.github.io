@@ -166,3 +166,20 @@ body {
 .markdown h4 { margin-block-start: 1.5em;  }
 .markdown h5 { margin-block-start: 1.3em;    }
 .markdown h6 { margin-block-start: 1.1em;  }
+
+.markdown table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+}
+
+.markdown th,
+.markdown td {
+  border: 1px solid #d1d5db;   /* Tailwind gray-300 */
+  padding: 0.5rem 0.75rem;
+}
+
+.markdown thead {
+  background-color: #f9fafb;   /* gray-50 */
+  font-weight: 600;
+}

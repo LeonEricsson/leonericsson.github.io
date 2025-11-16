@@ -1,9 +1,13 @@
 ---
 layout: post
-title: "State of FP8 Training"
+title: "State of FP8 Training + K2 INT4"
 categories: []
 year: 2025
-type: Paper
+type: paper
+---
+
+FP8 training is notoriously ambiguous—honestly, quantization in general is fuzzy because there are so many distinct components in a training or inference pipeline that can be quantized. I wanted to drill down into exactly what we mean by FP8 Training, because for a long time I operated under the assumption that this implied most, if not all, components were cast in FP8. Turns out, that's far from the case. What follows is a brief overview of the history of FP8 training, leading up to DeepSeek-V3 (DSV3)—arguably the standout success story in FP8 training so far—and concluding with more recent attempts from the Ling Team. I might turn this into a proper blog post at some point, the content is all here but it needs to be polished, right now its just notes I took while reading.
+
 ---
 
 | Data format        | Max normal  | Min normal   | Min subnormal | Maximum Relative Error (Min - Max) |
@@ -39,7 +43,8 @@ So even if master weights and gradients are kept in FP16/FP32, the compute path 
 
 The key technique behind overcoming the challenges of low-precision training associated with representation range and precision degredation is tensor scaling. Tensor scaling scales the tensor values that originally locate out the representation range of a data format to its comfort zone
 
-![](/images/fp8scale.png)
+<img src="/images/fp8scale.png" style="width: 55%; height: auto; display: block; margin: 2rem auto;" />
+
 
 The pioneer scaling techniques apply a global scaling factor to the loss, such that gradients of all layers are scaled by a single adaptive factor. The utilization of the global loss scaling technique, has facilitated the widespread adoption of FP16 mixed-precision training on V100 and A100s. Gradients are especially susceptible to underflow in representations with a low dynamic range (such as FP16), training in BF16 (same dynamic range as FP32) does not suffer from this problem, meaning it doesn't require a loss scaling, and has therefore been standard in LLM training for quite some time. 
 
@@ -138,7 +143,7 @@ The core experiments perform FP8DPA training on the following architectures: FOG
 
 Through experiments the authors find that FP8DPA training diverges under all archs apart from FOG. As you may note the difference between FOG and OP is very subtle, and to make things even less clear, the authors find that OP+frozenQK also diverges, meaning the only important difference to mitigate outliers is changing the post norm in OP to a RMSNorm. Further they find that FOG is stable even when going back to a SwiGLU activation (not Smooth-SwiGLU), which argues against the completeness of the previous work that found the source of outliers to be SwiGLU. FOG-SwiGLU is very similar to OLMo2, with the only subtle difference of FOG having a *frozen* QK RMSNorm. 
 
-	Takeaway: The key to stable FP8DPA training is frozen QK-normalization, paired with RMS post-normalization. 
+*Takeaway: The key to stable FP8DPA training is frozen QK-normalization, paired with RMS post-normalization.*
 
 This work focuses on what happens when the perform attention in FP8 compute. Finding that previous solutions are not enough for stable FP8DPA training. It should be noted however that this training is done with half-precision optimizer states. The Smooth SwiGLU paper focused on how to scale FP8 training to 1T+ tokens, also under a FP8 optimizer. Hence these papers have slightly different focuses, the later achives FP8 optimimizers while the former achieves stable FP8DPA. Now this paper does have a FP8 optimizer ablation in the appendix but its only to 50B tokens on a 290M model. It is clear that this space is still quite underexplored. This paper only scales FP8DPA to 450B tokens. Have we found a universal solution to outlier mitigation that addresses both linear FP8 and attention FP8? What are the exact effects on this downstream, are these architectural modifications a determinate to something else, this paper obviously focuses on the FP8 aspects of things. The space of FP8 MoE's are also underexplored, there is a minor ablation on this finding that the recipe is stable on MoE but again we need to scale this to extended training. 
 
@@ -183,7 +188,7 @@ The following figure outlines the process.
 - Fprop output $Y$ becomes the input $X$ of the next layer, hence output in BF16.
 - Dgrad output ($\frac{\partial L}{\partial Y}$) is BF16.
 
-![[Screenshot 2025-11-12 at 14.17.08.png|800]]
+<img src="/images/dsv3fp8.png" style="width: 55%; height: auto; display: block; margin: 2rem auto;" />
 
 Note the precision of the optimizer state and master weight updates:
 
@@ -215,13 +220,14 @@ Low-precision GEMM operations often suffer from underflow issues, and their accu
 
 ---
 **Sidebar: GPU Architecture**
-![[Pasted image 20251112205033.png|700]]
+
+<img src="/images/gpuarch.png" style="width: 55%; height: auto; display: block; margin: 2rem auto;" />
 
 A GPU consists of a bunch of compute units, **Streaming Multiprocessors (SM)**, attached to a fast stick of memory called HBM. A modern GPU such as a H100 as 132 SMs. Each SM contains dedicated matrix multiplication cores called **Tensor Cores**, vector arithmetic units (that is to say typical Arithmetic Logic Unit ALUs that do arithmetic and logic operations) called **CUDA cores** and chip cache (**SMEM**). 
 
 A SM consists of 4 identical SM subpartitions, each containing a Tensor Core, registers, and CUDA Cores. The CUDA Cores are a bunch of ALUs that perform scalar operations in a SIMT execution model. Each SM consists of 32 fp32 cores (and a smaller number of int32 and fp64 cores) that all axecute the same instruction in each cycle. However, CUDA cores use a SIMT (Single Instruction Multiple Threads) programming model as opposed to a normal SIMD model. The difference is that while all cores within a subpartition must execute the same operation in each cycle, each core (or "thread" in the CUDA programming model) has its own instruction pointer and can be programmed independently. The effect of this is that when two threads in the same warp (a warp is a group of 32 threads/cores that are bound together and function as a 32-wide SIMT unit) are instructed to perform different operations, you effectively do both operations, masking out the cores that don't need to perform the divergent operation. 
 
-![[Pasted image 20251112211444.png|400]]
+<img src="/images/warpgroup.png" style="width: 45%; height: auto; display: block; margin: 2rem auto;" />
 
 This enables flexible programming at the thread level, but at the cost of silently degrading performance if warps diverge too often.
 
@@ -231,7 +237,7 @@ Tensor Cores are the dedicated matrix multiplication unit, each SM subpartition 
 
 DSV3's fine-grained quantization strategy introduces a per-group scaling factor along the inner (contracting) dimension of GEMM operations. This functionality was not directly supported in standard FP8 GEMM at the time. This required them to write a custom FP8-GEMM-with-rescaling kernel. This kernel efficiently solves both the per-group scaling and low-bit accumulation problem, which we'll detail next, with an overview figure shown first.
 
-![[Screenshot 2025-11-13 at 11.40.08.png|300]]
+<img src="/images/dsv3gemm.png" style="width: 20%; height: auto; display: block; margin: 2rem auto;" />
 
 The GEMM runs a stream of WGMMA instructions on the Tensor Cores that perform Matrix-Multiply Accumulate in the restricted precision (14 bit) TC accumulator. After ~4 WGMMA issues (this maps to 128 elements of the K-reduction for the tile), we copy the TC partial sums into a separate register-backed accumulator tensor in FP32. Here we apply the appropriate scaling factors. Accumulation here is performed by CUDA Cores and thus takes place in ordinary FP32 precision. This gives is a clean way to apply our groupwise scaling factors (remember our scaling factors are 1x128 and 128x128) while simultaneously enabling high-precision accumulation. The GEMM can be expressed as 
 
@@ -250,8 +256,47 @@ DSV3's leverages FP8 primarily for compute in its GEMMs, and less so to save mem
 ### cuBLAS 12.9
 introduced new flexibility beyond the existing tensor-wise scaling for Hopper and Ada GPUs. Previous versions of cuBLAS only had tensor-wide scaling i.e. a single scaling factor, now you can apply channel-wide scaling factors enabling a single scaling factor to a individual matrix rows or columns. This can be further extended into block scaling, as used in DSV3. This allows you to apply a single scaling factor to each 128-element 1D block within the K dimension, or a 128x128 2D block. 1D blocks is higher accuracy and 2D blocks better performance. 
 
-![[Pasted image 20251112154912.png|700]]
+<img src="/images/fp8speedup.png" style="width: 55%; height: auto; display: block; margin: 2rem auto;" />
 
 ### Ling 2.0
 
 Ling 2.0 adopts fine-grained quantization following DSV3. Beyond DSV3, the team aims to reduce memory footprint by quantizing certain model states into FP8, moving beyond what we saw in DSV3. The team is able to quantize both adam moments into FP8. 
+
+### Kimi K2 Thinking 
+Aside from low precision training to both improve compute speed and memory pressure, there are two interesting paradigms that we have not covered. Post-training quantization, where weights of the trained model are quantized to a specific precision primarily to reduce memory pressure, and training-aware quantization which allows the model to pre-adapt to the precision loss caused by quantizing certain weights/activations to alower bit count during the training phase. These things are directly related to the **inference** side of things. For inference there are two different trade-off directions depending on your optimization objective:  
+  
+- **High throughput (cost-oriented)**. The idea here is to maximize the throughput of your inference cluster, you do this by effectively utilizing your GPU compute resources, you want to be compute bound. This is achieved by massive parallelization such that you saturate your tensor cores. You achieve this through large batch size to make the GEMM compute bound.  
+- **Low lateny (user-experience orientated)**. The primary goal is to minimize the latency of a single inference request. This is a user facing approach. The objective is to reduce the output latency (TPOT) on the user side. This typically involves using relatively low concurrency and a small number of single-instance nodes.  
+  
+K2 being a MoE with high sparsity (1/48) means they are highly memory bound during inference. The size of the model weights in memory determine the number of GPUs required, where fewer means lower multi-GPU comm latency. It just so happens that K2 at FP8 is just too big to be covered by NVLink connects, which significantly hampers intergpu comm speed. For such a reason the team really wanted to move to lower weight quantization, during the decodign stage the inference latency of W4A16 quantization is significantly better than W8A8.  
+  
+For K2 the authors found that 4-bit PTQ was able to achieve near lossless performance across many benchmarks. However while working on K2-Thinking they observed significant statistical differences between FP8 model and INT4 PTQ, this was deemed to be linked to model length increasing. Additionally, PTQ is reliant on a calibration set. They tested some cases that appear in the training set but not in the PTQ calibration set and found that FP8 model was able to memorize these training data very well while the quantized model failed. The team guesses that when the moe is very sparse, even though the calibration set is large, some experts will still only be routed to a small number of tokens, leading to significant "distortion" in the quantization results of these experts. Ultimately they think that the way to achieve low bit inference for K2-thinking is through QAT.    
+  
+#### QAT Solution  
+The used INT4 QAT isn't some "godlike technology", the team found that a relatively basic QAT solution easily achieves near lossless performance relative to baselines. The approach is weigh-only QAT, using a common fake-quantization + STE (direct-through estimator) approach. Original bf16 weights are preserved, obtain the weights after simulating the accuracy loss through quant-dequant, perform matmul, then directly update the bf16 weights during backprop.  
+  
+INT4 is especially useful for RL, to address the issue of long tail problem in the rollout stage. With a INT4 model, the rollouts are faster and the long tail is less of a problem. Of course INT4 QAT requires quant-dequant during training which slightly increases training time but this is a small increase than the efficiency problem of rollout. Additionally, studies are now showing that quantized RL, introducing quantization noise during rollout may help creating more robust policies. Additionally they observe that at INT4 precision they see far less training-inference mismatch, likely due to the lower representation range of INT4 leading to less problems with accumulation order in diff kernels.  
+  
+THe goal of QAT is to adapt the model to quantization numerics during training as to mitigate the inevitable quantization degradation when the model is actually quantized eventually, i.e for inference serving. This is achieved by simulating quantization numerics during training while keeping weights and/or activations in the original data type, effectively "fake quantizing" the values instead of actually casting them to lower bit-widths. This looks something like:  
+  
+```  
+# PTQ: x_q is quantized and cast to int8  
+# scale and zero point (zp) refer to parameters used to quantize x_float  
+# qmin and qmax refer to the range of quantized values  
+x_q = (x_float / scale + zp).round().clamp(qmin, qmax).cast(int8)  
+  
+# QAT: x_fq is still in float  
+# Fake quantize simulates the numerics of quantize + dequantize  
+x_fq = (x_float / scale + zp).round().clamp(qmin, qmax)  
+x_fq = (x_fq - zp) * scale  
+```  
+  
+From what the Kimi team themselves say, the process consists of during training you insert a fake quantize operations into the linear layers meaning that you quant-dequant weights prior to usage to simulate a quantization error, then perform the matmul as normal on the fake quantized weights. Since quantization involves non-differentiable operations like rounding, the QAT backward pass uses straight-through estimators, a mechanism to estimate the gradients flowing through non-smooth functions to ensure the gradients passes to the original weights are still meaningful. The output is calculated using fake quant weights but the gradients are calculate w.r.t the original weights i think. This way we gradients computed with the knowledge that the weights will be quantizied. During inference, model weights are stored in low-precision and dequantized prior to GEMM, which replicates the scenario seen during training. 
+
+#### PTQ  
+There are generally two kind of families of PTQ that you will find:  
+  
+- **Weight-only (WoQ):** Weights are stored in low bidwidth (INT4/INT8/FP8), activations stay in BF16/FP16. At runtime the kernel will dequant the packed weights to a higher precision compute type and run a standard GEMM, essentially `F.linear(input, weight.to(input.dtype))`, this mainly saves memory/bandwidth.   
+- **Weights + Activations (W8A8)** Both sides are quantized and the matmul itself runs on low-precision tensor cores with higher-precision accumulation. This requires hardware support but is generally available on modern GPUs. This is the same methods that we see during training, where FP8 GEMMs are used.   
+  
+There are a bunch of elaborate quantization schemes that fall inside these two family groups. Fror example bitsandbytes builds on the LLM.int8() paper which uses vector-wise quantization to quant `Linear` layers to 8-bits while using a separete "outlier" channel which are routed to a 16-bit matmul. There are also quantization schemes that are Weight-only but that use mixed precision kernels, Marlin is a very popular kernel library that implements extremely optimized INT4xFP16 matmul kernels for W4A16. This means weight-only schemes don't have to upcast and can use faster low-precision kernels. Activation quantization is either performed from a calibration set (static quantization) or dynamic (computed at run-time). Static quant is faster and enables fully integer kernels and dynamic is more robust but slower. There are also dynamic GGUF quants used by unsloth which use a calibration set to determine which weights in the model are more important and then assign more bits to these weights.
