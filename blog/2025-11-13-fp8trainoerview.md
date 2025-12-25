@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "State of FP8 Training + K2 INT4"
+title: "the state of fp8 training"
 categories: []
 year: 2025
-type: paper
+type: blog
 ---
 
 FP8 training is notoriously ambiguous—honestly, quantization in general is fuzzy because there are so many distinct components in a training or inference pipeline that can be quantized. I wanted to drill down into exactly what we mean by FP8 Training, because for a long time I operated under the assumption that this implied most, if not all, components were cast in FP8. Turns out, that's far from the case. What follows is a brief overview of the history of FP8 training, leading up to DeepSeek-V3 (DSV3)—arguably the standout success story in FP8 training so far—and concluding with more recent attempts from the Ling Team. I might turn this into a proper blog post at some point, the content is all here but it needs to be polished, right now its just notes I took while reading.
