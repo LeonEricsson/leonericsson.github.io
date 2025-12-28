@@ -1,0 +1,1882 @@
+[
+  {
+    "id": "eq-bench-an-emotional-intelligence-benchmark-for-l-fe973ce0",
+    "title": "EQ-Bench: An Emotional Intelligence Benchmark for Large Language Models",
+    "link": "https://arxiv.org/abs/2312.06281",
+    "pos": [
+      0.25137922167778015,
+      8.44221305847168
+    ],
+    "cluster": 3
+  },
+  {
+    "id": "the-boundary-of-neural-network-trainability-is-fra-696b56e4",
+    "title": "The boundary of neural network trainability is fractal",
+    "link": "https://arxiv.org/abs/2402.06184",
+    "pos": [
+      3.565913677215576,
+      -9.528303146362305
+    ],
+    "cluster": 5
+  },
+  {
+    "id": "opentom-a-comprehensive-benchmark-for-evaluating-t-7eb320b0",
+    "title": "OpenToM: A Comprehensive Benchmark for Evaluating Theory-of-Mind Reasoning Capabilities of Large Language Models",
+    "link": "https://arxiv.org/abs/2402.06044",
+    "pos": [
+      0.12335378676652908,
+      7.960375785827637
+    ],
+    "cluster": 3
+  },
+  {
+    "id": "judging-llm-as-a-judge-with-mt-bench-and-chatbot-a-5744387f",
+    "title": "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena",
+    "link": "https://arxiv.org/abs/2306.05685",
+    "pos": [
+      0.9276695251464844,
+      9.686365127563477
+    ],
+    "cluster": 3
+  },
+  {
+    "id": "are-emergent-abilities-of-large-language-models-a--30ebb2d3",
+    "title": "Are Emergent Abilities of Large Language Models a Mirage?",
+    "link": "https://arxiv.org/abs/2304.15004",
+    "pos": [
+      2.212345838546753,
+      -2.4893980026245117
+    ],
+    "cluster": 6
+  },
+  {
+    "id": "representation-engineering-mistral-7b-an-acid-trip-c35db691",
+    "title": "Representation Engineering Mistral-7B an Acid Trip",
+    "link": "https://vgel.me/posts/representation-engineering/",
+    "pos": [
+      9.228833198547363,
+      7.417328357696533
+    ],
+    "cluster": 4
+  },
+  {
+    "id": "induction-heads-illustrated-lesswrong-a77f7130",
+    "title": "Induction heads - illustrated — LessWrong",
+    "link": "https://www.lesswrong.com/posts/TvrfY4c9eaGLeyDkE/induction-heads-illustrated",
+    "pos": [
+      12.663849830627441,
+      0.6525921821594238
+    ],
+    "cluster": 4
+  },
+  {
+    "id": "a-mathematical-framework-for-transformer-circuits-ec83880a",
+    "title": "A Mathematical Framework for Transformer Circuits",
+    "link": "https://transformer-circuits.pub/2021/framework/index.html",
+    "pos": [
+      12.145267486572266,
+      1.0105822086334229
+    ],
+    "cluster": 4
+  },
+  {
+    "id": "the-era-of-1-bit-llms-all-large-language-models-ar-7058d0f9",
+    "title": "The Era of 1-bit LLMs: All Large Language Models are in 1.58 Bits",
+    "link": "https://arxiv.org/abs/2402.17764",
+    "pos": [
+      6.137364387512207,
+      -5.166999340057373
+    ],
+    "cluster": 0
+  },
+  {
+    "id": "learning-in-high-dimension-always-amounts-to-extra-2543bf8e",
+    "title": "Learning in High Dimension Always Amounts to Extrapolation",
+    "link": "https://arxiv.org/abs/2110.09485",
+    "pos": [
+      2.380826473236084,
+      -9.177910804748535
+    ],
+    "cluster": 5
+  },
+  {
+    "id": "in-context-learning-and-induction-heads-00abb855",
+    "title": "In-context Learning and Induction Heads",
+    "link": "https://transformer-circuits.pub/2022/in-context-learning-and-induction-heads/index.html",
+    "pos": [
+      12.34477710723877,
+      1.0133600234985352
+    ],
+    "cluster": 4
+  },
+  {
+    "id": "gguf-the-long-way-around-vicki-boykis-0319d66b",
+    "title": "GGUF, the long way around | ★❤✰ Vicki Boykis ★❤✰",
+    "link": "https://vickiboykis.com/2024/02/28/gguf-the-long-way-around/",
+    "pos": [
+      6.463886737823486,
+      0.2874867618083954
+    ],
+    "cluster": 6
+  },
+  {
+    "id": "binary-and-scalar-embedding-quantization-for-signi-78078420",
+    "title": "Binary and Scalar Embedding Quantization for Significantly Faster & Cheaper Retrieval",
+    "link": "https://huggingface.co/blog/embedding-quantization",
+    "pos": [
+      8.894059181213379,
+      4.600310325622559
+    ],
+    "cluster": 4
+  },
+  {
+    "id": "chess-gpts-internal-world-model-adam-karvonen-5507a56e",
+    "title": "Chess-GPT’s Internal World Model | Adam Karvonen",
+    "link": "https://adamkarvonen.github.io/machine_learning/2024/01/03/chess-world-models.html",
+    "pos": [
+      4.9415812492370605,
+      5.71919059753418
+    ],
+    "cluster": 3
+  },
+  {
+    "id": "manipulating-chess-gpts-world-model-adam-karvonen-7a2d5335",
+    "title": "Manipulating Chess-GPT’s World Model | Adam Karvonen",
+    "link": "https://adamkarvonen.github.io/machine_learning/2024/03/20/chess-gpt-interventions.html",
+    "pos": [
+      4.883780002593994,
+      5.722055435180664
+    ],
+    "cluster": 3
+  },
+  {
+    "id": "actually-othello-gpt-has-a-linear-emergent-world-r-ee4f2d4f",
+    "title": "Actually, Othello-GPT Has A Linear Emergent World Representation — Neel Nanda",
+    "link": "https://www.neelnanda.io/mechanistic-interpretability/othello",
+    "pos": [
+      5.642860412597656,
+      5.852720737457275
+    ],
+    "cluster": 3
+  },
+  {
+    "id": "large-language-model-world-models-or-surface-stati-9cd0ce03",
+    "title": "Large Language Model: world models or surface statistics?",
+    "link": "https://thegradient.pub/othello/",
+    "pos": [
+      4.197161674499512,
+      5.73111629486084
+    ],
+    "cluster": 3
+  },
+  {
+    "id": "my-binary-vector-search-is-better-than-your-fp32-v-349b8d4e",
+    "title": "My binary vector search is better than your FP32 vectors",
+    "link": "https://blog.pgvecto.rs/my-binary-vector-search-is-better-than-your-fp32-vectors",
+    "pos": [
+      7.4926557540893555,
+      3.698179006576538
+    ],
+    "cluster": 4
+  },
+  {
+    "id": "kenshin9000-on-x-15-preliminary-evidence-we-are-cl-dfbaea0f",
+    "title": "kenshin9000 on X: \"1/5 Preliminary Evidence: we are closer to AGI than it appears. If prompted with \"concepts\" on propositional logic, GPT4's lowest score on ConceptARC goes from 13% GPT4 vs 86% Human, to 100% GPT4, without training examples. This performance jump extends to ALL text benchmarks.…\" / X",
+    "link": "https://twitter.com/kenshin9000_/status/1734238211088506967",
+    "pos": [
+      1.5686569213867188,
+      5.296380996704102
+    ],
+    "cluster": 3
+  },
+  {
+    "id": "detailed-scratchpad-prompting-c6f69f68",
+    "title": "Detailed Scratchpad Prompting",
+    "link": "https://okarthikb.github.io/site/blog/detailed-prompting.html",
+    "pos": [
+      -3.898843765258789,
+      -6.172135353088379
+    ],
+    "cluster": 7
+  },
+  {
+    "id": "physics-of-language-models-part-33-knowledge-capac-7d2462d8",
+    "title": "Physics of Language Models: Part 3.3, Knowledge Capacity Scaling Laws",
+    "link": "https://arxiv.org/abs/2404.05405",
+    "pos": [
+      3.216580629348755,
+      -4.041484832763672
+    ],
+    "cluster": 6
+  },
+  {
+    "id": "transformer-inference-arithmetic-kipplys-blog-0b63de4a",
+    "title": "Transformer Inference Arithmetic | kipply's blog",
+    "link": "https://kipp.ly/transformer-inference-arithmetic/",
+    "pos": [
+      9.684588432312012,
+      -2.4311113357543945
+    ],
+    "cluster": 0
+  },
+  {
+    "id": "toy-models-of-superposition-0bda2110",
+    "title": "Toy Models of Superposition",
+    "link": "https://transformer-circuits.pub/2022/toy_model/index.html",
+    "pos": [
+      13.08132553100586,
+      5.082891941070557
+    ],
+    "cluster": 4
+  },
+  {
+    "id": "go-smol-or-go-home-harm-de-vries-5c5d6e8f",
+    "title": "Go smol or go home | Harm de Vries",
+    "link": "https://www.harmdevries.com/post/model-size-vs-compute-overhead/",
+    "pos": [
+      7.594275951385498,
+      -2.9171741008758545
+    ],
+    "cluster": 0
+  },
+  {
+    "id": "whats-up-with-llama-3-arena-data-analysis-lmsys-or-353af668",
+    "title": "What’s up with Llama 3? Arena data analysis | LMSYS Org",
+    "link": "https://lmsys.org/blog/2024-05-08-llama3/",
+    "pos": [
+      1.8100329637527466,
+      9.76453971862793
+    ],
+    "cluster": 3
+  },
+  {
+    "id": "the-unreasonable-ineffectiveness-of-the-deeper-lay-603dc77c",
+    "title": "The Unreasonable Ineffectiveness of the Deeper Layers",
+    "link": "https://arxiv.org/abs/2403.17887",
+    "pos": [
+      3.5875470638275146,
+      -5.517988681793213
+    ],
+    "cluster": 0
+  },
+  {
+    "id": "grokking-generalization-beyond-overfitting-on-smal-0d7e7b5f",
+    "title": "Grokking: Generalization Beyond Overfitting on Small Algorithmic Datasets",
+    "link": "https://arxiv.org/abs/2201.02177",
+    "pos": [
+      2.5638341903686523,
+      -9.210103988647461
+    ],
+    "cluster": 5
+  },
+  {
+    "id": "refusal-in-llms-is-mediated-by-a-single-direction--cc04eef9",
+    "title": "Refusal in LLMs is mediated by a single direction — LessWrong",
+    "link": "https://www.lesswrong.com/posts/jGuXSZgv6qfdhMCuJ/refusal-in-llms-is-mediated-by-a-single-direction",
+    "pos": [
+      7.993999481201172,
+      7.730254173278809
+    ],
+    "cluster": 3
+  },
+  {
+    "id": "better-faster-large-language-models-via-multi-toke-558dcfdb",
+    "title": "Better & Faster Large Language Models via Multi-token Prediction",
+    "link": "https://arxiv.org/abs/2404.19737",
+    "pos": [
+      5.214869499206543,
+      -0.5891184210777283
+    ],
+    "cluster": 6
+  },
+  {
+    "id": "phi-3-and-arctic-outlier-lms-are-hints-by-nathan-l-c4150c79",
+    "title": "Phi 3 and Arctic: Outlier LMs are hints - by Nathan Lambert",
+    "link": "https://www.interconnects.ai/p/phi-3-and-arctic-llms",
+    "pos": [
+      4.277513027191162,
+      0.35806259512901306
+    ],
+    "cluster": 6
+  },
+  {
+    "id": "chatbotarena-the-peoples-llm-evaluation-the-future-1b58db78",
+    "title": "ChatBotArena: The peoples’ LLM evaluation, the future of evaluation, the incentives of evaluation, and gpt2chatbot",
+    "link": "https://www.interconnects.ai/p/chatbotarena-the-future-of-llm-evaluation",
+    "pos": [
+      1.0974855422973633,
+      9.403984069824219
+    ],
+    "cluster": 3
+  },
+  {
+    "id": "llmint8-and-emergent-features-tim-dettmers-e0e0d09b",
+    "title": "LLM.int8() and Emergent Features — Tim Dettmers",
+    "link": "https://timdettmers.com/2022/08/17/llm-int8-and-emergent-features/",
+    "pos": [
+      8.638757705688477,
+      -5.2676100730896
+    ],
+    "cluster": 0
+  },
+  {
+    "id": "transformers-represent-belief-state-geometry-in-th-f35dfb73",
+    "title": "Transformers Represent Belief State Geometry in their Residual Stream — LessWrong",
+    "link": "https://www.lesswrong.com/posts/gTZ2SxesbHckJ3CkF/transformers-represent-belief-state-geometry-in-their",
+    "pos": [
+      11.251282691955566,
+      1.987042784690857
+    ],
+    "cluster": 4
+  },
+  {
+    "id": "deepseek-v2-a-strong-economical-and-efficient-mixt-3ac36021",
+    "title": "DeepSeek-V2: A Strong, Economical, and Efficient Mixture-of-Experts Language Model",
+    "link": "https://arxiv.org/abs/2405.04434",
+    "pos": [
+      5.196307182312012,
+      1.6689188480377197
+    ],
+    "cluster": 6
+  },
+  {
+    "id": "fishing-for-magikarp-automatically-detecting-under-bb32fdb6",
+    "title": "Fishing for Magikarp: Automatically Detecting Under-trained Tokens in Large Language Models",
+    "link": "https://arxiv.org/abs/2405.05417",
+    "pos": [
+      5.975411415100098,
+      -1.1735848188400269
+    ],
+    "cluster": 6
+  },
+  {
+    "id": "gqa-training-generalized-multi-query-transformer-m-681f5861",
+    "title": "GQA: Training Generalized Multi-Query Transformer Models from Multi-Head Checkpoints",
+    "link": "https://arxiv.org/abs/2305.13245",
+    "pos": [
+      8.740514755249023,
+      0.16977590322494507
+    ],
+    "cluster": 4
+  },
+  {
+    "id": "mha-mqa-gpq-mla-b1a9060f",
+    "title": "The Extreme Struggle Between Caching and Performance: From MHA, MQA, GQA to MLA",
+    "link": "https://spaces.ac.cn/archives/10091",
+    "pos": [
+      8.575201988220215,
+      0.4770500361919403
+    ],
+    "cluster": 4
+  },
+  {
+    "id": "lora-learns-less-and-forgets-less-0ae03388",
+    "title": "LoRA Learns Less and Forgets Less",
+    "link": "https://arxiv.org/abs/2405.09673",
+    "pos": [
+      3.8864071369171143,
+      -5.8896613121032715
+    ],
+    "cluster": 0
+  },
+  {
+    "id": "transformer-math-101-eleutherai-blog-77389207",
+    "title": "Transformer Math 101 | EleutherAI Blog",
+    "link": "https://blog.eleuther.ai/transformer-math/",
+    "pos": [
+      9.574639320373535,
+      -2.715684175491333
+    ],
+    "cluster": 0
+  },
+  {
+    "id": "cohere-int8-binary-embeddings-scale-your-vector-da-62493d07",
+    "title": "Cohere int8 & binary Embeddings - Scale Your Vector Database to Large Datasets",
+    "link": "https://cohere.com/blog/int8-binary-embeddings",
+    "pos": [
+      7.565529823303223,
+      3.777820110321045
+    ],
+    "cluster": 4
+  },
+  {
+    "id": "mixedbread-binary-mrl-685fc71a",
+    "title": "mixedbread binary mrl",
+    "link": "https://www.mixedbread.ai/blog/binary-mrl",
+    "pos": [
+      8.846158027648926,
+      4.588683128356934
+    ],
+    "cluster": 4
+  },
+  {
+    "id": "scaling-monosemanticity-extracting-interpretable-f-ac64e33c",
+    "title": "Scaling Monosemanticity: Extracting Interpretable Features from Claude 3 Sonnet",
+    "link": "https://transformer-circuits.pub/2024/scaling-monosemanticity/index.html",
+    "pos": [
+      12.074159622192383,
+      5.52186393737793
+    ],
+    "cluster": 4
+  },
+  {
+    "id": "towards-monosemanticity-decomposing-language-model-1cd07f09",
+    "title": "Towards Monosemanticity: Decomposing Language Models With Dictionary Learning",
+    "link": "https://transformer-circuits.pub/2023/monosemantic-features/index.html",
+    "pos": [
+      12.74188232421875,
+      5.253561496734619
+    ],
+    "cluster": 4
+  },
+  {
+    "id": "deep-learning-nlp-and-representations-colahs-blog-963396fb",
+    "title": "Deep Learning, NLP, and Representations - colah's blog",
+    "link": "https://colah.github.io/posts/2014-07-NLP-RNNs-Representations/",
+    "pos": [
+      14.530891418457031,
+      4.9942145347595215
+    ],
+    "cluster": 4
+  },
+  {
+    "id": "neural-networks-manifolds-and-topology-colahs-blog-b498716e",
+    "title": "Neural Networks, Manifolds, and Topology -- colah's blog",
+    "link": "https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/",
+    "pos": [
+      14.612171173095703,
+      4.297122478485107
+    ],
+    "cluster": 4
+  },
+  {
+    "id": "ai-for-the-rest-of-us-by-nathan-lambert-interconne-21ed8818",
+    "title": "AI for the rest of us - by Nathan Lambert - Interconnects",
+    "link": "https://www.interconnects.ai/p/apple-intelligence",
+    "pos": [
+      2.6739962100982666,
+      8.096879959106445
+    ],
+    "cluster": 3
+  },
+  {
+    "id": "research-code-non_interactive-software-ml-1256127f",
+    "title": "Research Code – Non_Interactive – Software & ML",
+    "link": "https://nonint.com/2024/03/16/research-code/",
+    "pos": [
+      -4.66843843460083,
+      -10.773035049438477
+    ],
+    "cluster": 5
+  },
+  {
+    "id": "compute-multipliers-non_interactive-software-ml-f16603ae",
+    "title": "Compute Multipliers – Non_Interactive – Software & ML",
+    "link": "https://nonint.com/2023/11/05/compute-multipliers/",
+    "pos": [
+      7.976309299468994,
+      -3.4575417041778564
+    ],
+    "cluster": 0
+  },
+  {
+    "id": "on-the-efficiency-of-human-intelligence-non_intera-8bd1e2c5",
+    "title": "On the efficiency of human intelligence – Non_Interactive – Software & ML",
+    "link": "https://nonint.com/2023/07/05/on-the-efficiency-of-human-intelligence/",
+    "pos": [
+      5.633386135101318,
+      8.235162734985352
+    ],
+    "cluster": 3
+  },
+  {
+    "id": "learned-structures-non_interactive-software-ml-9097b67e",
+    "title": "Learned Structures – Non_Interactive – Software & ML",
+    "link": "https://nonint.com/2024/03/03/learned-structures/",
+    "pos": [
+      12.982860565185547,
+      2.8479554653167725
+    ],
+    "cluster": 4
+  },
+  {
+    "id": "successful-language-model-evals-jason-wei-bb8095f7",
+    "title": "Successful language model evals — Jason Wei",
+    "link": "https://www.jasonwei.net/blog/evals",
+    "pos": [
+      -0.4287104308605194,
+      9.447920799255371
+    ],
+    "cluster": 3
+  },
+  {
+    "id": "accessing-gpt-4-level-mathematical-olympiad-soluti-fa2cc100",
+    "title": "Accessing GPT-4 level Mathematical Olympiad Solutions via Monte Carlo Tree Self-refine with LLaMa-3 8B",
+    "link": "https://arxiv.org/abs/2406.07394v1",
+    "pos": [
+      -6.154445171356201,
+      -3.9083986282348633
+    ],
+    "cluster": 7
+  },
+  {
+    "id": "getting-50-sota-on-arc-agi-with-gpt-4o-9c8d7de4",
+    "title": "Getting 50% (SoTA) on ARC-AGI with GPT-4o",
+    "link": "https://redwoodresearch.substack.com/p/getting-50-sota-on-arc-agi-with-gpt",
+    "pos": [
+      1.4741761684417725,
+      5.023635387420654
+    ],
+    "cluster": 3
+  },
+  {
+    "id": "experimenting-with-llms-to-research-reflect-and-pl-f039c7cc",
+    "title": "Experimenting with LLMs to Research, Reflect, and Plan",
+    "link": "https://eugeneyan.com/writing/llm-experiments/",
+    "pos": [
+      -4.034748077392578,
+      -7.696279048919678
+    ],
+    "cluster": 5
+  },
+  {
+    "id": "the-bitter-lesson-4223dfcb",
+    "title": "The Bitter Lesson",
+    "link": "http://www.incompleteideas.net/IncIdeas/BitterLesson.html",
+    "pos": [
+      -1.5590159893035889,
+      -10.333903312683105
+    ],
+    "cluster": 5
+  },
+  {
+    "id": "transformer-taxonomy-the-last-lit-review-kipplys-b-18c5ede0",
+    "title": "Transformer Taxonomy (the last lit review) | kipply's blog",
+    "link": "https://kipp.ly/transformer-taxonomy/",
+    "pos": [
+      11.143339157104492,
+      -2.3886916637420654
+    ],
+    "cluster": 0
+  },
+  {
+    "id": "llm-parameter-counting-kipplys-blog-6937c4f9",
+    "title": "LLM Parameter Counting | kipply's blog",
+    "link": "https://kipp.ly/transformer-param-count/",
+    "pos": [
+      10.665708541870117,
+      -2.342085599899292
+    ],
+    "cluster": 0
+  },
+  {
+    "id": "how-i-hire-programmers-aaron-swartzs-raw-thought-951f4645",
+    "title": "How I Hire Programmers (Aaron Swartz's Raw Thought)",
+    "link": "http://www.aaronsw.com/weblog/hiring.en",
+    "pos": [
+      -5.256369590759277,
+      -11.56606388092041
+    ],
+    "cluster": 5
+  },
+  {
+    "id": "the-smalltalk-question-aaron-swartzs-raw-thought-9305228e",
+    "title": "The Smalltalk Question (Aaron Swartz's Raw Thought)",
+    "link": "http://www.aaronsw.com/weblog/smalltalkq",
+    "pos": [
+      -5.417159080505371,
+      -11.75253677368164
+    ],
+    "cluster": 5
+  },
+  {
+    "id": "solving-olympiad-geometry-without-human-demonstrat-7fd3462c",
+    "title": "Solving olympiad geometry without human demonstrations | Nature",
+    "link": "https://www.nature.com/articles/s41586-023-06747-5",
+    "pos": [
+      -0.8915045857429504,
+      5.599226474761963
+    ],
+    "cluster": 3
+  },
+  {
+    "id": "emergent-abilities-of-large-language-models-3f747a19",
+    "title": "Emergent Abilities of Large Language Models",
+    "link": "https://arxiv.org/abs/2206.07682",
+    "pos": [
+      2.1907548904418945,
+      -2.4669525623321533
+    ],
+    "cluster": 6
+  },
+  {
+    "id": "an-intuitive-explanation-of-sparse-autoencoders-fo-b1005eef",
+    "title": "An Intuitive Explanation of Sparse Autoencoders for LLM Interpretability | Adam Karvonen",
+    "link": "https://adamkarvonen.github.io/machine_learning/2024/06/11/sae-intuitions.html",
+    "pos": [
+      12.46690845489502,
+      5.865907669067383
+    ],
+    "cluster": 4
+  },
+  {
+    "id": "the-techno-optimist-manifesto-andreessen-horowitz-416603e0",
+    "title": "The Techno-Optimist Manifesto | Andreessen Horowitz",
+    "link": "https://a16z.com/the-techno-optimist-manifesto/",
+    "pos": [
+      -1.8765499591827393,
+      -11.749205589294434
+    ],
+    "cluster": 5
+  },
+  {
+    "id": "the-best-gpus-for-deep-learning-in-2023-an-in-dept-4a8d7b43",
+    "title": "The Best GPUs for Deep Learning in 2023 — An In-depth Analysis",
+    "link": "https://timdettmers.com/2023/01/30/which-gpu-for-deep-learning/",
+    "pos": [
+      13.102123260498047,
+      -5.652068138122559
+    ],
+    "cluster": 0
+  },
+  {
+    "id": "how-web-bloat-impacts-users-with-slow-devices-55ef110d",
+    "title": "How web bloat impacts users with slow devices",
+    "link": "https://danluu.com/slow-device/",
+    "pos": [
+      11.024725914001465,
+      -7.804468631744385
+    ],
+    "cluster": 0
+  },
+  {
+    "id": "pytorch-is-dead-long-live-jax-neel-gupta-0eecd2d3",
+    "title": "PyTorch is dead. Long live JAX. | Neel Gupta",
+    "link": "https://neel04.github.io/my-website/blog/pytorch_rant/",
+    "pos": [
+      1.2417078018188477,
+      -11.480993270874023
+    ],
+    "cluster": 5
+  },
+  {
+    "id": "classifying-all-of-the-pdfs-on-the-internet-dde35c0f",
+    "title": "classifying all of the pdfs on the internet",
+    "link": "https://snats.xyz/pages/articles/classifying_a_bunch_of_pdfs.html",
+    "pos": [
+      -6.732093334197998,
+      11.804973602294922
+    ],
+    "cluster": 1
+  },
+  {
+    "id": "strangely-matrix-multiplications-on-gpus-run-faste-55ca6e9a",
+    "title": "Strangely, Matrix Multiplications on GPUs Run Faster When Given \"Predictable\" Data! [short]",
+    "link": "https://www.thonking.ai/p/strangely-matrix-multiplications",
+    "pos": [
+      11.375190734863281,
+      -6.354614734649658
+    ],
+    "cluster": 0
+  },
+  {
+    "id": "what-shapes-do-matrix-multiplications-like-medium-ca46bcfe",
+    "title": "What Shapes Do Matrix Multiplications Like? [medium]",
+    "link": "https://www.thonking.ai/p/what-shapes-do-matrix-multiplications",
+    "pos": [
+      11.291781425476074,
+      -6.29215669631958
+    ],
+    "cluster": 0
+  },
+  {
+    "id": "zen-cuda-and-tensor-cores-part-i-the-silicon-35944909",
+    "title": "Zen, CUDA, and Tensor Cores, Part I: The Silicon",
+    "link": "https://www.computerenhance.com/p/zen-cuda-and-tensor-cores-part-i",
+    "pos": [
+      13.231110572814941,
+      -5.601579189300537
+    ],
+    "cluster": 0
+  },
+  {
+    "id": "physics-of-language-models-part-22-how-to-learn-fr-ef09a99c",
+    "title": "Physics of Language Models: Part 2.2, How to Learn From Mistakes on Grade-School Math Problems",
+    "link": "https://arxiv.org/abs/2408.16293",
+    "pos": [
+      -3.869536876678467,
+      -3.2517380714416504
+    ],
+    "cluster": 7
+  },
+  {
+    "id": "physics-of-language-models-part-21-grade-school-ma-dfadbd02",
+    "title": "Physics of Language Models: Part 2.1, Grade-School Math and the Hidden Reasoning Process",
+    "link": "https://arxiv.org/abs/2407.20311",
+    "pos": [
+      -4.465062141418457,
+      -3.7323150634765625
+    ],
+    "cluster": 7
+  },
+  {
+    "id": "physics-of-language-models-part-31-knowledge-stora-53b062ff",
+    "title": "Physics of Language Models: Part 3.1, Knowledge Storage and Extraction",
+    "link": "https://arxiv.org/abs/2309.14316",
+    "pos": [
+      2.3090476989746094,
+      -5.01411247253418
+    ],
+    "cluster": 6
+  },
+  {
+    "id": "physics-of-language-models-part-32-knowledge-manip-e6b74546",
+    "title": "Physics of Language Models: Part 3.2, Knowledge Manipulation",
+    "link": "https://arxiv.org/abs/2309.14402",
+    "pos": [
+      1.7634999752044678,
+      -4.90158224105835
+    ],
+    "cluster": 6
+  },
+  {
+    "id": "amortized-planning-with-large-scale-transformers-a-1522f2d2",
+    "title": "Amortized Planning with Large-Scale Transformers: A Case Study on Chess",
+    "link": "https://arxiv.org/abs/2402.04494",
+    "pos": [
+      3.452054738998413,
+      3.697753429412842
+    ],
+    "cluster": 3
+  },
+  {
+    "id": "gsm-symbolic-understanding-the-limitations-of-math-9dbed5ae",
+    "title": "GSM-Symbolic: Understanding the Limitations of Mathematical Reasoning in Large Language Models",
+    "link": "https://arxiv.org/abs/2410.05229v1",
+    "pos": [
+      -5.126079559326172,
+      -4.155372619628906
+    ],
+    "cluster": 7
+  },
+  {
+    "id": "contextual-document-embeddings-1c0b77f0",
+    "title": "Contextual Document Embeddings",
+    "link": "https://arxiv.org/abs/2410.02525",
+    "pos": [
+      -10.455293655395508,
+      8.919492721557617
+    ],
+    "cluster": 1
+  },
+  {
+    "id": "is-the-watermarking-of-llm-generated-code-robust-d931770d",
+    "title": "Is The Watermarking Of LLM-Generated Code Robust?",
+    "link": "https://arxiv.org/abs/2403.17983",
+    "pos": [
+      4.991494655609131,
+      -13.019580841064453
+    ],
+    "cluster": 5
+  },
+  {
+    "id": "watermark-stealing-in-large-language-models-5b69557d",
+    "title": "Watermark Stealing in Large Language Models",
+    "link": "https://arxiv.org/abs/2402.19361",
+    "pos": [
+      4.990825176239014,
+      -13.003225326538086
+    ],
+    "cluster": 5
+  },
+  {
+    "id": "softmax-is-not-enough-for-sharp-size-generalisatio-c2ac6a46",
+    "title": "Softmax is not Enough (for Sharp Size Generalisation)",
+    "link": "https://arxiv.org/abs/2410.01104",
+    "pos": [
+      1.4135639667510986,
+      -8.161818504333496
+    ],
+    "cluster": 5
+  },
+  {
+    "id": "the-page-of-entropy-34a10ffe",
+    "title": "The Page of Entropy",
+    "link": "https://webs.morningside.edu/slaven/Physics/entropy/",
+    "pos": [
+      -8.70234203338623,
+      -6.165727615356445
+    ],
+    "cluster": 7
+  },
+  {
+    "id": "fast-transformer-decoding-one-write-head-is-all-yo-3940b4b3",
+    "title": "Fast Transformer Decoding: One Write-Head is All You Need",
+    "link": "https://arxiv.org/abs/1911.02150",
+    "pos": [
+      9.145285606384277,
+      -0.11278371512889862
+    ],
+    "cluster": 4
+  },
+  {
+    "id": "language-models-represent-space-and-time-da25ec4d",
+    "title": "Language Models Represent Space and Time",
+    "link": "https://arxiv.org/abs/2310.02207",
+    "pos": [
+      -2.7588279247283936,
+      5.231085300445557
+    ],
+    "cluster": 2
+  },
+  {
+    "id": "rethinking-conventional-wisdom-in-machine-learning-e805a0a3",
+    "title": "Rethinking Conventional Wisdom in Machine Learning: From Generalization to Scaling",
+    "link": "https://arxiv.org/abs/2409.15156",
+    "pos": [
+      1.1347661018371582,
+      -2.4551284313201904
+    ],
+    "cluster": 6
+  },
+  {
+    "id": "training-large-language-models-to-reason-in-a-cont-1dab7033",
+    "title": "Training Large Language Models to Reason in a Continuous Latent Space",
+    "link": "https://arxiv.org/abs/2412.06769",
+    "pos": [
+      -3.0537383556365967,
+      2.2397491931915283
+    ],
+    "cluster": 2
+  },
+  {
+    "id": "deepseek-r1-incentivizing-reasoning-capability-in--b22513d5",
+    "title": "DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning",
+    "link": "https://arxiv.org/abs/2501.12948",
+    "pos": [
+      -2.6594130992889404,
+      0.9717778563499451
+    ],
+    "cluster": 2
+  },
+  {
+    "id": "deepseek-v3-technical-report-558dac37",
+    "title": "DeepSeek-V3 Technical Report",
+    "link": "https://arxiv.org/abs/2412.19437",
+    "pos": [
+      5.360507965087891,
+      1.6086511611938477
+    ],
+    "cluster": 6
+  },
+  {
+    "id": "deepseekmath-pushing-the-limits-of-mathematical-re-f7f589f8",
+    "title": "DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models",
+    "link": "https://arxiv.org/abs/2402.03300",
+    "pos": [
+      -5.087236404418945,
+      -3.1004581451416016
+    ],
+    "cluster": 7
+  },
+  {
+    "id": "visual-autoregressive-modeling-scalable-image-gene-ae166102",
+    "title": "Visual Autoregressive Modeling: Scalable Image Generation via Next-Scale Prediction",
+    "link": "https://arxiv.org/abs/2404.02905",
+    "pos": [
+      -2.0596401691436768,
+      -5.126710891723633
+    ],
+    "cluster": 5
+  },
+  {
+    "id": "scaling-up-test-time-compute-with-latent-reasoning-dc7c80b7",
+    "title": "Scaling up Test-Time Compute with Latent Reasoning: A Recurrent Depth Approach",
+    "link": "https://arxiv.org/abs/2502.05171#:~:text=7%20Feb%202025%5D-,Scaling%20up%20Test%2DTime%20Compute%20with,Reasoning%3A%20A%20Recurrent%20Depth%20Approach&text=We%20study%20a%20novel%20language,arbitrary%20depth%20at%20test%2Dtime.",
+    "pos": [
+      0.8979960680007935,
+      -0.17201371490955353
+    ],
+    "cluster": 6
+  },
+  {
+    "id": "large-language-diffusion-models-877ce46c",
+    "title": "Large Language Diffusion Models",
+    "link": "https://arxiv.org/abs/2502.09992",
+    "pos": [
+      -0.18666768074035645,
+      -3.552647590637207
+    ],
+    "cluster": 6
+  },
+  {
+    "id": "grpo-judge-experiments-findings-empirical-observat-da28c889",
+    "title": "GRPO Judge Experiments: Findings & Empirical Observations | kalomaze's kalomazing blog",
+    "link": "https://kalomaze.bearblog.dev/grpo-judge-experiments-findings-and-empirical-observations/",
+    "pos": [
+      -8.16102409362793,
+      0.43150854110717773
+    ],
+    "cluster": 7
+  },
+  {
+    "id": "why-does-grpo-work-kalomazes-kalomazing-blog-fd8c1173",
+    "title": "Why does GRPO work? | kalomaze's kalomazing blog",
+    "link": "https://kalomaze.bearblog.dev/why-does-grpo-work/",
+    "pos": [
+      -9.02110481262207,
+      -0.04434725642204285
+    ],
+    "cluster": 7
+  },
+  {
+    "id": "back-to-basics-revisiting-reinforce-style-optimiza-925f1ca1",
+    "title": "Back to Basics: Revisiting REINFORCE Style Optimization for Learning from Human Feedback in LLMs",
+    "link": "https://arxiv.org/abs/2402.14740",
+    "pos": [
+      -2.5576012134552,
+      -2.388000011444092
+    ],
+    "cluster": 2
+  },
+  {
+    "id": "dapo-an-open-source-llm-reinforcement-learning-sys-082075c5",
+    "title": "DAPO: An Open-Source LLM Reinforcement Learning System at Scale",
+    "link": "https://arxiv.org/abs/2503.14476",
+    "pos": [
+      -1.6200860738754272,
+      -2.074084997177124
+    ],
+    "cluster": 2
+  },
+  {
+    "id": "understanding-r1-zero-like-training-a-critical-per-15f020bf",
+    "title": "Understanding R1-Zero-Like Training: A Critical Perspective",
+    "link": "https://arxiv.org/abs/2503.20783",
+    "pos": [
+      -3.3601698875427246,
+      0.683140218257904
+    ],
+    "cluster": 2
+  },
+  {
+    "id": "qwen-vl-a-versatile-vision-language-model-for-unde-f62b19ae",
+    "title": "Qwen-VL: A Versatile Vision-Language Model for Understanding, Localization, Text Reading, and Beyond",
+    "link": "https://arxiv.org/abs/2308.12966",
+    "pos": [
+      -6.536547660827637,
+      5.767265796661377
+    ],
+    "cluster": 1
+  },
+  {
+    "id": "qwen2-vl-enhancing-vision-language-models-percepti-9abe7f12",
+    "title": "Qwen2-VL: Enhancing Vision-Language Model's Perception of the World at Any Resolution",
+    "link": "https://arxiv.org/abs/2409.12191",
+    "pos": [
+      -6.889340400695801,
+      5.631338596343994
+    ],
+    "cluster": 1
+  },
+  {
+    "id": "vision-r1-incentivizing-reasoning-capability-in-mu-2e78830c",
+    "title": "Vision-R1: Incentivizing Reasoning Capability in Multimodal Large Language Models",
+    "link": "https://arxiv.org/abs/2503.06749",
+    "pos": [
+      -4.503884315490723,
+      1.8278696537017822
+    ],
+    "cluster": 2
+  },
+  {
+    "id": "proof-or-bluff-evaluating-llms-on-2025-usa-math-ol-d2aeec1e",
+    "title": "Proof or Bluff? Evaluating LLMs on 2025 USA Math Olympiad",
+    "link": "https://arxiv.org/abs/2503.21934",
+    "pos": [
+      -5.921353816986084,
+      -4.506336212158203
+    ],
+    "cluster": 7
+  },
+  {
+    "id": "crossing-the-reward-bridge-expanding-rl-with-verif-f3344da0",
+    "title": "Crossing the Reward Bridge: Expanding RL with Verifiable Rewards Across Diverse Domains",
+    "link": "https://arxiv.org/abs/2503.23829",
+    "pos": [
+      -6.013638019561768,
+      -0.10235230624675751
+    ],
+    "cluster": 7
+  },
+  {
+    "id": "improved-visual-spatial-reasoning-via-r1-zero-like-36fa4d36",
+    "title": "Improved Visual-Spatial Reasoning via R1-Zero-Like Training",
+    "link": "https://arxiv.org/abs/2504.00883",
+    "pos": [
+      -4.260102272033691,
+      4.2266387939453125
+    ],
+    "cluster": 2
+  },
+  {
+    "id": "learning-to-reason-for-long-form-story-generation-45cd59ce",
+    "title": "Learning to Reason for Long-Form Story Generation",
+    "link": "https://arxiv.org/abs/2503.22828",
+    "pos": [
+      -2.658520460128784,
+      12.313413619995117
+    ],
+    "cluster": 1
+  },
+  {
+    "id": "paligemma-2-a-family-of-versatile-vlms-for-transfe-3cafc093",
+    "title": "PaliGemma 2: A Family of Versatile VLMs for Transfer",
+    "link": "https://arxiv.org/abs/2412.03555",
+    "pos": [
+      -1.3707631826400757,
+      -7.0692009925842285
+    ],
+    "cluster": 5
+  },
+  {
+    "id": "paligemma-a-versatile-3b-vlm-for-transfer-b377e684",
+    "title": "PaliGemma: A versatile 3B VLM for transfer",
+    "link": "https://arxiv.org/abs/2407.07726",
+    "pos": [
+      -1.3595081567764282,
+      -7.056468486785889
+    ],
+    "cluster": 5
+  },
+  {
+    "id": "scaling-laws-for-native-multimodal-models-7c2440ae",
+    "title": "Scaling Laws for Native Multimodal Models",
+    "link": "https://arxiv.org/abs/2504.07951",
+    "pos": [
+      -8.7221040725708,
+      3.9171390533447266
+    ],
+    "cluster": 1
+  },
+  {
+    "id": "does-reinforcement-learning-really-incentivize-rea-37252bf0",
+    "title": "Does Reinforcement Learning Really Incentivize Reasoning Capacity in LLMs Beyond the Base Model?",
+    "link": "https://arxiv.org/abs/2504.13837",
+    "pos": [
+      -4.2018208503723145,
+      -0.25652384757995605
+    ],
+    "cluster": 2
+  },
+  {
+    "id": "concise-reasoning-via-reinforcement-learning-6ed2ac96",
+    "title": "Concise Reasoning via Reinforcement Learning",
+    "link": "https://arxiv.org/abs/2504.05185",
+    "pos": [
+      -1.9478546380996704,
+      1.4352055788040161
+    ],
+    "cluster": 2
+  },
+  {
+    "id": "internvl3-exploring-advanced-training-and-test-tim-a497f1d5",
+    "title": "InternVL3: Exploring Advanced Training and Test-Time Recipes for Open-Source Multimodal Models",
+    "link": "https://arxiv.org/abs/2504.10479",
+    "pos": [
+      -8.14368724822998,
+      4.917156219482422
+    ],
+    "cluster": 1
+  },
+  {
+    "id": "do-llamas-work-in-english-on-the-latent-language-o-30fb3227",
+    "title": "Do Llamas Work in English? On the Latent Language of Multilingual Transformers",
+    "link": "https://arxiv.org/abs/2402.10588",
+    "pos": [
+      0.19056543707847595,
+      -5.469651222229004
+    ],
+    "cluster": 5
+  },
+  {
+    "id": "funsearch-making-new-discoveries-in-mathematical-s-eed2fe09",
+    "title": "FunSearch: Making new discoveries in mathematical sciences using Large Language Models - Google DeepMind",
+    "link": "https://deepmind.google/discover/blog/funsearch-making-new-discoveries-in-mathematical-sciences-using-large-language-models/",
+    "pos": [
+      -5.897334098815918,
+      -7.16546630859375
+    ],
+    "cluster": 7
+  },
+  {
+    "id": "alphaevolve-a-gemini-powered-coding-agent-for-desi-b22a27ab",
+    "title": "AlphaEvolve: A Gemini-powered coding agent for designing advanced algorithms - Google DeepMind",
+    "link": "https://deepmind.google/discover/blog/alphaevolve-a-gemini-powered-coding-agent-for-designing-advanced-algorithms/",
+    "pos": [
+      -5.980100154876709,
+      -7.296463966369629
+    ],
+    "cluster": 7
+  },
+  {
+    "id": "absolute-zero-reinforced-self-play-reasoning-with--703c3bc5",
+    "title": "Absolute Zero: Reinforced Self-play Reasoning with Zero Data",
+    "link": "https://arxiv.org/abs/2505.03335",
+    "pos": [
+      -4.917413234710693,
+      0.6066991686820984
+    ],
+    "cluster": 2
+  },
+  {
+    "id": "reinforcement-learning-for-reasoning-in-large-lang-4c7ed2f1",
+    "title": "Reinforcement Learning for Reasoning in Large Language Models with One Training Example",
+    "link": "https://arxiv.org/abs/2504.20571",
+    "pos": [
+      -4.799538612365723,
+      -1.5815188884735107
+    ],
+    "cluster": 7
+  },
+  {
+    "id": "grit-teaching-mllms-to-think-with-images-fd0f12e4",
+    "title": "GRIT: Teaching MLLMs to Think with Images",
+    "link": "https://arxiv.org/abs/2505.15879",
+    "pos": [
+      -4.91684627532959,
+      3.814523935317993
+    ],
+    "cluster": 2
+  },
+  {
+    "id": "visual-planning-lets-think-only-with-images-77a2fcda",
+    "title": "Visual Planning: Let's Think Only with Images",
+    "link": "https://arxiv.org/abs/2505.11409",
+    "pos": [
+      -4.597297191619873,
+      3.271474599838257
+    ],
+    "cluster": 2
+  },
+  {
+    "id": "quantifying-attention-flow-in-transformers-36348827",
+    "title": "Quantifying Attention Flow in Transformers",
+    "link": "https://arxiv.org/abs/2005.00928",
+    "pos": [
+      10.481791496276855,
+      -0.06665167957544327
+    ],
+    "cluster": 4
+  },
+  {
+    "id": "learning-to-reason-without-external-rewards-ec2d64ad",
+    "title": "Learning to Reason without External Rewards",
+    "link": "https://arxiv.org/abs/2505.19590",
+    "pos": [
+      -5.297956466674805,
+      0.1814325749874115
+    ],
+    "cluster": 2
+  },
+  {
+    "id": "separating-tongue-from-thought-activation-patching-71b298da",
+    "title": "Separating Tongue from Thought: Activation Patching Reveals Language-Agnostic Concept Representations in Transformers",
+    "link": "https://arxiv.org/abs/2411.08745v1",
+    "pos": [
+      0.18756477534770966,
+      -5.383912563323975
+    ],
+    "cluster": 5
+  },
+  {
+    "id": "the-entropy-mechanism-of-reinforcement-learning-fo-b5390c05",
+    "title": "The Entropy Mechanism of Reinforcement Learning for Reasoning Language Models",
+    "link": "https://arxiv.org/abs/2505.22617",
+    "pos": [
+      -7.449583530426025,
+      -2.1177752017974854
+    ],
+    "cluster": 7
+  },
+  {
+    "id": "prorl-prolonged-reinforcement-learning-expands-rea-54a7080c",
+    "title": "ProRL: Prolonged Reinforcement Learning Expands Reasoning Boundaries in Large Language Models",
+    "link": "https://arxiv.org/abs/2505.24864",
+    "pos": [
+      -2.394559144973755,
+      0.21550151705741882
+    ],
+    "cluster": 2
+  },
+  {
+    "id": "beyond-the-8020-rule-high-entropy-minority-tokens--89c3737c",
+    "title": "Beyond the 80/20 Rule: High-Entropy Minority Tokens Drive Effective Reinforcement Learning for LLM Reasoning",
+    "link": "https://arxiv.org/abs/2506.01939",
+    "pos": [
+      -6.90364933013916,
+      -1.672818660736084
+    ],
+    "cluster": 7
+  },
+  {
+    "id": "scaling-up-rl-unlocking-diverse-reasoning-in-llms--1fb4fe47",
+    "title": "Scaling Up RL: Unlocking Diverse Reasoning in LLMs via Prolonged Training",
+    "link": "https://arxiv.org/abs/2507.12507",
+    "pos": [
+      -1.885480523109436,
+      0.10104387253522873
+    ],
+    "cluster": 2
+  },
+  {
+    "id": "emerging-properties-in-unified-multimodal-pretrain-6c71c19a",
+    "title": "Emerging Properties in Unified Multimodal Pretraining",
+    "link": "https://arxiv.org/abs/2505.14683",
+    "pos": [
+      -7.829506874084473,
+      4.299513339996338
+    ],
+    "cluster": 1
+  },
+  {
+    "id": "evaluating-long-context-reasoning-ability-wh-b3d7e0c5",
+    "title": "Evaluating Long Context (Reasoning) Ability | wh",
+    "link": "https://nrehiew.github.io/blog/long_context/",
+    "pos": [
+      -3.234349489212036,
+      9.556479454040527
+    ],
+    "cluster": 1
+  },
+  {
+    "id": "taking-the-bitter-lesson-seriously-by-rohan-pandey-2999d4a5",
+    "title": "Taking the Bitter Lesson Seriously - by Rohan Pandey",
+    "link": "https://rohanpandey.substack.com/p/taking-the-bitter-lesson-seriously",
+    "pos": [
+      -1.6075289249420166,
+      -10.48391342163086
+    ],
+    "cluster": 5
+  },
+  {
+    "id": "colbert-efficient-and-effective-passage-search-via-a99666ba",
+    "title": "ColBERT: Efficient and Effective Passage Search via Contextualized Late Interaction over BERT",
+    "link": "https://arxiv.org/abs/2004.12832",
+    "pos": [
+      -10.172800064086914,
+      10.259340286254883
+    ],
+    "cluster": 1
+  },
+  {
+    "id": "glyph-scaling-context-windows-via-visual-text-comp-80cdf207",
+    "title": "Glyph: Scaling Context Windows via Visual-Text Compression",
+    "link": "https://arxiv.org/abs/2510.17800",
+    "pos": [
+      -5.842636585235596,
+      7.659197807312012
+    ],
+    "cluster": 1
+  },
+  {
+    "id": "part-3-trust-region-optimization-via-sequence-mask-6e49a9cb",
+    "title": "Part 3: Trust Region Optimization via Sequence Masking | Yingru Li",
+    "link": "https://richardli.xyz/post/rl-collapse-part3/",
+    "pos": [
+      -10.231123924255371,
+      -1.1764981746673584
+    ],
+    "cluster": 7
+  },
+  {
+    "id": "mathematical-formulations-of-rollout-correction-me-c97df761",
+    "title": "Mathematical Formulations of Rollout Correction Methods in verl — verl documentation",
+    "link": "https://verl.readthedocs.io/en/latest/algo/rollout_corr_math.html#geometric-aggregation-geo-rs",
+    "pos": [
+      -10.395381927490234,
+      -1.9623265266418457
+    ],
+    "cluster": 7
+  },
+  {
+    "id": "training-foundation-models-on-a-full-stack-amd-pla-6f27d087",
+    "title": "Training Foundation Models on a Full-Stack AMD Platform: Compute, Networking, and System Design",
+    "link": "https://arxiv.org/abs/2511.17127",
+    "pos": [
+      5.497238636016846,
+      -2.6763646602630615
+    ],
+    "cluster": 6
+  },
+  {
+    "id": "spurious-rewards-rethinking-training-signals-in-rl-0bee283c",
+    "title": "Spurious Rewards: Rethinking Training Signals in RLVR",
+    "link": "https://arxiv.org/abs/2506.10947",
+    "pos": [
+      -5.573193550109863,
+      -0.946110188961029
+    ],
+    "cluster": 7
+  },
+  {
+    "id": "glm-45v-and-glm-41v-thinking-towards-versatile-mul-a7c3cc0e",
+    "title": "GLM-4.5V and GLM-4.1V-Thinking: Towards Versatile Multimodal Reasoning with Scalable Reinforcement Learning",
+    "link": "https://arxiv.org/abs/2507.01006",
+    "pos": [
+      -5.979984760284424,
+      3.690957546234131
+    ],
+    "cluster": 2
+  },
+  {
+    "id": "plaid-an-efficient-engine-for-late-interaction-ret-c16019f6",
+    "title": "PLAID: An Efficient Engine for Late Interaction Retrieval",
+    "link": "https://arxiv.org/abs/2205.09707",
+    "pos": [
+      -10.327539443969727,
+      10.483171463012695
+    ],
+    "cluster": 1
+  },
+  {
+    "id": "towards-storage-efficient-visual-document-retrieva-69971a73",
+    "title": "Towards Storage-Efficient Visual Document Retrieval: An Empirical Study on Reducing Patch-Level Embeddings",
+    "link": "https://arxiv.org/abs/2506.04997",
+    "pos": [
+      -8.463397026062012,
+      10.287881851196289
+    ],
+    "cluster": 1
+  },
+  {
+    "id": "doclens-a-tool-augmented-multi-agent-framework-for-87dc04b6",
+    "title": "DocLens : A Tool-Augmented Multi-Agent Framework for Long Visual Document Understanding",
+    "link": "https://arxiv.org/abs/2511.11552",
+    "pos": [
+      -6.416226863861084,
+      9.972753524780273
+    ],
+    "cluster": 1
+  },
+  {
+    "id": "arc-is-a-vision-problem-526fd664",
+    "title": "ARC Is a Vision Problem!",
+    "link": "https://arxiv.org/abs/2511.14761",
+    "pos": [
+      -4.934757709503174,
+      5.252696990966797
+    ],
+    "cluster": 1
+  },
+  {
+    "id": "deepseek-v32-pushing-the-frontier-of-open-large-la-17ccb53a",
+    "title": "DeepSeek-V3.2: Pushing the Frontier of Open Large Language Models",
+    "link": "https://arxiv.org/abs/2512.02556",
+    "pos": [
+      0.6118152141571045,
+      2.542757987976074
+    ],
+    "cluster": 6
+  },
+  {
+    "id": "qwen3-embedding-advancing-text-embedding-and-reran-f05d3227",
+    "title": "Qwen3 Embedding: Advancing Text Embedding and Reranking Through Foundation Models",
+    "link": "https://arxiv.org/abs/2506.05176",
+    "pos": [
+      -9.839859962463379,
+      7.692987442016602
+    ],
+    "cluster": 1
+  },
+  {
+    "id": "stabilizing-reinforcement-learning-with-llms-formu-e9efa743",
+    "title": "Stabilizing Reinforcement Learning with LLMs: Formulation and Practices",
+    "link": "https://arxiv.org/abs/2512.01374",
+    "pos": [
+      -9.40304946899414,
+      -2.4667298793792725
+    ],
+    "cluster": 7
+  },
+  {
+    "id": "intellect-3-technical-report-4de9863f",
+    "title": "INTELLECT-3: Technical Report",
+    "link": "https://arxiv.org/abs/2512.16144",
+    "pos": [
+      1.2531483173370361,
+      1.269387125968933
+    ],
+    "cluster": 6
+  },
+  {
+    "id": "stabilizing-moe-reinforcement-learning-by-aligning-7aafcd1f",
+    "title": "Stabilizing MoE Reinforcement Learning by Aligning Training and Inference Routers",
+    "link": "https://arxiv.org/abs/2510.11370",
+    "pos": [
+      -9.339591979980469,
+      -2.9670333862304688
+    ],
+    "cluster": 7
+  },
+  {
+    "id": "how-to-correctly-report-llm-as-a-judge-evaluations-73672198",
+    "title": "How to Correctly Report LLM-as-a-Judge Evaluations",
+    "link": "https://arxiv.org/abs/2511.21140",
+    "pos": [
+      0.5076234340667725,
+      10.32680892944336
+    ],
+    "cluster": 3
+  },
+  {
+    "id": "on-policy-distillation-of-language-models-learning-a46b3ff1",
+    "title": "On-Policy Distillation of Language Models: Learning from Self-Generated Mistakes",
+    "link": "https://arxiv.org/abs/2306.13649",
+    "pos": [
+      -1.42775559425354,
+      -3.7571256160736084
+    ],
+    "cluster": 2
+  },
+  {
+    "id": "motif-2-127b-technical-report-20a26ddd",
+    "title": "Motif 2 12.7B technical report",
+    "link": "https://arxiv.org/abs/2511.07464",
+    "pos": [
+      4.360284805297852,
+      -2.4926137924194336
+    ],
+    "cluster": 6
+  },
+  {
+    "id": "motif-2-127b-reasoning-a-practitioners-guide-to-rl-4982fb63",
+    "title": "Motif-2-12.7B-Reasoning: A Practitioner's Guide to RL Training Recipes",
+    "link": "https://arxiv.org/abs/2512.11463",
+    "pos": [
+      -0.918270468711853,
+      0.5024115443229675
+    ],
+    "cluster": 2
+  },
+  {
+    "id": "training-llms-with-mxfp4-c1052052",
+    "title": "Training LLMs with MXFP4",
+    "link": "https://arxiv.org/abs/2502.20586",
+    "pos": [
+      6.441483020782471,
+      -6.995608329772949
+    ],
+    "cluster": 0
+  },
+  {
+    "id": "quartet-native-fp4-training-can-be-optimal-for-lar-69e77a8c",
+    "title": "Quartet: Native FP4 Training Can Be Optimal for Large Language Models",
+    "link": "https://arxiv.org/abs/2505.14669",
+    "pos": [
+      6.830428600311279,
+      -7.079273700714111
+    ],
+    "cluster": 0
+  },
+  {
+    "id": "towards-greater-leverage-scaling-laws-for-efficien-f8fa3dc9",
+    "title": "Towards Greater Leverage: Scaling Laws for Efficient Mixture-of-Experts Language Models",
+    "link": "https://arxiv.org/abs/2507.17702",
+    "pos": [
+      3.4109902381896973,
+      -1.4216892719268799
+    ],
+    "cluster": 6
+  },
+  {
+    "id": "glm-45-agentic-reasoning-and-coding-arc-foundation-e0bb7a16",
+    "title": "GLM-4.5: Agentic, Reasoning, and Coding (ARC) Foundation Models",
+    "link": "https://arxiv.org/abs/2508.06471",
+    "pos": [
+      1.7725937366485596,
+      2.579139471054077
+    ],
+    "cluster": 6
+  },
+  {
+    "id": "minimax-m1-scaling-test-time-compute-efficiently-w-2547bf8b",
+    "title": "MiniMax-M1: Scaling Test-Time Compute Efficiently with Lightning Attention",
+    "link": "https://arxiv.org/abs/2506.13585",
+    "pos": [
+      1.5898829698562622,
+      0.19099414348602295
+    ],
+    "cluster": 6
+  },
+  {
+    "id": "longcat-flash-technical-report-41efe649",
+    "title": "LongCat-Flash Technical Report",
+    "link": "https://arxiv.org/abs/2509.01322",
+    "pos": [
+      3.1476573944091797,
+      -0.19039113819599152
+    ],
+    "cluster": 6
+  },
+  {
+    "id": "every-step-evolves-scaling-reinforcement-learning--96fdec8d",
+    "title": "Every Step Evolves: Scaling Reinforcement Learning for Trillion-Scale Thinking Model",
+    "link": "https://arxiv.org/abs/2510.18855",
+    "pos": [
+      0.3165290653705597,
+      0.733124852180481
+    ],
+    "cluster": 6
+  },
+  {
+    "id": "root-mean-square-layer-normalization-37b54583",
+    "title": "Root Mean Square Layer Normalization",
+    "link": "https://arxiv.org/abs/1910.07467",
+    "pos": [
+      -0.5511435270309448,
+      3.905827045440674
+    ],
+    "cluster": 2
+  },
+  {
+    "id": "zero-memory-optimizations-toward-training-trillion-09cb83db",
+    "title": "ZeRO: Memory Optimizations Toward Training Trillion Parameter Models",
+    "link": "https://arxiv.org/abs/1910.02054v3",
+    "pos": [
+      5.733983039855957,
+      -3.8259341716766357
+    ],
+    "cluster": 0
+  },
+  {
+    "id": "hierarchical-reasoning-model-604d21b7",
+    "title": "Hierarchical Reasoning Model",
+    "link": "https://arxiv.org/abs/2506.21734",
+    "pos": [
+      -1.2788578271865845,
+      2.2342514991760254
+    ],
+    "cluster": 2
+  },
+  {
+    "id": "towards-fully-fp8-gemm-llm-training-at-scale-9b105f50",
+    "title": "Towards Fully FP8 GEMM LLM Training at Scale",
+    "link": "https://arxiv.org/abs/2505.20524",
+    "pos": [
+      7.323942184448242,
+      -6.387199878692627
+    ],
+    "cluster": 0
+  },
+  {
+    "id": "scaling-fp8-training-to-trillion-token-llms-0a1684aa",
+    "title": "Scaling FP8 training to trillion-token LLMs",
+    "link": "https://arxiv.org/abs/2409.12517",
+    "pos": [
+      7.089311122894287,
+      -5.731940746307373
+    ],
+    "cluster": 0
+  },
+  {
+    "id": "an-inquiry-into-datacenter-tco-for-llm-inference-w-cab55b1a",
+    "title": "An Inquiry into Datacenter TCO for LLM Inference with FP8",
+    "link": "https://arxiv.org/abs/2502.01070v1",
+    "pos": [
+      8.253496170043945,
+      -6.822934627532959
+    ],
+    "cluster": 0
+  },
+  {
+    "id": "fp8-lm-training-fp8-large-language-models-05a26396",
+    "title": "FP8-LM: Training FP8 Large Language Models",
+    "link": "https://arxiv.org/abs/2310.18313",
+    "pos": [
+      6.694212436676025,
+      -6.154576301574707
+    ],
+    "cluster": 0
+  },
+  {
+    "id": "defeating-the-training-inference-mismatch-via-fp16-79636a16",
+    "title": "Defeating the Training-Inference Mismatch via FP16",
+    "link": "https://arxiv.org/abs/2510.26788",
+    "pos": [
+      5.315626621246338,
+      -6.948187828063965
+    ],
+    "cluster": 0
+  },
+  {
+    "id": "every-activation-boosted-scaling-general-reasoner--be51c673",
+    "title": "Every Activation Boosted: Scaling General Reasoner to 1 Trillion Open Language Foundation",
+    "link": "https://arxiv.org/abs/2510.22115",
+    "pos": [
+      0.09972646832466125,
+      0.04499310255050659
+    ],
+    "cluster": 6
+  },
+  {
+    "id": "kimi-k2-open-agentic-intelligence-e0e90c37",
+    "title": "Kimi K2: Open Agentic Intelligence",
+    "link": "https://arxiv.org/abs/2507.20534",
+    "pos": [
+      1.2265663146972656,
+      3.2074289321899414
+    ],
+    "cluster": 6
+  },
+  {
+    "id": "longdocurl-a-comprehensive-multimodal-long-documen-b177f1cc",
+    "title": "LongDocURL: a Comprehensive Multimodal Long Document Benchmark Integrating Understanding, Reasoning, and Locating",
+    "link": "https://arxiv.org/abs/2412.18424",
+    "pos": [
+      -5.5287628173828125,
+      10.402770042419434
+    ],
+    "cluster": 1
+  },
+  {
+    "id": "mmlongbench-benchmarking-long-context-vision-langu-da4e589a",
+    "title": "MMLongBench: Benchmarking Long-Context Vision-Language Models Effectively and Thoroughly",
+    "link": "https://arxiv.org/abs/2505.10610",
+    "pos": [
+      -4.661767482757568,
+      8.34315299987793
+    ],
+    "cluster": 1
+  },
+  {
+    "id": "mmlongbench-doc-benchmarking-long-context-document-ae7c8f92",
+    "title": "MMLongBench-Doc: Benchmarking Long-context Document Understanding with Visualizations",
+    "link": "https://arxiv.org/abs/2407.01523",
+    "pos": [
+      -5.455738067626953,
+      10.081026077270508
+    ],
+    "cluster": 1
+  },
+  {
+    "id": "test-time-adaptation-of-tiny-recursive-models-1f24ed73",
+    "title": "Test-time Adaptation of Tiny Recursive Models",
+    "link": "https://arxiv.org/abs/2511.02886",
+    "pos": [
+      3.055966854095459,
+      1.4977366924285889
+    ],
+    "cluster": 6
+  },
+  {
+    "id": "less-is-more-recursive-reasoning-with-tiny-network-01696993",
+    "title": "Less is More: Recursive Reasoning with Tiny Networks",
+    "link": "https://arxiv.org/abs/2510.04871",
+    "pos": [
+      2.686591625213623,
+      1.6633440256118774
+    ],
+    "cluster": 6
+  },
+  {
+    "id": "why-is-spatial-reasoning-hard-for-vlms-an-attentio-5e83e074",
+    "title": "Why Is Spatial Reasoning Hard for VLMs? An Attention Mechanism Perspective on Focus Areas",
+    "link": "https://arxiv.org/abs/2503.01773",
+    "pos": [
+      -3.956836462020874,
+      4.6682586669921875
+    ],
+    "cluster": 2
+  },
+  {
+    "id": "colpali-efficient-document-retrieval-with-vision-l-4ded15fa",
+    "title": "ColPali: Efficient Document Retrieval with Vision Language Models",
+    "link": "https://arxiv.org/abs/2407.01449",
+    "pos": [
+      -8.414401054382324,
+      9.643157005310059
+    ],
+    "cluster": 1
+  },
+  {
+    "id": "areal-a-large-scale-asynchronous-reinforcement-lea-b17b40cd",
+    "title": "AReaL: A Large-Scale Asynchronous Reinforcement Learning System for Language Reasoning",
+    "link": "https://arxiv.org/abs/2505.24298",
+    "pos": [
+      -1.274084448814392,
+      -0.7907846570014954
+    ],
+    "cluster": 2
+  },
+  {
+    "id": "the-art-of-scaling-reinforcement-learning-compute--e788c175",
+    "title": "The Art of Scaling Reinforcement Learning Compute for LLMs",
+    "link": "https://arxiv.org/abs/2510.13786",
+    "pos": [
+      -0.1952543556690216,
+      -1.7490906715393066
+    ],
+    "cluster": 6
+  },
+  {
+    "id": "part-i-tricks-or-traps-a-deep-dive-into-rl-for-llm-7b17cf17",
+    "title": "Part I: Tricks or Traps? A Deep Dive into RL for LLM Reasoning",
+    "link": "https://arxiv.org/abs/2508.08221",
+    "pos": [
+      -3.839042901992798,
+      -1.097055196762085
+    ],
+    "cluster": 2
+  },
+  {
+    "id": "magistral-5de72bf8",
+    "title": "Magistral",
+    "link": "https://arxiv.org/abs/2506.10910",
+    "pos": [
+      -2.0936150550842285,
+      -0.9091361165046692
+    ],
+    "cluster": 2
+  },
+  {
+    "id": "ruler-whats-the-real-context-size-of-your-long-con-9eff3185",
+    "title": "RULER: What's the Real Context Size of Your Long-Context Language Models?",
+    "link": "https://arxiv.org/abs/2404.06654",
+    "pos": [
+      -3.25165057182312,
+      8.98023796081543
+    ],
+    "cluster": 1
+  },
+  {
+    "id": "nolima-long-context-evaluation-beyond-literal-matc-05a4204f",
+    "title": "NoLiMa: Long-Context Evaluation Beyond Literal Matching",
+    "link": "https://arxiv.org/abs/2502.05167",
+    "pos": [
+      -3.1041457653045654,
+      9.100342750549316
+    ],
+    "cluster": 1
+  },
+  {
+    "id": "longbench-v2-towards-deeper-understanding-and-reas-bd15c327",
+    "title": "LongBench v2: Towards Deeper Understanding and Reasoning on Realistic Long-context Multitasks",
+    "link": "https://arxiv.org/abs/2412.15204",
+    "pos": [
+      -4.07465124130249,
+      9.456897735595703
+    ],
+    "cluster": 1
+  },
+  {
+    "id": "text-or-pixels-it-takes-half-on-the-token-efficien-71989f4c",
+    "title": "Text or Pixels? It Takes Half: On the Token Efficiency of Visual Text Inputs in Multimodal LLMs",
+    "link": "https://arxiv.org/abs/2510.18279",
+    "pos": [
+      -6.24044942855835,
+      7.31119441986084
+    ],
+    "cluster": 1
+  },
+  {
+    "id": "deepseek-ocr-contexts-optical-compression-2307c6b1",
+    "title": "DeepSeek-OCR: Contexts Optical Compression",
+    "link": "https://www.arxiv.org/abs/2510.18234",
+    "pos": [
+      -6.213594436645508,
+      8.307025909423828
+    ],
+    "cluster": 1
+  },
+  {
+    "id": "introducing-longcat-flash-thinking-a-technical-rep-780f3ead",
+    "title": "Introducing LongCat-Flash-Thinking: A Technical Report",
+    "link": "https://arxiv.org/abs/2509.18883",
+    "pos": [
+      -0.0869649350643158,
+      1.577071189880371
+    ],
+    "cluster": 2
+  },
+  {
+    "id": "llama-nemoretriever-colembed-top-performing-text-i-b7df4642",
+    "title": "Llama Nemoretriever Colembed: Top-Performing Text-Image Retrieval Model",
+    "link": "https://arxiv.org/abs/2507.05513",
+    "pos": [
+      -8.828619956970215,
+      8.466522216796875
+    ],
+    "cluster": 1
+  },
+  {
+    "id": "modernvbert-towards-smaller-visual-document-retrie-98faa052",
+    "title": "ModernVBERT: Towards Smaller Visual Document Retrievers",
+    "link": "https://arxiv.org/abs/2510.01149",
+    "pos": [
+      -8.540755271911621,
+      9.488181114196777
+    ],
+    "cluster": 1
+  },
+  {
+    "id": "on-the-interplay-of-pre-training-mid-training-and--c9f91692",
+    "title": "On the Interplay of Pre-Training, Mid-Training, and RL on Reasoning Language Models",
+    "link": "https://arxiv.org/abs/2512.07783",
+    "pos": [
+      -2.8406524658203125,
+      -0.22188539803028107
+    ],
+    "cluster": 2
+  },
+  {
+    "id": "toward-training-superintelligent-software-agents-t-86c94aa1",
+    "title": "Toward Training Superintelligent Software Agents through Self-Play SWE-RL",
+    "link": "https://arxiv.org/abs/2512.18552",
+    "pos": [
+      4.454962730407715,
+      10.809860229492188
+    ],
+    "cluster": 3
+  },
+  {
+    "id": "justrl-scaling-a-15b-llm-with-a-simple-rl-recipe-518641bc",
+    "title": "JustRL: Scaling a 1.5B LLM with a Simple RL Recipe",
+    "link": "https://arxiv.org/abs/2512.16649",
+    "pos": [
+      -0.7871066331863403,
+      -1.2591400146484375
+    ],
+    "cluster": 2
+  },
+  {
+    "id": "from-fx-and-gx-to-fgx-llms-learn-new-skills-in-rl--3d88dc0a",
+    "title": "From $f(x)$ and $g(x)$ to $f(g(x))$: LLMs Learn New Skills in RL by Composing Old Ones",
+    "link": "https://arxiv.org/abs/2509.25123",
+    "pos": [
+      -2.861408233642578,
+      -1.431396245956421
+    ],
+    "cluster": 2
+  },
+  {
+    "id": "low-precision-training-of-large-language-models-me-c508ffb5",
+    "title": "Low-Precision Training of Large Language Models: Methods, Challenges, and Opportunities",
+    "link": "https://arxiv.org/abs/2505.01043",
+    "pos": [
+      6.925154209136963,
+      -8.431965827941895
+    ],
+    "cluster": 0
+  },
+  {
+    "id": "deepseek-v3.2-exp-bd007c23",
+    "title": "DeepSeek-V3.2-Exp",
+    "link": "https://github.com/deepseek-ai/DeepSeek-V3.2-Exp/blob/main/DeepSeek_V3_2.pdf",
+    "pos": [
+      5.563204765319824,
+      2.1112334728240967
+    ],
+    "cluster": 6
+  }
+]

@@ -1,0 +1,57 @@
+[
+  {
+    "title": "reka-core-tech-report.pdf",
+    "url": "https://publications.reka.ai/reka-core-tech-report.pdf",
+    "error": "Failed to extract PDF content"
+  },
+  {
+    "title": "refusal_demo.ipynb - Colab",
+    "url": "https://colab.research.google.com/drive/1a-aQvKC9avdZpdyBn4jgRQFObTPy1JZw?usp=sharing#scrollTo=dLeei4-T6Wef",
+    "error": "Insufficient content (only 2 words, minimum 15 required)"
+  },
+  {
+    "title": "Repeng T Vogel Opus III Space.pdf - Google Drive",
+    "url": "https://drive.google.com/file/d/1Q9AcPvOQ2SmtuNwJCbArZYm6HR3hzpVq/view?pli=1",
+    "error": "Insufficient content (only 3 words, minimum 15 required)"
+  },
+  {
+    "title": "Takeaways from Mastering LLMs Course – Swaroop, The Dreamer",
+    "url": "https://swaroopch.com/blog/mastering-llms/",
+    "error": "Insufficient content (only 14 words, minimum 15 required)"
+  },
+  {
+    "title": "Program tuning as a resource allocation problem at Andi Kleen's blog",
+    "url": "https://halobates.de/blog/p/227",
+    "error": "Failed to extract web content"
+  },
+  {
+    "title": "data_parallel_intro.ipynb - Colab",
+    "url": "https://colab.research.google.com/github/phlippe/uvadlc_notebooks/blob/master/docs/tutorial_notebooks/scaling/JAX/data_parallel_intro.ipynb#scrollTo=AyzY02D0y8ok",
+    "error": "Insufficient content (only 2 words, minimum 15 required)"
+  },
+  {
+    "title": "data_parallel_fsdp.ipynb - Colab",
+    "url": "https://colab.research.google.com/drive/1xsRfInfZGAXk_WvhxcqJTIbnX8SaQqni#scrollTo=KPb1v_uQRvTg",
+    "error": "Insufficient content (only 2 words, minimum 15 required)"
+  },
+  {
+    "title": "pipeline_parallel_simple.ipynb - Colab",
+    "url": "https://colab.research.google.com/github/phlippe/uvadlc_notebooks/blob/master/docs/tutorial_notebooks/scaling/JAX/pipeline_parallel_simple.ipynb#scrollTo=8jhL-TzhjOZF",
+    "error": "Insufficient content (only 2 words, minimum 15 required)"
+  },
+  {
+    "title": "Can we make any smaller opensource LLM models smarter than human? | by Harish SG | Oct, 2024 | Medium",
+    "url": "https://medium.com/@harishhacker3010/can-we-make-any-smaller-opensource-ai-models-smarter-than-human-1ea507e644a0",
+    "error": "Failed to extract web content"
+  },
+  {
+    "title": "Entropixplained",
+    "url": "https://southbridge-research.notion.site/Entropixplained-11e5fec70db180b6bfafe878433c2104",
+    "error": "Insufficient content (only 14 words, minimum 15 required)"
+  },
+  {
+    "title": "DeepSeek-V3.2-Exp",
+    "url": "https://aarnphm.xyz/thoughts/papers/DeepSeek_V3_2.pdf",
+    "error": "Failed to extract PDF content"
+  }
+]
