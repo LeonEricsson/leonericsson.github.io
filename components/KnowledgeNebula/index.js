@@ -3,16 +3,34 @@
 import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// Refined cluster themes - distinct colors without names
+// Pastel cluster themes - balanced clarity and brightness
 const CLUSTER_THEMES = {
-  0: { color: '#c9184a', soft: 'rgba(201, 24, 74, 0.06)', accent: '#ff758f' },
-  1: { color: '#7b2cbf', soft: 'rgba(123, 44, 191, 0.06)', accent: '#c77dff' },
-  2: { color: '#0077b6', soft: 'rgba(0, 119, 182, 0.06)', accent: '#48cae4' },
-  3: { color: '#2d6a4f', soft: 'rgba(45, 106, 79, 0.06)', accent: '#52b788' },
-  4: { color: '#e85d04', soft: 'rgba(232, 93, 4, 0.06)', accent: '#ffba08' },
-  5: { color: '#9d4edd', soft: 'rgba(157, 78, 221, 0.05)', accent: '#c77dff' },
-  6: { color: '#3a0ca3', soft: 'rgba(58, 12, 163, 0.06)', accent: '#7209b7' },
-  7: { color: '#006466', soft: 'rgba(0, 100, 102, 0.06)', accent: '#4ecdc4' },
+  0: { color: '#f5a0af', soft: 'rgba(245, 160, 175, 0.08)', accent: '#f5a0af' }, // blush pink
+  1: { color: '#b6a0fb', soft: 'rgba(182, 160, 251, 0.08)', accent: '#b6a0fb' }, // soft lavender
+  2: { color: '#91d6fe', soft: 'rgba(145, 214, 254, 0.08)', accent: '#91d6fe' }, // sky blue
+  3: { color: '#9cf1b4', soft: 'rgba(156, 241, 180, 0.08)', accent: '#9cf1b4' }, // mint
+  4: { color: '#fec98e', soft: 'rgba(254, 201, 142, 0.08)', accent: '#fec98e' }, // apricot
+  5: { color: '#c8a2fe', soft: 'rgba(200, 162, 254, 0.08)', accent: '#c8a2fe' }, // lilac
+  6: { color: '#80e9f6', soft: 'rgba(128, 233, 246, 0.08)', accent: '#80e9f6' }, // aqua
+  7: { color: '#fbb5d6', soft: 'rgba(251, 181, 214, 0.08)', accent: '#fbb5d6' }, // rose
+};
+
+// Draw a flat star shape
+const drawStar = (ctx, cx, cy, outerRadius, innerRadius, points) => {
+  const step = Math.PI / points;
+  ctx.beginPath();
+  for (let i = 0; i < 2 * points; i++) {
+    const radius = i % 2 === 0 ? outerRadius : innerRadius;
+    const angle = i * step - Math.PI / 2;
+    const x = cx + Math.cos(angle) * radius;
+    const y = cy + Math.sin(angle) * radius;
+    if (i === 0) {
+      ctx.moveTo(x, y);
+    } else {
+      ctx.lineTo(x, y);
+    }
+  }
+  ctx.closePath();
 };
 
 const CLUSTER_ORDER = [0, 1, 2, 3, 4, 5, 6, 7];
@@ -238,7 +256,7 @@ export default function KnowledgeNebula({ papers = [] }) {
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
 
-    const delta = e.deltaY * -0.001;
+    const delta = e.deltaY * -0.01;
     const oldScale = transformRef.current.scale;
     const newScale = Math.max(0.5, Math.min(3, oldScale + delta));
 
@@ -251,6 +269,26 @@ export default function KnowledgeNebula({ papers = [] }) {
     transformRef.current.targetY = mouseY - zoomPointY * newScale;
     transformRef.current.targetScale = newScale;
   }, []);
+
+  // Reset camera handler
+  const resetCamera = useCallback(() => {
+    transformRef.current.targetX = 0;
+    transformRef.current.targetY = 0;
+    transformRef.current.targetScale = 1;
+  }, []);
+
+  // Keyboard handler for space to reset
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.code === 'Space' && e.target.tagName !== 'INPUT') {
+        e.preventDefault();
+        resetCamera();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [resetCamera]);
 
   // Animation loop
   useEffect(() => {
@@ -310,8 +348,8 @@ export default function KnowledgeNebula({ papers = [] }) {
 
         // Draw particle with subtle pulse
         const pulse = Math.sin(time * 2 + p.phase) * 0.3 + 1;
-        ctx.globalAlpha = p.opacity * pulse;
-        ctx.fillStyle = '#9ca3af';
+        ctx.globalAlpha = p.opacity * pulse * 0.6;
+        ctx.fillStyle = '#d1d5db';
         ctx.beginPath();
         ctx.arc(p.x + px * 0.3, p.y + py * 0.3, p.radius, 0, Math.PI * 2);
         ctx.fill();
@@ -321,41 +359,6 @@ export default function KnowledgeNebula({ papers = [] }) {
       const scale = transformRef.current.scale;
       const nodes = nodesRef.current;
       const connections = connectionsRef.current;
-
-      // Draw soft cluster regions (watercolor effect)
-      const clusterCenters = {};
-      nodes.forEach(node => {
-        if (!clusterCenters[node.cluster]) {
-          clusterCenters[node.cluster] = { x: 0, y: 0, count: 0 };
-        }
-        clusterCenters[node.cluster].x += node.x;
-        clusterCenters[node.cluster].y += node.y;
-        clusterCenters[node.cluster].count++;
-      });
-
-      Object.keys(clusterCenters).forEach(cluster => {
-        const c = clusterCenters[cluster];
-        if (c.count === 0) return;
-        c.x /= c.count;
-        c.y /= c.count;
-
-        const theme = CLUSTER_THEMES[cluster];
-        const cx = c.x * scale + transformRef.current.x + px * 0.5;
-        const cy = c.y * scale + transformRef.current.y + py * 0.5;
-
-        // Draw soft radial gradient (watercolor effect)
-        const radius = Math.min(width, height) * 0.28 * scale;
-        const gradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
-        gradient.addColorStop(0, theme.soft);
-        gradient.addColorStop(0.4, theme.soft.replace('0.06', '0.03'));
-        gradient.addColorStop(0.7, theme.soft.replace('0.06', '0.015'));
-        gradient.addColorStop(1, 'rgba(255, 254, 249, 0)');
-
-        ctx.fillStyle = gradient;
-        ctx.beginPath();
-        ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-        ctx.fill();
-      });
 
       // Draw connections with organic curves
       ctx.lineCap = 'round';
@@ -374,8 +377,8 @@ export default function KnowledgeNebula({ papers = [] }) {
 
         const theme = CLUSTER_THEMES[n1.cluster];
         ctx.strokeStyle = theme.color;
-        ctx.globalAlpha = conn.opacity * 0.4;
-        ctx.lineWidth = 1;
+        ctx.globalAlpha = conn.opacity * 1.5;
+        ctx.lineWidth = 2;
 
         // Draw curved line
         const midX = (x1 + x2) / 2;
@@ -389,62 +392,41 @@ export default function KnowledgeNebula({ papers = [] }) {
         ctx.globalAlpha = 1;
       });
 
-      // Draw nodes
+      // Draw nodes as flat pastel stars
       nodes.forEach((node, i) => {
         const theme = CLUSTER_THEMES[node.cluster];
         const isHovered = hoveredPaper?.id === node.id;
         const isSelected = selectedPaper?.id === node.id;
 
         // Animate radius
-        const targetRadius = isHovered || isSelected ? node.baseRadius * 2.5 : node.baseRadius;
+        const targetRadius = isHovered || isSelected ? node.baseRadius * 2.2 : node.baseRadius;
         node.radius = lerp(node.radius, targetRadius, 0.15);
 
         const x = node.x * scale + transformRef.current.x + px;
         const y = node.y * scale + transformRef.current.y + py;
         const r = node.radius * scale;
 
-        // Pulse animation
-        const pulse = Math.sin(time * node.pulseSpeed + node.pulsePhase) * 0.15 + 1;
-        const pulseR = r * pulse;
+        // Subtle rotation animation
+        const rotation = time * 0.2 + node.pulsePhase;
 
-        // Draw glow
-        if (isHovered || isSelected) {
-          const glowGradient = ctx.createRadialGradient(x, y, 0, x, y, pulseR * 3);
-          glowGradient.addColorStop(0, theme.accent + '40');
-          glowGradient.addColorStop(0.5, theme.accent + '15');
-          glowGradient.addColorStop(1, 'rgba(255, 254, 249, 0)');
+        // Star dimensions
+        const outerR = r * 1.4;
+        const innerR = r * 0.55;
+        const points = 4; // 4-pointed star for clean look
 
-          ctx.fillStyle = glowGradient;
-          ctx.beginPath();
-          ctx.arc(x, y, pulseR * 3, 0, Math.PI * 2);
-          ctx.fill();
-        }
+        // Save context for rotation
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(rotation);
 
-        // Draw outer ring
-        ctx.strokeStyle = theme.color;
-        ctx.lineWidth = isHovered || isSelected ? 2 : 1;
-        ctx.globalAlpha = isHovered || isSelected ? 0.6 : 0.3;
-        ctx.beginPath();
-        ctx.arc(x, y, pulseR * 1.5, 0, Math.PI * 2);
-        ctx.stroke();
+        // Draw flat star - single solid color
+        ctx.fillStyle = theme.color;
         ctx.globalAlpha = 1;
-
-        // Draw core
-        const coreGradient = ctx.createRadialGradient(x - r * 0.3, y - r * 0.3, 0, x, y, pulseR);
-        coreGradient.addColorStop(0, theme.accent);
-        coreGradient.addColorStop(0.5, theme.color);
-        coreGradient.addColorStop(1, theme.color + 'cc');
-
-        ctx.fillStyle = coreGradient;
-        ctx.beginPath();
-        ctx.arc(x, y, pulseR, 0, Math.PI * 2);
+        drawStar(ctx, 0, 0, outerR, innerR, points);
         ctx.fill();
 
-        // Inner highlight
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
-        ctx.beginPath();
-        ctx.arc(x - r * 0.2, y - r * 0.2, pulseR * 0.3, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.globalAlpha = 1;
+        ctx.restore();
       });
 
       animationRef.current = requestAnimationFrame(animate);
@@ -475,16 +457,16 @@ export default function KnowledgeNebula({ papers = [] }) {
       />
 
       {/* Top Controls */}
-      <div className="absolute top-6 left-6 pointer-events-none z-10">
-        {/* Search Bar - subtle design */}
+      <div className="absolute top-6 right-6 pointer-events-none z-10">
+        {/* Search Bar - minimal design */}
         <div className="pointer-events-auto">
           <input
             type="text"
             placeholder="search..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-48 px-3 py-1.5 bg-transparent border-b border-gray-300/50
-                       focus:outline-none focus:border-gray-400
+            className="w-48 px-3 py-1.5 bg-transparent text-right
+                       focus:outline-none
                        text-sm transition-all placeholder-gray-400/60"
             style={{ fontFamily: 'Courier Prime, monospace' }}
           />
@@ -614,8 +596,14 @@ export default function KnowledgeNebula({ papers = [] }) {
         )}
       </AnimatePresence>
 
-      {/* Resource Count - subtle corner placement */}
-      <div className="absolute bottom-6 right-6 pointer-events-none z-10">
+      {/* Resource Count & Instructions */}
+      <div className="absolute bottom-6 right-6 pointer-events-none z-10 text-right">
+        <div
+          className="text-xs text-gray-300/60 mb-1"
+          style={{ fontFamily: 'Courier Prime, monospace' }}
+        >
+          scroll to zoom · space to reset
+        </div>
         <div
           className="text-xs text-gray-300"
           style={{ fontFamily: 'Courier Prime, monospace' }}
