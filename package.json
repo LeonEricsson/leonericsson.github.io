@@ -12,10 +12,12 @@
     "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
     "@next/font": "^13.5.3",
+    "@react-three/fiber": "^8.15.0",
     "axios": "^1.5.1",
     "ci": "^2.3.0",
     "date-fn": "^0.0.2",
     "date-fns": "^3.5.0",
+    "framer-motion": "^12.23.26",
     "gray-matter": "^4.0.3",
     "next": "latest",
     "react": "latest",
@@ -35,6 +37,7 @@
     "remark-math": "^6.0.0",
     "remark-rehype": "^11.0.0",
     "shiki": "^3.13.0",
+    "three": "^0.182.0",
     "typewriter-effect": "^2.21.0"
   },
   "devDependencies": {

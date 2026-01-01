@@ -32,7 +32,7 @@ export default function NavBar() {
                 <NavLink href="/">home</NavLink>
                 <NavLink href="/about">about</NavLink>
                 <NavLink href="/blog">blog</NavLink>
-                {/* <NavLink href="/publications">publications</NavLink> */}
+                <NavLink href="/library">library</NavLink>
                 <a
                   href="https://github.com/LeonEricsson?tab=repositories"
                   target="_blank"
@@ -79,6 +79,13 @@ export default function NavBar() {
                 className="block border-l-4 border-b py-2 pl-3 pr-4 text-base font-medium text-white hover:bg-white hover:text-black"
               >
                 About
+              </Disclosure.Button>
+              <Disclosure.Button
+                as={Link}
+                href="/library"
+                className="block border-l-4 border-b py-2 pl-3 pr-4 text-base font-medium text-white hover:bg-white hover:text-black"
+              >
+                Library
               </Disclosure.Button>
               {/* <Disclosure.Button
                 as={Link}
