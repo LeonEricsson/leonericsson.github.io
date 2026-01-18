@@ -78,8 +78,8 @@ body {
   all: revert;
 }
 
-.sorts-mill {
-  font-family: "Sorts Mill Goudy", Garamond, serif;
+.cardo {
+  font-family: "Cardo", Georgia, serif;
 }
 
 .crimson {
@@ -158,7 +158,7 @@ body {
 
 /* Base rule applied to all markdown headings */
 .markdown :is(h1,h2,h3,h4,h5,h6) {
-  font-family: 'Sorts Mill Goudy', 'Garamond', serif;
+  font-family: 'Cardo', 'Georgia', serif;
   color: #1F1F1F;
   font-weight: 400;
   font-style: italic;
