@@ -24,7 +24,7 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+  font-family: 'Lora', 'Georgia', serif;
   line-height: 1.8;
 }
 
@@ -78,28 +78,28 @@ body {
   all: revert;
 }
 
+.crimson {
+  font-family: "Crimson Text", Georgia, serif;
+}
+
+.cormorant {
+  font-family: "Cormorant Garamond", Garamond, serif;
+}
+
+.playfair {
+  font-family: "Playfair Display", Georgia, serif;
+}
+
+.tangerine {
+  font-family: "Tangerine", cursive;
+}
+
+.lora {
+  font-family: "Lora", Georgia, serif;
+}
+
 .georgia {
   font-family: Georgia, serif;
-}
-
-.times {
-  font-family: "Times New Roman", Times, serif;
-}
-
-.charter {
-  font-family: "Charter", "Bitstream Charter", "Georgia", serif;
-}
-
-.garamond {
-  font-family: "Garamond", "EB Garamond", serif;
-}
-
-.libertinus {
-  font-family: "Libertinus Serif", "Georgia", serif;
-}
-
-.palatino {
-  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
 }
 
 
@@ -162,9 +162,9 @@ body {
 
 /* Base rule applied to all markdown headings */
 .markdown :is(h1,h2,h3,h4,h5,h6) {
-  font-family: 'Garamond', 'EB Garamond', serif;
+  font-family: 'Cormorant Garamond', 'Garamond', serif;
   color: #1F1F1F;
-  font-weight: 400;
+  font-weight: 500;
   margin-block-end: 0.5em;
 }
 
@@ -228,8 +228,8 @@ body {
 
 .markdown thead {
   background-color: #FFFBF6;
-  font-weight: 500;
-  font-family: 'Georgia', serif;
+  font-weight: 600;
+  font-family: 'Crimson Text', 'Georgia', serif;
 }
 
 .markdown tbody tr:nth-child(even) {

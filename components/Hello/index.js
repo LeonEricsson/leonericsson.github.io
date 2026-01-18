@@ -35,7 +35,7 @@ export default function Hello({allPostsData}) {
 
   return (
     <div className="relative pb-5">
-      <h1 className="text-large pt-4 md:pt-12 lg:pt-24 pl-12 md:text-4xl text-deep-charcoal font-garamond">
+      <h1 className="text-6xl pt-4 md:pt-12 lg:pt-24 pl-12 md:text-7xl text-deep-charcoal font-tangerine font-bold">
         <Type/>
       </h1>
       {showBlogs && (
@@ -50,7 +50,7 @@ export default function Hello({allPostsData}) {
                 style={{ top: `${y}px`, left: `${x}px` }}
               >
                 <div className="p-5 rounded-sm bg-vintage-paper border border-subtle-line shadow-sm hover:shadow-md transition-shadow duration-300">
-                  <h2 className="font-charter text-sm text-deep-charcoal truncate-3-lines hover:text-sepia-accent transition-colors duration-300" title={blog.title}>{blog.title}</h2>
+                  <h2 className="font-cormorant text-base text-deep-charcoal truncate-3-lines hover:text-sepia-accent transition-colors duration-300" title={blog.title}>{blog.title}</h2>
                 </div>
               </a>
             );

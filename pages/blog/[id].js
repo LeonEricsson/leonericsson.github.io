@@ -43,11 +43,11 @@ export default function Post({ postData }) {
           {/* Decorative top line */}
           <div className="w-16 h-px bg-subtle-line mx-auto mb-12"></div>
 
-          <h1 className="text-5xl font-garamond text-deep-charcoal text-center mb-6 leading-tight">
+          <h1 className="text-6xl font-cormorant font-medium text-deep-charcoal text-center mb-6 leading-tight">
             {postData.title}
           </h1>
 
-          <p className="text-medium-gray text-sm text-center font-georgia pb-12 pt-2">
+          <p className="text-medium-gray text-sm text-center font-crimson pb-12 pt-2">
             {postData.author ? (
               <>
                 Original{" "}
@@ -69,7 +69,7 @@ export default function Post({ postData }) {
           {/* Decorative separator line */}
           <div className="w-24 h-px bg-subtle-line mx-auto mb-16"></div>
 
-          <div className="entry text-base text-deep-charcoal font-palatino leading-loose">
+          <div className="entry text-base text-deep-charcoal font-lora leading-loose">
             <Markdown
               remarkPlugins={[remarkGfm, remarkMath]}
               rehypePlugins={[
