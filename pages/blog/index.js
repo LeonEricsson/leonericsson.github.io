@@ -39,7 +39,7 @@ export default function Blog({ blogPosts, reviews }) {
       Blog posts
     </h2>
     <div className="w-16 h-px bg-subtle-line mb-8"></div>
-    <ul className="list-none space-y-4">
+    <ul className="list-none space-y-2.5">
       {blogPosts.map(({ id, title, date }) => (
         <li key={id} className="flex items-baseline">
           <span className="text-medium-gray text-sm font-crimson mr-6 min-w-[6rem]">{format(new Date(date), 'dd MMM yyyy')}</span>
@@ -54,7 +54,7 @@ export default function Blog({ blogPosts, reviews }) {
       Literature reviews
     </h2>
     <div className="w-16 h-px bg-subtle-line mb-8"></div>
-    <ul className="list-none space-y-4">
+    <ul className="list-none space-y-2.5">
       {reviews.map(({ id, title, date }) => (
         <li key={id} className="flex items-baseline">
           <span className="text-medium-gray text-sm font-crimson mr-6 min-w-[6rem]">{format(new Date(date), 'dd MMM yyyy')}</span>
