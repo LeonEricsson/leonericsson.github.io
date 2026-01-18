@@ -35,7 +35,7 @@ export default function Blog({ blogPosts, reviews }) {
     </div>
 
     {/* Main blog section */}
-    <h2 className="text-3xl mt-8 mb-6 font-playfair font-semibold text-deep-charcoal">
+    <h2 className="text-3xl mt-8 mb-6 font-eb-garamond font-semibold text-deep-charcoal">
       Blog posts
     </h2>
     <div className="w-16 h-px bg-subtle-line mb-8"></div>
@@ -44,13 +44,13 @@ export default function Blog({ blogPosts, reviews }) {
         <li key={id} className="flex items-baseline border-b border-subtle-line pb-4">
           <span className="text-medium-gray text-xs font-crimson mr-6 min-w-[6rem]">{format(new Date(date), 'dd MMM yyyy')}</span>
           <Link href={`/blog/${id}`}>
-            <span className="text-deep-charcoal font-cormorant text-lg hover:text-sepia-accent cursor-pointer transition-colors duration-300">{title}</span>
+            <span className="text-deep-charcoal font-eb-garamond text-base hover:text-sepia-accent cursor-pointer transition-colors duration-300">{title}</span>
           </Link>
         </li>
       ))}
     </ul>
 
-    <h2 className="text-3xl mt-16 mb-6 font-playfair font-semibold text-deep-charcoal">
+    <h2 className="text-3xl mt-16 mb-6 font-eb-garamond font-semibold text-deep-charcoal">
       Literature reviews
     </h2>
     <div className="w-16 h-px bg-subtle-line mb-8"></div>
@@ -59,7 +59,7 @@ export default function Blog({ blogPosts, reviews }) {
         <li key={id} className="flex items-baseline border-b border-subtle-line pb-4">
           <span className="text-medium-gray text-xs font-crimson mr-6 min-w-[6rem]">{format(new Date(date), 'dd MMM yyyy')}</span>
           <Link href={`/blog/${id}`}>
-            <span className="text-deep-charcoal font-cormorant text-lg hover:text-sepia-accent cursor-pointer transition-colors duration-300">{title}</span>
+            <span className="text-deep-charcoal font-eb-garamond text-base hover:text-sepia-accent cursor-pointer transition-colors duration-300">{title}</span>
           </Link>
         </li>
       ))}

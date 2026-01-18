@@ -12,7 +12,7 @@ export default function NavBar() {
     return (
       <Link
         href={href}
-        className={`inline-flex items-center px-4 pt-8 pb-3 text-sm font-crimson text-deep-charcoal transition-all duration-300 ${
+        className={`inline-flex items-center px-4 pt-8 pb-3 text-sm font-eb-garamond text-deep-charcoal transition-all duration-300 ${
           isActive ? 'border-b-2 border-deep-charcoal' : 'hover:text-sepia-accent'
         }`}
       >
@@ -37,7 +37,7 @@ export default function NavBar() {
                   href="https://github.com/LeonEricsson?tab=repositories"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center px-4 pt-8 pb-3 text-sm font-crimson text-deep-charcoal hover:text-sepia-accent transition-all duration-300"
+                  className="inline-flex items-center px-4 pt-8 pb-3 text-sm font-eb-garamond text-deep-charcoal hover:text-sepia-accent transition-all duration-300"
                 >
                   work
                 </a>
@@ -61,28 +61,28 @@ export default function NavBar() {
               <Disclosure.Button
                 as={Link}
                 href="/"
-                className="block border-l-2 border-subtle-line py-3 pl-4 pr-4 text-sm font-crimson text-deep-charcoal hover:bg-vintage-paper hover:border-sepia-accent transition-all duration-300"
+                className="block border-l-2 border-subtle-line py-3 pl-4 pr-4 text-sm font-eb-garamond text-deep-charcoal hover:bg-vintage-paper hover:border-sepia-accent transition-all duration-300"
               >
                 Home
               </Disclosure.Button>
               <Disclosure.Button
                 as={Link}
                 href="/blog"
-                className="block border-l-2 border-subtle-line py-3 pl-4 pr-4 text-sm font-crimson text-deep-charcoal hover:bg-vintage-paper hover:border-sepia-accent transition-all duration-300"
+                className="block border-l-2 border-subtle-line py-3 pl-4 pr-4 text-sm font-eb-garamond text-deep-charcoal hover:bg-vintage-paper hover:border-sepia-accent transition-all duration-300"
               >
                 Blog
               </Disclosure.Button>
               <Disclosure.Button
                 as={Link}
                 href="/about"
-                className="block border-l-2 border-subtle-line py-3 pl-4 pr-4 text-sm font-crimson text-deep-charcoal hover:bg-vintage-paper hover:border-sepia-accent transition-all duration-300"
+                className="block border-l-2 border-subtle-line py-3 pl-4 pr-4 text-sm font-eb-garamond text-deep-charcoal hover:bg-vintage-paper hover:border-sepia-accent transition-all duration-300"
               >
                 About
               </Disclosure.Button>
               <Disclosure.Button
                 as={Link}
                 href="/library"
-                className="block border-l-2 border-subtle-line py-3 pl-4 pr-4 text-sm font-crimson text-deep-charcoal hover:bg-vintage-paper hover:border-sepia-accent transition-all duration-300"
+                className="block border-l-2 border-subtle-line py-3 pl-4 pr-4 text-sm font-eb-garamond text-deep-charcoal hover:bg-vintage-paper hover:border-sepia-accent transition-all duration-300"
               >
                 Library
               </Disclosure.Button>

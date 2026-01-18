@@ -23,10 +23,9 @@ const config: Config = {
         'subtle-line': '#D4CFC7',
       },
       fontFamily: {
+        'eb-garamond': ['"EB Garamond"', 'Garamond', 'serif'],
         'crimson': ['"Crimson Text"', 'Georgia', 'serif'],
         'cormorant': ['"Cormorant Garamond"', 'Garamond', 'serif'],
-        'playfair': ['"Playfair Display"', 'Georgia', 'serif'],
-        'tangerine': ['"Tangerine"', 'cursive'],
         'lora': ['"Lora"', 'Georgia', 'serif'],
         'georgia': ['Georgia', 'serif'],
       }
