@@ -35,7 +35,7 @@ export default function Hello({allPostsData}) {
 
   return (
     <div className="relative pb-5">
-      <h1 className="text-large pt-4 md:pt-12 lg:pt-24 pl-12 md:text-4xl text-white">
+      <h1 className="text-large pt-4 md:pt-12 lg:pt-24 pl-12 md:text-4xl text-deep-charcoal font-garamond">
         <Type/>
       </h1>
       {showBlogs && (
@@ -49,8 +49,8 @@ export default function Hello({allPostsData}) {
                 className="blog-card block absolute transition-opacity duration-700 ease-in opacity-0 min-w-[250px]"
                 style={{ top: `${y}px`, left: `${x}px` }}
               >
-                <div className="p-4 rounded bg-opacity-50 bg-warm-cream">
-                  <h2 className="font-bold text-base truncate-3-lines hover:text-gray-600" title={blog.title}>{blog.title}</h2>
+                <div className="p-5 rounded-sm bg-vintage-paper border border-subtle-line shadow-sm hover:shadow-md transition-shadow duration-300">
+                  <h2 className="font-charter text-sm text-deep-charcoal truncate-3-lines hover:text-sepia-accent transition-colors duration-300" title={blog.title}>{blog.title}</h2>
                 </div>
               </a>
             );

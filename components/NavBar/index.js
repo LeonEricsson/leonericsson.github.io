@@ -12,8 +12,8 @@ export default function NavBar() {
     return (
       <Link
         href={href}
-        className={`inline-flex items-center px-2 pt-8 pb-3 text-base text-headline transition-all duration-200 ${
-          isActive ? 'font-bold' : 'font-medium hover:font-bold'
+        className={`inline-flex items-center px-4 pt-8 pb-3 text-sm font-georgia text-deep-charcoal transition-all duration-300 ${
+          isActive ? 'border-b-2 border-deep-charcoal' : 'hover:text-sepia-accent'
         }`}
       >
         {children}
@@ -22,12 +22,12 @@ export default function NavBar() {
   };
   
   return (
-    <Disclosure as="nav" className="bg-warm-cream shadow">
+    <Disclosure as="nav" className="bg-warm-cream border-b border-subtle-line">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-4 lg:px-8">
-            <div className="flex h-20 justify-center">
-              <div className="hidden items-center md:flex md:space-x-8">
+            <div className="flex h-20 justify-center items-center">
+              <div className="hidden items-center md:flex md:space-x-12">
                 {/* only show this tabs when size is > md */}
                 <NavLink href="/">home</NavLink>
                 <NavLink href="/about">about</NavLink>
@@ -37,14 +37,14 @@ export default function NavBar() {
                   href="https://github.com/LeonEricsson?tab=repositories"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center px-1 pt-8 pb-3 text-base font-medium text-headline hover:font-bold transition-all duration-200"
+                  className="inline-flex items-center px-4 pt-8 pb-3 text-sm font-georgia text-deep-charcoal hover:text-sepia-accent transition-all duration-300"
                 >
                   work
                 </a>
               </div>
               <div className="flex items-center md:hidden">
                 {/* Mobile menu button */}
-                <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-deep-charcoal hover:bg-vintage-paper focus:outline-none focus:ring-2 focus:ring-inset focus:ring-sepia-accent">
                   <span className="sr-only">Open main menu</span>
                   {open ? (
                     <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
@@ -56,45 +56,36 @@ export default function NavBar() {
             </div>
           </div>
 
-          <Disclosure.Panel className="md:hidden">
+          <Disclosure.Panel className="md:hidden bg-warm-cream">
             <div className="space-y-1 pt-2 pb-3">
-              {/* Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800" */}
               <Disclosure.Button
                 as={Link}
                 href="/"
-                className="block border-l-4 border-b py-2 pl-3 pr-4 text-base font-medium text-white hover:bg-white hover:text-black"
+                className="block border-l-2 border-subtle-line py-3 pl-4 pr-4 text-sm font-georgia text-deep-charcoal hover:bg-vintage-paper hover:border-sepia-accent transition-all duration-300"
               >
                 Home
               </Disclosure.Button>
               <Disclosure.Button
                 as={Link}
                 href="/blog"
-                className="block border-l-4 border-b py-2 pl-3 pr-4 text-base font-medium text-white hover:bg-white hover:text-black"
+                className="block border-l-2 border-subtle-line py-3 pl-4 pr-4 text-sm font-georgia text-deep-charcoal hover:bg-vintage-paper hover:border-sepia-accent transition-all duration-300"
               >
-                Blogs
+                Blog
               </Disclosure.Button>
               <Disclosure.Button
                 as={Link}
                 href="/about"
-                className="block border-l-4 border-b py-2 pl-3 pr-4 text-base font-medium text-white hover:bg-white hover:text-black"
+                className="block border-l-2 border-subtle-line py-3 pl-4 pr-4 text-sm font-georgia text-deep-charcoal hover:bg-vintage-paper hover:border-sepia-accent transition-all duration-300"
               >
                 About
               </Disclosure.Button>
               <Disclosure.Button
                 as={Link}
                 href="/library"
-                className="block border-l-4 border-b py-2 pl-3 pr-4 text-base font-medium text-white hover:bg-white hover:text-black"
+                className="block border-l-2 border-subtle-line py-3 pl-4 pr-4 text-sm font-georgia text-deep-charcoal hover:bg-vintage-paper hover:border-sepia-accent transition-all duration-300"
               >
                 Library
               </Disclosure.Button>
-              {/* <Disclosure.Button
-                as={Link}
-                href="/publications"
-                className="block border-l-4 border-b py-2 pl-3 pr-4 text-base font-medium text-white hover:bg-white hover:text-black"
-              >
-                Publications
-              </Disclosure.Button> */}
-
             </div>
           </Disclosure.Panel>
         </>

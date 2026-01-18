@@ -38,14 +38,16 @@ export default function Post({ postData }) {
     <LayoutWoNav>
       <Head></Head>
 
-      <article className="container mx-auto py-20 px-4 sm:px-6 lg:px-8 flex justify-center">
-        <div className="w-full lg:w-8/12">
-          {" "}
-          {/* Same proportions as in Blog component */}
-          <h1 className="text-4xl font-bold mb-4 charter text-center">
+      <article className="container mx-auto py-16 px-6 sm:px-8 lg:px-12 flex justify-center">
+        <div className="w-full max-w-3xl">
+          {/* Decorative top line */}
+          <div className="w-16 h-px bg-subtle-line mx-auto mb-12"></div>
+
+          <h1 className="text-5xl font-garamond text-deep-charcoal text-center mb-6 leading-tight">
             {postData.title}
           </h1>
-          <p className="text-gray-400 text-base text-center palatino pb-20 pt-1">
+
+          <p className="text-medium-gray text-sm text-center font-georgia pb-12 pt-2">
             {postData.author ? (
               <>
                 Original{" "}
@@ -53,29 +55,36 @@ export default function Post({ postData }) {
                   href={postData.exturl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-400 hover:text-blue-300"
+                  className="text-sepia-accent hover:underline transition-all duration-300"
                 >
                   paper
                 </a>{" "}
                 · {postData.author} et al {postData.year}
               </>
             ) : (
-              <>{formatDate(postData.date)}.</>
+              <>{formatDate(postData.date)}</>
             )}
           </p>
-          <div className={`entry text-base text-gray-600 mb-4 palatino leading-relaxed`}>
+
+          {/* Decorative separator line */}
+          <div className="w-24 h-px bg-subtle-line mx-auto mb-16"></div>
+
+          <div className="entry text-base text-deep-charcoal font-palatino leading-loose">
             <Markdown
-          remarkPlugins={[remarkGfm, remarkMath]}
-          rehypePlugins={[
-            rehypeKatex,
-            rehypeRaw,
-            [rehypeHighlight, { detect: true }]
-          ]}
-          className="markdown"
-        >
-          {postData.contentMarkdown}
-        </Markdown>
+              remarkPlugins={[remarkGfm, remarkMath]}
+              rehypePlugins={[
+                rehypeKatex,
+                rehypeRaw,
+                [rehypeHighlight, { detect: true }]
+              ]}
+              className="markdown"
+            >
+              {postData.contentMarkdown}
+            </Markdown>
           </div>
+
+          {/* Decorative bottom line */}
+          <div className="w-16 h-px bg-subtle-line mx-auto mt-20"></div>
         </div>
       </article>
     </LayoutWoNav>

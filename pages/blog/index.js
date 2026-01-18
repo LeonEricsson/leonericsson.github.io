@@ -18,13 +18,13 @@ export async function getStaticProps() {
   };
 }
 
-export default function Blog({ blogPosts, reviews }) { 
+export default function Blog({ blogPosts, reviews }) {
   return (
     <Layout>
-  <div className="relative pl-[25rem] py-4">
+  <div className="relative pl-[25rem] py-12">
     {/* Top-right narrow paragraph */}
-    <div className="absolute top-8 right-4 w-[18rem]">
-      <p className="text-xs italic palatino">
+    <div className="absolute top-12 right-8 w-[18rem]">
+      <p className="text-xs font-palatino text-medium-gray leading-relaxed">
         this is a space to document and distill my thoughts on publications
         and articles within the research community. literature reviews are personal
         and messy; blog posts are slightly more refined.
@@ -35,29 +35,31 @@ export default function Blog({ blogPosts, reviews }) {
     </div>
 
     {/* Main blog section */}
-    <h2 className="text-xl mt-8 mb-2 ml-18 font-bold text-headline inline-block px-1 rounded">
+    <h2 className="text-2xl mt-8 mb-6 font-garamond text-deep-charcoal">
       Blog posts
     </h2>
-    <ul className="list-none">
+    <div className="w-16 h-px bg-subtle-line mb-8"></div>
+    <ul className="list-none space-y-4">
       {blogPosts.map(({ id, title, date }) => (
-        <li key={id} className="mt-2 flex items-center">
-          <span className="text-gray-400 mr-4">{format(new Date(date), 'dd MMM yyyy')}</span>
+        <li key={id} className="flex items-baseline border-b border-subtle-line pb-4">
+          <span className="text-medium-gray text-xs font-georgia mr-6 min-w-[6rem]">{format(new Date(date), 'dd MMM yyyy')}</span>
           <Link href={`/blog/${id}`}>
-            <span className="hover:text-blue-800 text-gray-800 cursor-pointer">{title}</span>
+            <span className="text-deep-charcoal font-palatino hover:text-sepia-accent cursor-pointer transition-colors duration-300">{title}</span>
           </Link>
         </li>
       ))}
     </ul>
 
-    <h2 className="text-xl mt-12 mb-1 ml-18 font-bold text-headline inline-block px-1 rounded">
+    <h2 className="text-2xl mt-16 mb-6 font-garamond text-deep-charcoal">
       Literature reviews
     </h2>
-    <ul className="list-none">
+    <div className="w-16 h-px bg-subtle-line mb-8"></div>
+    <ul className="list-none space-y-4">
       {reviews.map(({ id, title, date }) => (
-        <li key={id} className="mt-2 flex items-center">
-          <span className="text-gray-400 mr-4">{format(new Date(date), 'dd MMM yyyy')}</span>
+        <li key={id} className="flex items-baseline border-b border-subtle-line pb-4">
+          <span className="text-medium-gray text-xs font-georgia mr-6 min-w-[6rem]">{format(new Date(date), 'dd MMM yyyy')}</span>
           <Link href={`/blog/${id}`}>
-            <span className="hover:text-blue-800 text-gray-800 cursor-pointer">{title}</span>
+            <span className="text-deep-charcoal font-palatino hover:text-sepia-accent cursor-pointer transition-colors duration-300">{title}</span>
           </Link>
         </li>
       ))}
