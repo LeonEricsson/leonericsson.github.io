@@ -47,7 +47,7 @@ export default function Post({ postData }) {
             {postData.title}
           </h1>
 
-          <p className="text-medium-gray text-sm text-center font-crimson pb-12 pt-2">
+          <p className="text-medium-gray text-sm text-center font-crimson pb-12 pt-6">
             {postData.author ? (
               <>
                 Original{" "}

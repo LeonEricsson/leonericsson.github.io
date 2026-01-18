@@ -164,7 +164,7 @@ body {
 .markdown :is(h1,h2,h3,h4,h5,h6) {
   font-family: 'Cardo', 'Georgia', serif;
   color: #1F1F1F;
-  font-weight: 400;
+  font-weight: 600;
   font-style: italic;
   margin-block-end: 0.5em;
 }
