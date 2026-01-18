@@ -43,7 +43,7 @@ export default function Post({ postData }) {
           {/* Decorative top line */}
           <div className="w-16 h-px bg-subtle-line mx-auto mb-12"></div>
 
-          <h1 className="text-5xl font-eb-garamond font-semibold text-deep-charcoal text-center mb-6 leading-tight">
+          <h1 className="text-6xl font-sorts-mill italic font-normal text-deep-charcoal text-center mb-6 leading-tight">
             {postData.title}
           </h1>
 
