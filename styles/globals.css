@@ -78,6 +78,10 @@ body {
   all: revert;
 }
 
+.sorts-mill {
+  font-family: "Sorts Mill Goudy", Garamond, serif;
+}
+
 .cardo {
   font-family: "Cardo", Georgia, serif;
 }

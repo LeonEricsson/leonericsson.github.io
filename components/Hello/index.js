@@ -35,7 +35,7 @@ export default function Hello({allPostsData}) {
 
   return (
     <div className="relative pb-5">
-      <h1 className="text-6xl pt-4 md:pt-12 lg:pt-24 pl-12 md:text-7xl text-deep-charcoal font-cardo italic font-normal">
+      <h1 className="text-6xl pt-4 md:pt-12 lg:pt-24 pl-12 md:text-7xl text-deep-charcoal font-sorts-mill italic font-normal">
         <Type/>
       </h1>
       {showBlogs && (

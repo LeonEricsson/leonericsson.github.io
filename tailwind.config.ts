@@ -23,6 +23,7 @@ const config: Config = {
         'subtle-line': '#D4CFC7',
       },
       fontFamily: {
+        'sorts-mill': ['"Sorts Mill Goudy"', 'Garamond', 'serif'],
         'cardo': ['"Cardo"', 'Georgia', 'serif'],
         'crimson': ['"Crimson Text"', 'Georgia', 'serif'],
         'cormorant': ['"Cormorant Garamond"', 'Garamond', 'serif'],
