@@ -330,7 +330,7 @@ export default function KnowledgeNebula({ papers = [] }) {
       const py = (mouseRef.current.y / height - 0.5) * parallaxStrength;
 
       // Clear canvas with warm background
-      ctx.fillStyle = 'rgb(255, 254, 249)';
+      ctx.fillStyle = '#F5F1E8'; // warm-cream
       ctx.fillRect(0, 0, width, height);
 
       // Draw floating particles
@@ -375,10 +375,9 @@ export default function KnowledgeNebula({ papers = [] }) {
         // Animate opacity
         conn.opacity = lerp(conn.opacity, conn.targetOpacity, 0.05);
 
-        const theme = CLUSTER_THEMES[n1.cluster];
-        ctx.strokeStyle = theme.color;
-        ctx.globalAlpha = conn.opacity * 1.5;
-        ctx.lineWidth = 2;
+        ctx.strokeStyle = '#1F1F1F'; // deep-charcoal
+        ctx.globalAlpha = conn.opacity * 0.3;
+        ctx.lineWidth = 1;
 
         // Draw curved line
         const midX = (x1 + x2) / 2;
@@ -392,9 +391,8 @@ export default function KnowledgeNebula({ papers = [] }) {
         ctx.globalAlpha = 1;
       });
 
-      // Draw nodes as flat pastel stars
+      // Draw nodes as flat black stars
       nodes.forEach((node, i) => {
-        const theme = CLUSTER_THEMES[node.cluster];
         const isHovered = hoveredPaper?.id === node.id;
         const isSelected = selectedPaper?.id === node.id;
 
@@ -419,8 +417,8 @@ export default function KnowledgeNebula({ papers = [] }) {
         ctx.translate(x, y);
         ctx.rotate(rotation);
 
-        // Draw flat star - single solid color
-        ctx.fillStyle = theme.color;
+        // Draw flat star in black
+        ctx.fillStyle = '#1F1F1F'; // deep-charcoal
         ctx.globalAlpha = 1;
         drawStar(ctx, 0, 0, outerR, innerR, points);
         ctx.fill();
@@ -485,10 +483,6 @@ export default function KnowledgeNebula({ papers = [] }) {
           >
             <div className="bg-white/95 backdrop-blur-md rounded-xl shadow-lg border border-gray-100 p-4 overflow-hidden">
               <div className="flex items-start gap-3">
-                <div
-                  className="w-2 h-2 rounded-full flex-shrink-0 mt-1.5"
-                  style={{ backgroundColor: CLUSTER_THEMES[hoveredPaper.cluster].color }}
-                />
                 <div className="flex-1">
                   <h3
                     className="text-sm font-medium text-gray-900 leading-snug mb-1"
@@ -527,14 +521,7 @@ export default function KnowledgeNebula({ papers = [] }) {
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header */}
-              <div
-                className="px-6 py-4 border-b flex items-center justify-between"
-                style={{ borderColor: CLUSTER_THEMES[selectedPaper.cluster].color + '20' }}
-              >
-                <div
-                  className="w-2.5 h-2.5 rounded-full"
-                  style={{ backgroundColor: CLUSTER_THEMES[selectedPaper.cluster].color }}
-                />
+              <div className="px-6 py-4 border-b flex items-center justify-end border-gray-100">
                 <button
                   onClick={() => setSelectedPaper(null)}
                   className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors"
@@ -579,11 +566,8 @@ export default function KnowledgeNebula({ papers = [] }) {
                   href={selectedPaper.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 text-sm text-white rounded-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
-                  style={{
-                    backgroundColor: CLUSTER_THEMES[selectedPaper.cluster].color,
-                    fontFamily: 'Courier Prime, monospace'
-                  }}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 text-sm bg-deep-charcoal text-warm-cream rounded-lg transition-all hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+                  style={{ fontFamily: 'Courier Prime, monospace' }}
                 >
                   <span>Read Resource</span>
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
