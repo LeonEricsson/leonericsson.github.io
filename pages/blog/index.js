@@ -29,10 +29,8 @@ export default function Blog({ blogPosts, reviews }) {
         and articles within the research community. I read a lot of papers, 
         on a subset I take notes, a subset of those become literature reviews,
         a subset of those become blog posts. Blog posts are the closest I come
-        to writing for a broader audience.
-        <br />
-        <br />
-        i write for my own edification - posts are subject to my own interests
+        writing for a broader audience, though I write primarily to understand 
+        and remember—not to educate.
       </p>
     </div>
 
@@ -46,7 +44,7 @@ export default function Blog({ blogPosts, reviews }) {
         <li key={id} className="flex items-baseline">
           <span className="text-medium-gray text-sm font-crimson mr-6 min-w-[6rem]">{format(new Date(date), 'dd MMM yyyy')}</span>
           <Link href={`/blog/${id}`}>
-            <span className="text-deep-charcoal font-sorts-mill italic text-lg hover:text-sepia-accent cursor-pointer transition-colors duration-300">{title}</span>
+            <span className="text-deep-charcoal font-sorts-mill italic text-lg hover:text-sepia-accent cursor-pointer transition-colors duration-300">{title.replace(/<br\s*\/?>/gi, ' ')}</span>
           </Link>
         </li>
       ))}
@@ -61,7 +59,7 @@ export default function Blog({ blogPosts, reviews }) {
         <li key={id} className="flex items-baseline">
           <span className="text-medium-gray text-sm font-crimson mr-6 min-w-[6rem]">{format(new Date(date), 'dd MMM yyyy')}</span>
           <Link href={`/blog/${id}`}>
-            <span className="text-deep-charcoal font-sorts-mill italic text-lg hover:text-sepia-accent cursor-pointer transition-colors duration-300">{title}</span>
+            <span className="text-deep-charcoal font-sorts-mill italic text-lg hover:text-sepia-accent cursor-pointer transition-colors duration-300">{title.replace(/<br\s*\/?>/gi, ' ')}</span>
           </Link>
         </li>
       ))}

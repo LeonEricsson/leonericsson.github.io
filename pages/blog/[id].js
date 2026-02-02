@@ -43,9 +43,10 @@ export default function Post({ postData }) {
           {/* Decorative top line */}
           <div className="w-16 h-px bg-subtle-line mx-auto mb-12"></div>
 
-          <h1 className="text-6xl font-cardo italic font-normal text-deep-charcoal text-center mb-6 leading-tight">
-            {postData.title}
-          </h1>
+          <h1
+            className="text-6xl font-cardo italic font-normal text-deep-charcoal text-center mb-6 leading-tight"
+            dangerouslySetInnerHTML={{ __html: postData.title }}
+          />
 
           <p className="text-medium-gray text-sm text-center font-crimson pb-12 pt-6">
             {postData.author ? (
