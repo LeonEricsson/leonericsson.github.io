@@ -291,8 +291,7 @@ The framing in this post treats the training-inference mismatch as a static nume
 
 ## references
 
-Everything I've come to understand about Geometric Sequence Masking, and most of my understanding of importance sampling in this context, comes from Yingru Li's posts:
-
+A lot of my understanding builds on work from Yingru Li:
 - [RL Collapse Series](https://richardli.xyz/post/rl-collapse-part1/)
 - [When Speed Kills Stability: Demystifying RL Collapse from the Training-Inference Mismatch](https://yingru.notion.site/When-Speed-Kills-Stability-Demystifying-RL-Collapse-from-the-Training-Inference-Mismatch-271211a558b7808d8b12d403fd15edda)
 - [Mathematical Formulations of Rollout Correction Methods in verl](https://verl.readthedocs.io/en/latest/algo/rollout_corr_math.html)
