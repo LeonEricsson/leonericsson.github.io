@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "a geometric view of off-policy sequence masking"
+title: "a geometric view of \n off-policy sequence masking"
 year: 2026
 type: blog
 ---
