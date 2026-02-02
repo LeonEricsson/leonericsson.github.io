@@ -25,9 +25,11 @@ export default function Blog({ blogPosts, reviews }) {
     {/* Top-right narrow paragraph */}
     <div className="absolute top-12 right-8 w-[18rem]">
       <p className="text-sm font-lora text-medium-gray leading-relaxed">
-        this is a space to document and distill my thoughts on publications
-        and articles within the research community. literature reviews are personal
-        and messy; blog posts are slightly more refined.
+        this is a space to document and distill my thoughts on publications 
+        and articles within the research community. I read a lot of papers, 
+        on a subset I take notes, a subset of those become literature reviews,
+        a subset of those become blog posts. Blog posts are the closest I come
+        to writing for a broader audience.
         <br />
         <br />
         i write for my own edification - posts are subject to my own interests

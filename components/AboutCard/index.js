@@ -5,11 +5,11 @@ function AboutCard() {
     <div>
       <h2 className="text-3xl font-sorts-mill italic text-deep-charcoal pb-6">about me</h2>
       <p className="font-lora leading-relaxed text-deep-charcoal">
-        hi! i'm leon, i'm a research engineer living in stockholm, lived here for almost 2 years now with my fiance(!). big fan of ml research, and just understanding how things work. otherwise i enjoy eating food, making food, traveling and working out.
+        hi! i'm leon, i'm a research engineer living in stockholm - been here for almost 2 years now with my fiancée(!). big fan of ml research, i'm driven by curiosity about how machines learn.  otherwise i enjoy eating food, making food, traveling and working out.
       </p>
       <br />
       <p className="font-lora leading-relaxed text-deep-charcoal">
-        i've got a background in software engineering, with a master's in compsci. but today i'm focused on <b>language models</b>, <b>reinforcement learning</b>, <b>mech interp</b>, and <b>reasoning</b>. although my experience is limited i'm very keen on health/medicine as a field of application for the above. if you're curious about my current fixations, skim the blog.
+        i've got a background in software engineering, with a master's in compsci. but today all i thinkn about is <b>language models</b>, <b>reinforcement learning</b>, <b>reasoning</b>, and occasionally <b>mech interp</b>. if you're curious about my current fixations, skim the blog.
       </p>
       <h2 className="text-3xl font-sorts-mill italic text-deep-charcoal pb-6 pt-16">i like open source</h2>
         <p className="font-lora leading-relaxed text-deep-charcoal">
