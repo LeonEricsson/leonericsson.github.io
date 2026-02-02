@@ -18,10 +18,12 @@ This post owes a lot to Yingru Li's rigorous work on importance-sampling gradien
 PPO's clipped surrogate objective contains a ratio between policies:
 
 $$
-J(\theta) = \min\left(\frac{\pi_\theta(a|s)}{\pi_{\theta_{\text{old}}}(a|s)}A, \text{clip} \left( \frac{\pi_\theta(a|s)}{\pi_{\theta_{\text{old}}}(a|s)}, 1-\varepsilon, 1+\varepsilon \right) A \right)
+J(\theta) = \min\left(\frac{\pi(a|s)}{\pi_{\text{old}}(a|s)}A, \text{clip} \left( \frac{\pi(a|s)}{\pi_{\text{old}}(a|s)}, 1-\varepsilon, 1+\varepsilon \right) A \right)
 $$
 
-This ratio emerges from importance sampling. The policy gradientis written as an expectation under the *current* policy $\pi_\theta$, but in practice we want to take multiple optimizer steps on trajectories that were generated earlier, under some fixed rollout policy $\pi_{\theta_{\text{old}}}$. The importance weight $\frac{\pi_\theta}{\pi_{\theta_{\text{old}}}}$ corrects for that mismatch.
+(Throughout this post, I'll write $\pi$ rather than $\pi_\theta$ to denote the parameterized policy)
+
+This ratio emerges from importance sampling. The policy gradient is written as an expectation under the *current* policy $\pi$, but in practice we want to take multiple optimizer steps on trajectories that were generated earlier, under some fixed rollout policy $\pi_{\text{old}}$. The importance weight $\frac{\pi}{\pi_{\text{old}}}$ corrects for that mismatch.
 
 This correction enables multiple gradient steps per batch. Rollouts are expensive; we want to extract as much learning as possible from each generation pass, ammortizing the sampling cost aggressively.
 
@@ -32,19 +34,19 @@ Standard PPO conflates two distinct roles into a single "old" policy. The batch-
 **Behavior policy** ($\mu$): The policy that actually generated the data. It appears in the importance sampling ratio that corrects for off-policy data:
 
 $$
-\frac{\pi_{\theta}(a|s)}{\mu(a|s)}
+\frac{\pi(a|s)}{\mu(a|s)}
 $$
 
 **Proximal policy** ($\pi_{\text{old}}$): A recent policy used as an anchor for the trust region. It appears in the clipping term that prevents the policy from changing too drastically:
 
 $$
-\text{clip}\left(\frac{\pi_{\theta}(a|s)}{\pi_{\text{old}}(a|s)}, 1-\epsilon, 1+\epsilon\right)
+\text{clip}\left(\frac{\pi(a|s)}{\pi_{\text{old}}(a|s)}, 1-\epsilon, 1+\epsilon\right)
 $$
 
 In classic PPO, $\mu = \pi_{\text{old}}$—the same policy plays both roles. The decoupled formulation separates them:
 
 $$
-J(\theta)_{\text{decoupled}} = \frac{\pi_{\text{old}}(a | s)}{\mu(a | s)} \min\left(\frac{\pi_\theta(a|s)}{\pi_{\text{old}}(a|s)}A, \text{clip} \left( \frac{\pi_\theta(a|s)}{\pi_{\text{old}}(a|s)}, 1-\varepsilon, 1+\varepsilon \right) A \right)
+J(\theta)_{\text{decoupled}} = \frac{\pi_{\text{old}}(a | s)}{\mu(a | s)} \min\left(\frac{\pi(a|s)}{\pi_{\text{old}}(a|s)}A, \text{clip} \left( \frac{\pi(a|s)}{\pi_{\text{old}}(a|s)}, 1-\varepsilon, 1+\varepsilon \right) A \right)
 $$
 
 The leading term $\frac{\pi_{\text{old}}}{\mu}$ handles off-policy correction. The ratio inside the min/clip handles trust region enforcement. They address different failure modes, and as we'll see, this separation is imporant in recent RL.
@@ -191,7 +193,7 @@ The masking rule:
 
 $$
 M_{i,t} = \begin{cases}
-0 & \text{if } \hat{A}_{i,t} < 0 \quad \text{and} \quad \frac{1}{|o_i|}\sum_{t=1}^{|o_i|} \log \frac{\pi_{\text{old}}(o_t | q, o_{<t})}{\pi_\theta(o_t | q, o_{<t})} > \delta \\
+0 & \text{if } \hat{A}_{i,t} < 0 \quad \text{and} \quad \frac{1}{|o_i|}\sum_{t=1}^{|o_i|} \log \frac{\pi_{\text{old}}(o_t | q, o_{<t})}{\pi(o_t | q, o_{<t})} > \delta \\
 1 & \text{otherwise}
 \end{cases}
 $$
@@ -283,7 +285,7 @@ is_high_divergence = opsm_geo_mean < -delta
 opsm_mask = ~(is_neg_adv & is_high_divergence)
 ```
 
-## caveat
+## a different view
 
 The framing in this post treats the training-inference mismatch as a static numerical issue to be corrected. [Recent work from Yaxiang Zhang and Yingru Li](https://yingru.notion.site/Beyond-Precision-Why-Training-Inference-Mismatch-is-an-Optimization-Problem-and-How-Simple-LR-Sched-2d9211a558b780f1a710f99dbdc403d3) challenges this view, arguing that mismatch is better understood as a dynamic optimization problem coupled with gradient noise, and that targeted learning rate scheduling may be more effective than importance sampling corrections. Still too early to tell how this approach will adopt to a larger-scale, but it's an interesting alternative framing.
 
