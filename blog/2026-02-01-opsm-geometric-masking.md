@@ -291,9 +291,8 @@ The framing in this post treats the training-inference mismatch as a static nume
 
 ## references
 
-A lot of my understanding builds on work from Yingru Li:
-- [RL Collapse Series](https://richardli.xyz/post/rl-collapse-part1/)
-- [When Speed Kills Stability: Demystifying RL Collapse from the Training-Inference Mismatch](https://yingru.notion.site/When-Speed-Kills-Stability-Demystifying-RL-Collapse-from-the-Training-Inference-Mismatch-271211a558b7808d8b12d403fd15edda)
+Great pieces from Yingru Li
+- [RL Collapse Part 3](https://richardli.xyz/post/rl-collapse-part3/)
 - [Mathematical Formulations of Rollout Correction Methods in verl](https://verl.readthedocs.io/en/latest/algo/rollout_corr_math.html)
 
 Further reading and implementations:
