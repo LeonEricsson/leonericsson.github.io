@@ -178,7 +178,7 @@ seq_log_ratio = per_token_log_ratio.sum(dim=-1)
 
 # Geometric mean: divide by sequence length to get log ρ_geo^TI
 seq_lengths = mask.sum(dim=-1).clamp(min=1.0)
-geo_mean_log_ratio = seq_log_ratio / seq_lengths  # <-- key change
+geo_mean_log_ratio = seq_log_ratio / seq_lengths  # <-- note change
 geo_ratio = torch.exp(geo_mean_log_ratio)  # ρ_geo^TI
 
 # Same masking logic, now length-invariant
