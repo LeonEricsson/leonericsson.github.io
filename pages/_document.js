@@ -6,10 +6,6 @@ export default function Document() {
       <Head>
         <meta charSet="utf-8" />
         <meta
-          name="description"
-          content="Personal website of Leon Ericsson"
-        />
-        <meta
           name="keywords"
           content="Leon Ericsson, AI, ML, Research, NLP, RL"
         ></meta>
@@ -18,10 +14,6 @@ export default function Document() {
         <meta
           property="og:title"
           content="Leon Ericsson | Learning..."
-        />
-        <meta
-          property="og:description"
-          content="Personal website of Leon Ericsson"
         />
         <meta
           property="og:site_name"
