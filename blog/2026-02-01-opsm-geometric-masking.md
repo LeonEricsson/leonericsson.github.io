@@ -257,13 +257,11 @@ $$
 $$
 
 
-The first term, $\log \rho_{\text{geo}}^{\text{TI}}$, is exactly what we computed for training-inference correction earlier. OPSM's geometric mean is the training-inference geometric mean plus a staleness term that captures how much $\pi$ has drifted from $\pi_{\text{old}}$.
+The first term is $\log \rho_{\text{geo}}^{\text{TI}}$—the same training-inference correction we computed earlier OPSM's geometric mean is the training-inference geometric mean plus a staleness term that captures how much $\pi$ has drifted from $\pi_{\text{old}}$.
 
 This decomposition clarifies what OPSM is really asking: "is this negative sample still representative of what the current policy might produce?" A sample fails this test if *either* the inference engine generated something the training model wouldn't have (large TI mismatch) *or* the policy has already moved away during optimization (staleness). In both cases, spending gradient signal to push down on it further is wasteful at best, destabilizing at worst. The single threshold $\delta$ acts as a joint budget for both sources of drift.
 
-The decomposition is also useful for implementation: the training-inference term only needs to be computed once per rollout (it doesn't depend on $\pi$), while the staleness term changes with each gradient step.
-
-If you already have geometric masking for training-inference mismatch, extending to OPSM means adding the staleness term:
+The same decomposition is helpful operationally. The training-inference term is fixed at rollout time and can be computed once per batch, while the staleness term must be updated at each gradient step. In practice, extending our geo-masking code to compute OPSM is straightforward:
 
 ```python
 # From training-inference geo-mask: log ρ_geo^TI = (1/T) Σ log(π_old / μ)
@@ -271,23 +269,18 @@ If you already have geometric masking for training-inference mismatch, extending
 ti_geo_mean = geo_mean_log_ratio
 
 # Staleness term: (1/T) Σ log(π / π_old)
-# Computed each gradient step as π updates
+# Computed each gradient step
 staleness_log_ratio = (per_token_logps - old_per_token_logps) * mask
 staleness_geo_mean = staleness_log_ratio.sum(dim=-1) / seq_lengths
 
-# OPSM's ratio: log ρ_geo^OPSM = log ρ_geo^TI + staleness
 opsm_geo_mean = ti_geo_mean + staleness_geo_mean
 
-# OPSM mask: keep if positive advantage OR low divergence
-# Condition: -log(ρ_geo^OPSM) > δ  ⟺  log(ρ_geo^OPSM) < -δ
 is_neg_adv = advantages < 0
 is_high_divergence = opsm_geo_mean < -delta
 opsm_mask = ~(is_neg_adv & is_high_divergence)
 ```
 
-## a different view
 
-The framing in this post treats the training-inference mismatch as a static numerical issue to be corrected. [Recent work from Yaxiang Zhang and Yingru Li](https://yingru.notion.site/Beyond-Precision-Why-Training-Inference-Mismatch-is-an-Optimization-Problem-and-How-Simple-LR-Sched-2d9211a558b780f1a710f99dbdc403d3) challenges this view, arguing that mismatch is better understood as a dynamic optimization problem coupled with gradient noise, and that targeted learning rate scheduling may be more effective than importance sampling corrections. Still too early to tell how this approach will adopt to a larger-scale, but it's an interesting alternative framing.
 
 ## references
 
@@ -303,3 +296,8 @@ Further reading and implementations:
 - [Stabilizing RL with LLMs: Formulation and Practices](https://arxiv.org/abs/2512.01374)
 
 If you're interested in how OPSM fits into a post-training framework, have a look at [this TRL PR](https://github.com/huggingface/trl/pull/4891). For TIS/MIS specifically: [sequence-level MIS/TIS](https://github.com/huggingface/trl/pull/4530), [token-level TIS](https://github.com/huggingface/trl/pull/3867).
+
+
+## sidequest
+
+The framing in this post treats the training-inference mismatch as a static numerical issue to be corrected. [Recent work from Yaxiang Zhang and Yingru Li](https://yingru.notion.site/Beyond-Precision-Why-Training-Inference-Mismatch-is-an-Optimization-Problem-and-How-Simple-LR-Sched-2d9211a558b780f1a710f99dbdc403d3) challenges this view, arguing that mismatch is better understood as a dynamic optimization problem coupled with gradient noise, and that targeted learning rate scheduling may be more effective than importance sampling corrections. Still too early to tell how this approach will adopt to a larger-scale, but it's an interesting alternative framing.
