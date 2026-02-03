@@ -280,8 +280,6 @@ is_high_divergence = opsm_geo_mean < -delta
 opsm_mask = ~(is_neg_adv & is_high_divergence)
 ```
 
-
-
 ## references
 
 Great pieces from Yingru Li
