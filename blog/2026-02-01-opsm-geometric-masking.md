@@ -279,6 +279,7 @@ is_neg_adv = advantages < 0
 is_high_divergence = opsm_geo_mean < -delta
 opsm_mask = ~(is_neg_adv & is_high_divergence)
 ```
+If your interested in how OPSM slots into a proper post-training framework, see [this PR](https://github.com/huggingface/trl/pull/4891). For TIS/MIS: [sequence-level MIS/TIS](https://github.com/huggingface/trl/pull/4530), [token-level TIS](https://github.com/huggingface/trl/pull/3867).
 
 ## references
 
