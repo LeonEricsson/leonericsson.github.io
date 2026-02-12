@@ -1,22 +1,22 @@
 ---
 layout: post
-title: "DeepSeek OCR"
+title: "Visual Retrievers"
 categories: []
 year: 2025
 type: paper
 ---
-I've been digging into the state of visual retrievers. 
+Have some experience working with VLMs, and it got me thinking about retriever systems using vision instead of text. So I did some digging and it lead to this post
 
 <img src="/images/retrieverx.png" style="width: 40%; height: auto; display: block; margin: 2rem auto;" />
 
-I would expect visual systems to overtake text-only alternatives for most real world use cases. Documents are messy, real-world systems operate on PDFs, slides, and scanned images filled with charts and complex layouts, not clean text files. As Jo points out however there are still domains where formats are not complex and converting to text is possible with high accuracy. Here, the advantage is less pronounced. 
+My initial hypothesis was that visual systems should overtake text-only alternatives for real world applications. Documents are messy, real-world systems operate on PDFs, slides, and scanned images filled with charts and complex layouts, not clean text files. As Jo points out however there are still domains where formats are not complex and converting to text is possible with high accuracy.
 
 The standard approach—brittle parsing pipelines—discards all visual information and often mangles the text structure. The alternative, classic dual-encoders like CLIP or SigLIP, are optimized for natural image-caption matching and fail to deeply parse embedded text. The new approach uses generative VLMs as the retrieval backbone, operating directly on raw page images and bypassing parsing entirely.
 
 ### From bi-encoders to late interaction
 To see why VLMs are impactful here, it helps to have a mental model of neural matching. The 2020 ColBERT paper is a good anchor for the main paradigms.
 
-<img src="/images/retrieverparadigms.png" style="width: 40%; height: auto; display: block; margin: 2rem auto;" />
+<img src="/images/retrieverparadigms.png" style="width: 60%; height: auto; display: block; margin: 2rem auto;" />
 
 First are *representation-based models* (bi-encoders), which map a query $q$ and document $d$ into independent, single-vector embeddings. Relevance is just a similarity score (e.g., cosine similarity) between them. This remains the most popular approach because it's fast: you pre-compute all document embeddings offline and use a vector index for fast approximate nearest-neighbor (ANN) search.
 
