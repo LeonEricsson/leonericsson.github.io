@@ -237,6 +237,7 @@ Sequential drafting won that argument, and for a while the parallel branch looke
 That distinction leaves an opening. Generate all $\gamma$ positions in one pass while still letting them condition on each other, and you get Medusa's latency with something closer to EAGLE's coherence. There is an existing family of models built to do exactly that.
 
 <img src="/images/dflash.webp" style="width: 65%; height: auto; display: block; margin: 2rem auto;" />
+
 ### Borrowing from diffusion language models
 
 Diffusion language models generate by masking and unmasking rather than left to right. The relevant variant here is **block diffusion**, which handles text one block at a time: lay out a block of masked positions, then fill them in simultaneously, with **bidirectional attention** so that every position can see every other. That last part is the key difference from Medusa, whose heads were blind to each other. A bidirectional block is not. The positions are still resolved in one pass, but they are resolved _jointly_, as a coordinated set rather than as independent guesses.
@@ -248,7 +249,8 @@ DFlash exploits precisely that division of labor: diffusion for fast parallel dr
 The payoff goes beyond the obvious latency win. Because drafting cost is now roughly constant in $\gamma$ rather than proportional to it, a diffusion drafter can afford **deeper, more expressive architectures** and still be faster than a shallow autoregressive drafter, and the ablations below suggest that is where the gains actually come from. The following figure depicts a latency comparison between DFlash at different layer depths and EAGLE-3. 
 
 <img src="/images/dflash-latency.webp" style="width: 45%; height: auto; display: block; margin: 2rem auto;" />
-### Where the gains actually come from
+
+### Diffusion beating autoregression??
 
 The headline result has DFlash roughly doubling acceptance length over EAGLE-3:
 
@@ -258,8 +260,9 @@ The headline result has DFlash roughly doubling acceptance length over EAGLE-3:
 
 Autoregressive transformers are the uncontested frontier in language modeling, so how is a diffusion drafter aligning better with the target? It is not, and the ablations say so plainly. Isolating the drafting paradigm with everything else held fixed:
 
+
 |Conditioning|GSM8K|HumanEval|MT-Bench|
-|---|---|---|---|---|
+|---|---|---|---|
 |**AR drafting** (DFlash-AR)|KV inject|**4.8** / 2.4x|**4.6** / 2.3x|**3.4** / 1.5x|
 |**Diffusion drafting** (DFlash)|KV inject|4.2 / 3.3x|4.0 / 3.2x|3.0 / 2.2x|
 
