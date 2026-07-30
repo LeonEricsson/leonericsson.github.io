@@ -77,7 +77,7 @@ Medusa is one of the early works that removes the separate model altogether by f
 
 The mechanism rests on an observation about what the target model already computes. During a normal forward pass, the last hidden state at position $t$, the vector immediately before the LM head, is the model's fully contextualized summary of everything it has read so far, and the model uses it to predict token $t{+}1$. But that vector is not narrowly about the next token. It is a rich, deep representation of the context, and it carries information about how the sequence is likely to continue well beyond one step, which the target's LM head simply never asks for.
 
-![](/images/medusa.png)
+<img src="/images/medusa.png" style="width: 55%; height: auto; display: block; margin: 2rem auto;" />
 
 Medusa asks for it by bolting $K$ additional small heads onto that same final hidden state, each a lightweight feedforward layer plus a projection to vocabulary size. In the same forward pass that produces the normal next token, those heads read the same vector and each predicts a different future position:
 
@@ -100,7 +100,7 @@ So each head emits its top-$k$ tokens instead of just its argmax, and candidate 
 
 Verifying a tree naively would mean one forward pass per root-to-leaf path, which defeats the purpose. Instead the tree is flattened into a single sequence and passed through the target once, with a **tree attention mask** replacing the usual causal mask. The mask lets each token attend only to its own ancestors in the tree, not to tokens on sibling branches, so every candidate path is evaluated under exactly the context it would have had on its own and all of them are verified in one target forward pass.
 
-![](/images/tree-attention.png)
+<img src="/images/tree-attention.png" style="width: 60%; height: auto; display: block; margin: 2rem auto;" />
 
 A full Cartesian product is $O(k^N)$ in the number of heads and quickly becomes unusable, so Medusa builds a fixed, sparse tree with a node budget (say 64 nodes), allocated offline: measure each head's top-$j$ accuracy on a held-out calibration set, then greedily keep the (head, rank) pairs with the highest expected acceptance. Deeper heads are less accurate, so they get fewer branches, and you end up with something like top-5 × top-2 × top-1 across the first three heads.
 
@@ -115,7 +115,7 @@ EAGLE takes the opposite route: make the drafter genuinely autoregressive again,
 Why was autoregression expensive in the first place? In the original two-model setup, the drafter was an entire transformer run $\gamma$ times in sequence, so drafting a block of 5 meant 5 full forward passes through the small model. EAGLE's observation is that the recurrence itself was never the expensive part; running a whole transformer per step was. So keep the recurrence, shrink each step to a **single decoder layer**, and run that layer in **feature space** rather than token space.
 ### Feature-space autoregression
 
-![](/images/eagle-1.webp)
+<img src="/images/eagle-1.webp" style="width: 55%; height: auto; display: block; margin: 2rem auto;" />
 
 By feature we mean the same object Medusa exploited: the last hidden state, the vector just before the LM head. At each position the EAGLE draft layer consumes the feature from the previous position and the embedding of the token actually sampled there, fuses them, and predicts the _next feature_:
 
@@ -185,7 +185,7 @@ The second is more fundamental, which is that **the objective is wrong**. We do 
 
 EAGLE-3 resolves both with a single change: stop supervising features, and train the drafter under the conditions it will face at inference. Instead of matching one-step features, the drafter is unrolled on its **own** generated features for several steps during training and supervised on the tokens it produces, which the paper calls a training-time test.
 
-![](/images/eagle-3.png)
+<img src="/images/eagle-3.png" style="width: 40%; height: auto; display: block; margin: 2rem auto;" />
 
 The decoding process makes the difference concrete. The input at each prefix position is a target feature paired with the embedding of the token sampled from it. These pass through a decoder layer producing an output $a$, which goes through the LM head and is sampled to obtain a draft token. In the next autoregressive step, $a$ is concatenated with that token's embedding and used to predict the next token. Mechanically this resembles EAGLE-1, but the interpretation of $a$ has changed: it is no longer trying to be the target's feature, it is simply whatever internal representation is most useful for predicting the next token. By consuming its own latent output, the drafter learns to use its own representations rather than pretending they are the target's.
 
@@ -201,7 +201,7 @@ Multi-Token Prediction, introduced at frontier scale in DeepSeek-V3, asks what h
 
 ### Architecture
 
-![](/images/deepseek-mtp.webp)
+<img src="/images/deepseek-mtp.webp" style="width: 65%; height: auto; display: block; margin: 2rem auto;" />
 
 MTP predicts $D$ extra tokens using $D$ sequential modules chained one after another. Module 1 is nearly an EAGLE step living inside the model: take the main model's top-layer feature, pair it with the embedding of the token that feature produced, project to a shared space, run a transformer block, read out through the shared head.
 
@@ -235,7 +235,7 @@ Sequential drafting won that argument, and for a while the parallel branch looke
 
 That distinction leaves an opening. Generate all $\gamma$ positions in one pass while still letting them condition on each other, and you get Medusa's latency with something closer to EAGLE's coherence. There is an existing family of models built to do exactly that.
 
-![](/images/dflash.webp)
+<img src="/images/dflash.webp" style="width: 65%; height: auto; display: block; margin: 2rem auto;" />
 ### Borrowing from diffusion language models
 
 Diffusion language models generate by masking and unmasking rather than left to right. The relevant variant here is **block diffusion**, which handles text one block at a time: lay out a block of masked positions, then fill them in simultaneously, with **bidirectional attention** so that every position can see every other. That last part is the key difference from Medusa, whose heads were blind to each other. A bidirectional block is not. The positions are still resolved in one pass, but they are resolved _jointly_, as a coordinated set rather than as independent guesses.
@@ -246,7 +246,7 @@ DFlash exploits precisely that division of labor: diffusion for fast parallel dr
 
 The payoff goes beyond the obvious latency win. Because drafting cost is now roughly constant in $\gamma$ rather than proportional to it, a diffusion drafter can afford **deeper, more expressive architectures** and still be faster than a shallow autoregressive drafter, and the ablations below suggest that is where the gains actually come from. The following figure depicts a latency comparison between DFlash at different layer depths and EAGLE-3. 
 
-![](/images/dflash-latency.webp)
+<img src="/images/dflash-latency.webp" style="width: 45%; height: auto; display: block; margin: 2rem auto;" />
 ### Where the gains actually come from
 
 The headline result has DFlash roughly doubling acceptance length over EAGLE-3:
@@ -305,7 +305,7 @@ DSpark's move is to stop choosing. Keep the fast parallel backbone for the heavy
 
 ### Semi-autoregressive architecture
 
-![](/images/dspark-architecture.webp)
+<img src="/images/dspark-architecture.webp" style="width: 60%; height: auto; display: block; margin: 2rem auto;" />
 
 **Parallel stage.** The backbone is DFlash, essentially unchanged. One bidirectional pass over the block produces hidden states $h_1, \dots, h_\gamma$ and base logits $U_1, \dots, U_\gamma$. This is the expensive, context-rich part, and it is where the depth advantage lives. But exactly as in DFlash, $U_k$ is a _marginal_ preference, since it never saw what was sampled at the other positions because they were masks. It captures what kind of token belongs at position $k$, not coherence with its actual neighbors. That missing coherence is the suffix-decay problem, and repairing it is the sequential stage's only job.
 
@@ -353,7 +353,7 @@ The headline numbers have both parallel (DFlash) and semi-autoregressive (DSpark
 
 As the authors note, this contrasts with the standard expectation that step-by-step autoregression produces higher-quality sequences than parallel models. Their per-position acceptance analysis explains it, and it is the most illuminating result in the paper.
 
-![](/images/dspark-per-position-acceptance.webp)
+<img src="/images/dspark-per-position-acceptance.webp" style="width: 68%; height: auto; display: block; margin: 2rem auto;" />
 
 **At the first draft position, DFlash and DSpark substantially outperform EAGLE-3.** This is the architectural capacity argument again, with autoregressive drafters constrained to be shallow by their $O(\gamma)$ latency while parallel drafters can afford depth. And because speculative decoding is a strict prefix-matching survival process, the first token carries the highest leverage, since a rejection there invalidates the entire block immediately no matter how good the rest of the guesses were. An early-position capacity advantage therefore propagates disproportionately into final accepted length.
 
@@ -371,7 +371,7 @@ Producing more draft tokens does not automatically translate into end-to-end spe
 
 DSpark's answer starts with a confidence head that emits a scalar in $(0,1)$ per draft position, an estimate of whether that token will survive verification. Sweeping a static confidence threshold over this is instructive. A threshold of zero recovers standard fixed-length verification, as in every prior method. As the threshold rises, overall acceptance rate climbs, confirming the estimator genuinely identifies tokens that would have been rejected, and higher acceptance means less wasted work.
 
-![](/images/dspark-confidence-threshold.webp)
+<img src="/images/dspark-confidence-threshold.webp" style="width: 65%; height: auto; display: block; margin: 2rem auto;" />
 
 But no single static threshold is right. Raising it also discards tokens that would have been accepted, and the behavior differs by domain. In chat, raising the threshold immediately prunes a large number of tokens, while in math and code pruning is milder and more tokens survive. Chat is inherently higher entropy with fewer obvious continuations, so the drafter guesses more, and via the confidence head it _knows_ it is guessing more.
 
@@ -379,7 +379,7 @@ The static threshold is a useful diagnostic, but the real conclusion is that pro
 
 ### Under live traffic
 
-![](/images/dspark-throughput.webp)
+<img src="/images/dspark-throughput.webp" style="width: 65%; height: auto; display: block; margin: 2rem auto;" />
 
 Production serving has a standard throughput/interactivity trade-off. At low concurrency, few requests are processed per decoding step, so per-user generation speed is high but aggregate GPU throughput is low, since weight movement is poorly amortized and the accelerator is underutilized. As concurrency increases, effective batch size grows and total tokens/s/GPU improves, but each request progresses more slowly.
 
