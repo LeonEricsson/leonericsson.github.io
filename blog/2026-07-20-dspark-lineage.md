@@ -12,7 +12,8 @@ Autoregressive decoding is memory-bound. Generating one token requires streaming
 Recently published **DSpark** is DeepSeek's take on this and is deployed in their V4 serving system. Reading it, what stands out is how much of it is inherited. Almost every component has a clear ancestor in work from the last two years, and the paper is easier to appreciate once you have seen where those pieces came from. So this post walks the lineage first, from Medusa through EAGLE and MTP to diffusion drafting, and arrives at DSpark at the end.
 
 I hadn't really been following speculative decoding. It's one of those lines of work I'd largely ignored for the past few years, filed under "someone else's problem." Then DSpark came out a few weeks ago and it seemed like an appropriate time to actually understand what's going on here. Reading the paper, I quickly realised that I was out of my depth, and that I had to backtrack to really understand what was going on. Nearly every piece in DSpark has a clear ancestor somewhere in the last two years of work, and the paper is a lot easier to appreciate once you've seen where those pieces came from. So, naturally I went back to try and trace the linearge, and this post is roughly what I ended up with.
-## The baseline: drafting and verification
+
+## Speculative decoding basics: drafting and verification
 
 Speculative decoding builds on a simple idea: guess a possible continuation to the sequence, then verify if the continuation was correct in the next forward pass. If the target model thinks the draft tokens are likely _enough_ (we'll get back to what enough means), we accept them and continue generating from there. The guessed tokens are typically referred to as draft tokens, and the better the drafter (the model used to guess) the greater the speedup.
 
@@ -30,7 +31,7 @@ $$p(\cdot\mid \text{prefix}),\quad p(\cdot\mid \text{prefix}, x_1),\quad \dots,\
 
 That is $\gamma+1$ distributions for the price of one forward pass instead of $\gamma$. The drafter is, in effect, a sampler, and the target is a verifier.
 
-### Verification preserves the target distribution
+### Preserving the target distribution during verification
 
 That single forward pass leaves us with the target's distribution at every draft position, and we need a rule for turning those into accept/reject decisions.
 
@@ -59,7 +60,7 @@ The residual is exactly the mass the draft under-proposed, so resampling from it
 
 Speculative decoding is therefore lossless in distribution, a pure systems optimization, and every method in this post inherits that property. Which is also why the drafter can be as crude as you like without any correctness consequence, a point that becomes load-bearing later on.
 
-### The quantity that matters
+### Latency
 
 With the output distribution pinned, speed is the only thing left to optimize, and it is governed by one equation, written here as in the DSpark and DFlash paper:
 
@@ -106,7 +107,7 @@ A full Cartesian product is $O(k^N)$ in the number of heads and quickly becomes 
 
 The tree structure pays off twice, because many paths share prefixes. Rather than flattening naively into independent candidates, shared prefixes are computed once, so a tree with hundreds of distinct root-to-leaf paths might be only 64 tokens of actual compute.
 
-## EAGLE-1: autoregression without the cost
+## EAGLE-1: autoregressive drafting
 
 Medusa's bet is on parallelism. All $K$ guesses are produced simultaneously from a single hidden state, which is what makes drafting nearly free, since the heads ride along on a forward pass the target was doing anyway. The cost of that bet is the missing inter-token dependency, and the deeper into the block you go the more each guess is unconditioned speculation.
 
@@ -141,7 +142,7 @@ Mechanically, drafting a depth-$d$ tree costs $d$ sequential draft-layer passes,
 
 One thing EAGLE-1 does not change: the tree _shape_ is still static, a predetermined topology under a fixed node budget, same as Medusa. Drafting became context-aware; topology did not. We spend the same branching pattern on "2+2=" as on open-ended chat.
 
-## EAGLE-2: make the tree dynamic
+## EAGLE-2: making the tree dynamic
 
 EAGLE-2 addresses exactly that. How much you should branch depends on how uncertain the drafter is: after "2+2=" there is essentially one plausible continuation and branching is wasted budget, while in open chat there are many and spending nodes on alternatives pays.
 
@@ -161,7 +162,7 @@ def expand(root, budget):
 
 Note that dynamic trees change the _shape_ of the tree, not the total budget. The drafter still gets exactly 64 nodes, or whatever the budget is, and only decides where to spend them. That distinction matters later, since the budget itself eventually becomes a live variable in DSpark.
 
-### Training EAGLE-1/2, and its flaw
+### Training EAGLE-1/2
 
 The training objective deserves its own look, since it is what EAGLE-3 ends up discarding.
 
@@ -181,7 +182,7 @@ Two problems follow from this setup. The first is **exposure bias**: training al
 
 The second is more fundamental, which is that **the objective is wrong**. We do not care whether the drafter reproduces the target's features, we care whether its tokens get accepted. Feature regression is a proxy for that, and optimizing a proxy leaves performance on the table.
 
-## EAGLE-3: drop the feature target
+## EAGLE-3
 
 EAGLE-3 resolves both with a single change: stop supervising features, and train the drafter under the conditions it will face at inference. Instead of matching one-step features, the drafter is unrolled on its **own** generated features for several steps during training and supervised on the tokens it produces, which the paper calls a training-time test.
 
@@ -193,7 +194,7 @@ Crucially, nothing forces $a$ to match the target's feature any more. The drafte
 
 Removing the feature-matching constraint has a second consequence, and it is the one that yields most of the gain. Forcing the drafter to reproduce the target's top-layer feature is an information bottleneck, since that feature is over-specialized for the target's own next-token prediction and the deep stack has already discarded information that is irrelevant for predicting $t{+}1$ but genuinely useful for guessing further ahead. Once the drafter is no longer required to output something that lives in that space, its input is free to be anything, so EAGLE-3 feeds it a learned fusion of low, mid, and high target hidden states, combined by a linear layer. Richer semantic information in, and no error accumulation from chasing a moving feature target.
 
-## DeepSeek V3 MTP: drafting as a native capability
+## DeepSeek V3 MTP: native drafting
 
 Everything so far has been _post-hoc_. You take a frozen, finished model and bolt a drafter onto it afterward, whether that is Medusa's heads or EAGLE's decoder layer. The target is never aware that speculation is happening, and the drafter's job is to reverse-engineer a model that was trained with no thought of being drafted for.
 
@@ -227,7 +228,7 @@ This is where MTP earns its keep twice over. DeepSeek report that the auxiliary 
 
 In later papers you will see this reported as MTP-1, meaning one module speculating one token ahead. It is worth registering, because it is the production baseline DSpark is measured against.
 
-## DFlash: parallel drafting, done properly
+## DFlash: returning to parallel drafting
 
 By this point the field has explored both directions fairly thoroughly. EAGLE and MTP draft sequentially, so a length-$\gamma$ block costs $\gamma$ drafter runs and $T_{\text{draft}} \propto \gamma$, which buys inter-token dependency and high acceptance. Medusa made the opposite bet, all $\gamma$ tokens in one pass with $T_{\text{draft}}$ roughly constant in $\gamma$, but no inter-token dependency and therefore acceptance that collapses down the block.
 
@@ -272,7 +273,7 @@ Three ingredients keep it from repeating Medusa's failure:
 2. **Target-feature conditioning.** Conditioning on the target's hidden states, rather than training a standalone diffusion drafter as earlier diffusion-based speculative methods did. The target's features implicitly carry information about tokens beyond the immediate next one, which is the recurring free lunch of this whole literature.
 3. **KV injection.** Injecting target features as KV states lets every drafter layer attend to them directly, instead of feeding them only as initial input where their content dilutes with depth. Not diffusion-specific; it helps AR too.
 
-### What "block diffusion" actually means here
+### But what is "block diffusion"?
 
 The term has been doing a lot of work above, so here is what it amounts to mechanically. When DFlash drafts, it lays out a fixed-size block and fills it in one pass:
 
@@ -377,7 +378,7 @@ But no single static threshold is right. Raising it also discards tokens that wo
 
 The static threshold is a useful diagnostic, but the real conclusion is that proposal length should be a dynamic function of system load: **verifying low-confidence tokens incurs minimal opportunity cost under low concurrency, but wastes critical batch capacity under high concurrency.** Hence a hardware-aware prefix scheduler, wrapping the inference engine, which schedules draft tokens into the next forward pass based on current load and per-token confidence. Note what has happened to the node budget along the way: fixed and offline in Medusa, fixed with dynamic shape in EAGLE-2, and now a live variable set per step by the serving system.
 
-### Under live traffic
+### DSpark in a production environment
 
 <img src="/images/dspark-throughput.webp" style="width: 65%; height: auto; display: block; margin: 2rem auto;" />
 
@@ -392,6 +393,7 @@ The significance of running below saturation is not that it creates this relatio
 DSpark spends that headroom on speculative verification. The drafter cheaply produces a longer block, up to $\gamma = 5$, and the scheduler ranks candidate prefix extensions by cumulative survival probability. Under light or moderate load it verifies more high-confidence tokens, raising expected accepted tokens per target step at little added latency. It does not simply maximize verification length; it adds tokens only while their expected benefit outweighs the reduction in steps per second caused by the larger verification batch.
 
 MTP-1, fixed at one draft token, cannot exploit spare capacity at all. DSpark therefore moves the throughput/interactivity frontier by adapting its verification budget to load, spending otherwise-idle compute when capacity exists and then shortening verification as concurrency rises so speculative work does not consume batch capacity that real requests need. The effect is largest exactly where the headroom is, at low concurrency. Under a strict 120 tok/s/user requirement, DSpark achieves 661% higher aggregate throughput for DSV4 Flash.
+
 ## References
 
 - Cai et al. [Medusa: Simple LLM Inference Acceleration Framework with Multiple Decoding Heads](https://arxiv.org/abs/2401.10774)
