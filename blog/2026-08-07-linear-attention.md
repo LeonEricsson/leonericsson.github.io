@@ -6,6 +6,9 @@ categories:
 year: 2026
 type: blog
 ---
+a brief history on linear attention. from its original to the deltanet variants that are increasingly popular in todays open frontier.
+
+---
 
 Before we get into linear attention at all, lets start by realising some of the issues of standard softmax attention Transformers:
 
