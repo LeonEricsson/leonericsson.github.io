@@ -1,8 +1,6 @@
 ---
 layout: post
 title: breaking down dspark and its lineage
-categories:
-  - Inference
 year: 2026
 type: blog
 ---
