@@ -5,627 +5,335 @@ year: 2026
 type: blog
 ---
 
-**pre-reading expectations. what am i looking for?**
+In LLM RL, rollout generation is often the dominant cost because responses are generated autoregressively. For a target policy $p$, speculative decoding introduces a cheaper drafter $q$ which proposes $\gamma$ tokens sequentially. The target verifies the entire block in parallel. If the rejection-sampling correction is exact, the resulting sequence is still sampled from $p$; the drafter changes *how* we obtain the sample, not its distribution.
 
-post training recipe - opd? mopd? are we RLing distinct agents, if so how are we combining them?
-attention variant: linear hybrid or sparse route?
-rl algorithm - numerical instability? quantized rl?
-rl environments - any details on data pipeline (likely not)?
-
-### Kimi Delta Attention
-
-Kimi Delta Attention (KDA), used in Kimi Linear and Kimi K3, is best understood as a refinement of Gated DeltaNet.
-
-The main conceptual change is:
-
-```text
-Gated DeltaNet: one forget gate per head
-KDA: one forget gate per key channel inside each head
-```
-
-Before writing the KDA update, it is useful to make the multi-head structure explicit. Linear attention variants still fit into the usual multi-head attention architecture:
-
-```text
-x_t
- -> project to q, k, v for each head
- -> each head runs its own recurrent state update
- -> concatenate head outputs
- -> output projection
-```
-
-For one head:
+For target-token decode cost $T_p$, drafter-token cost $T_q$, verification cost $T_V$, and block efficiency $\tau$:
 
 $$
-q_t,k_t \in \mathbb{R}^{d_k},\qquad v_t \in \mathbb{R}^{d_v}
+T_{\mathrm{SD}} = \gamma T_q + T_V
 $$
 
-and the recurrent state is:
-
 $$
-S_t \in \mathbb{R}^{d_k \times d_v}
-$$
-
-This follows the Kimi paper convention, where the output is read as:
-
-$$
-o_t = S_t^\top q_t
+\text{Speedup} =
+\tau \frac{T_p}{\gamma T_q + T_V}.
 $$
 
-So each head has its own associative memory. If there are $H$ heads, the total state per layer is:
+Here $\tau$ is roughly the number of target-distributed tokens emitted per draft/verify iteration: accepted draft tokens plus the final target-sampled token. Its maximum is $\gamma+1$.
+
+This gives two fundamental requirements for useful SD:
+
+1. **The drafter must be good enough.** High agreement between $q$ and $p$ gives large $\tau$.
+2. **The system must be in a regime where drafting + verification is cheaper than ordinary decoding.**
+
+The second point is easy to miss. Parallel verification is attractive when normal decoding is memory-bandwidth bound and leaves arithmetic throughput unused. If the target is already compute-bound, verifying several tokens simultaneously consumes real additional compute and SD can lose even with a strong drafter.
+
+### RL introduces a moving target
+
+Serving usually assumes a fixed target model. RL does not:
 
 $$
-H \times d_k \times d_v
-$$
-
-not:
-
-$$
-d_{\text{model}} \times d_{\text{model}}
-$$
-
-This is important because it keeps the recurrent state manageable.
-
-In Gated DeltaNet, the forget gate is a scalar per head:
-
-$$
-\alpha_t \in (0,1)
-$$
-
-and the update is:
-
-$$
-S_t =
-\alpha_t(I - \beta_t k_tk_t^\top)S_{t-1}
-+
-\beta_t k_tv_t^\top
-$$
-
-This means the whole memory matrix for that head is decayed by the same amount.
-
-KDA changes $\alpha_t$ from a scalar into a vector:
-
-$$
-\alpha_t \in (0,1)^{d_k}
-$$
-
-and applies it as a diagonal matrix over the key/address dimension:
-
-$$
-\mathrm{Diag}(\alpha_t) \in \mathbb{R}^{d_k \times d_k}
-$$
-
-making KDA's recurrent form:
-
-$$
-S_t =
-(I - \beta_t k_tk_t^\top)\mathrm{Diag}(\alpha_t)S_{t-1}
-+
-\beta_t k_tv_t^\top
-$$
-
-The clean way to read this is in two stages.
-
-**Decay Old Memory**
-
-$$
-\bar{S}_{t-1} = \mathrm{Diag}(\alpha_t)S_{t-1}
-$$
-
-This scales the rows of $S_{t-1}$, meaning each key/address channel gets its own forgetting rate:
-
-```text
-key channel 1: decay by alpha_1
-key channel 2: decay by alpha_2
-key channel 3: decay by alpha_3
-...
-```
-
-**Apply Delta-Rule Update**
-
-Then apply the usual delta-rule correction to the decayed memory:
-
-$$
-S_t =
-\bar{S}_{t-1}
-+
-\beta_t k_t(v_t - \bar{S}_{t-1}^\top k_t)^\top
-$$
-
-So the prediction is not made from the raw old memory. It is made from the already-forgotten memory:
-
-$$
-v_{\text{old}} = \bar{S}_{t-1}^\top k_t
-$$
-
-Then KDA writes the error correction:
-
-$$
-\beta_t k_t(v_t - v_{\text{old}})^\top
-$$
-
-This gives $\alpha_t$ and $\beta_t$ separate roles:
-
-- $\alpha_t$: what old memory survives into this step
-- $\beta_t$: how strongly the new association is written
-
-### Attention Residuals
-
-*todo*
-
-### MLA
-
-MLA is easiest to remember as the same dense attention written in two forms:
-
-```text
-training / prefill: MHA with small per-head K/V
-decode:            MQA over one wide shared KV latent
-```
-
-It does not try to reduce the quadratic attention cost during training/prefill. The win is that K/V are parameterised through a compressed latent, letting decode avoid storing expanded per-head K/V.
-
-For K3:
-
-- $d_c = 512$: compressed KV latent
-- $d_{\text{NoPE}} = 128$: per-head content Q/K dimension
-- $d_R = 64$: legacy RoPE branch
-- $d_v = 128$
-- $H$: query heads
-##### Training / Prefill
-
-The KV down-projection produces
-$$
-W_{DKV}x_t = [c_t;s_t],
-\qquad
-c_t\in\mathbb{R}^{512},
-\quad
-s_t\in\mathbb{R}^{64}.
-$$
-
-Only $c_t$ goes through the expensive per-head up-projection:
-
-$$
-W_{UK}:\mathbb{R}^{512}\rightarrow\mathbb{R}^{H\cdot128},
-\qquad
-W_{UV}:\mathbb{R}^{512}\rightarrow\mathbb{R}^{H\cdot128}.
-$$
-
-So
-$$
-c_t\rightarrow\{k^{128}_{t,h},v^{128}_{t,h}\}_{h=1}^{H}.
-$$
-The 64-d branch bypasses this and is shared across heads:
-$$
-k_{t,h}=[k^{128}_{t,h};s_t^{64}],
-\qquad
-q_{t,h}=[q^{128}_{t,h};q^{64}_{t,h}].
-$$
-Thus training/prefill is ordinary dense MHA with
-$$
-\boxed{d_{qk}=128+64=192,\qquad d_v=128.}
-$$
-
-##### Decode - absorbing the up-projection aka "MLA Trick"
-
-For the content branch,
-$$
-k^{128}_{i,h}=W_{UK,h}c_i
-$$
-and therefore
-
-$$
-(q^{128}_{t,h})^\top W_{UK,h}c_i
-=
-(W_{UK,h}^\top q^{128}_{t,h})^\top c_i.
-$$
-Define
-$$
-\tilde q_{t,h}=W_{UK,h}^\top q^{128}_{t,h}
-\in\mathbb{R}^{512}.
-$$
-Now every query head attends directly to the same cached $c_i\in\mathbb{R}^{512}$. This is the MQA view: many distinct query heads, one shared KV representation. $c_i$ is broadcast logically, not duplicated in the cache.
-
-The 64-d branch was never inside $W_{UK}$, so it remains alongside the absorbed content branch for the QK operation:
-
-$$
-[\tilde q^{512}_{t,h};q^{64}_{t,h}]^\top
-[c_i^{512};s_i^{64}].
-$$
-Hence decode is effectively a 576 head_dim MQA
-$$
-\boxed{d_{qk}=512+64=576,\qquad d_v=512}
-$$
-
-**Mental model:** training sees MHA-192/128; decode rearranges the exact same computation into MQA-576/512.
-##### attention head dimensions 
-
-Jianlin has repeatedly found that, for a fixed KV-cache budget, spending dimensions on a **wider single KV head** works better than splitting the same budget across more KV heads/groups. For one head,
-
-$$
-L_h=Q_hK_h^\top,
-\qquad
-\mathrm{rank}(L_h)\le d_k.
-$$
-
-So $d_k$ is a real capacity axis: more heads gives more separate attention maps, while larger head dimension makes each map's matching space richer. This is easy to miss in MLA because training visibly uses 128-d content heads, but absorption exposes a much wider 512-d latent matching space at decode. The empirical rule Jianlin arrives at is roughly:
-
-> For a fixed KV-cache size $C$, prefer one MQA-style KV representation with head dimension about $C$, shared by K and V.
-
-Rather than divide $C$ cached numbers across several KV heads and separate K/V spaces, use one shared latent $c_i\in\mathbb{R}^{C}.$ MLA's $c_i\in\mathbb{R}^{512}$ is close to this ideal. The absorbed 512-d query is still generated from the original 128-d query, so it is low-rank constrained rather than a completely free native 512-d query.
-##### Why does K3 retain RoPE split despite removing RoPE encoding?
-
-Traditional MLA needed the separate 64-d branch because RoPE is position-dependent and cannot participate in the same absorption as the NoPE content path.
-
-K3 removes RoPE from its MLA layers, but keeps the old structural split:
-
-$$
-x_t\xrightarrow{W_{DKV}}[c_t^{512};s_t^{64}].
-$$
-
-The 64 dimensions are now just learned NoPE features. They still bypass the KV up-projection and are concatenated directly into Q/K. A cleaner NoPE design would make the whole thing one latent:
-
-$$
-x_t\rightarrow c_t^{576}
+p_{\theta_0}
 \rightarrow
-\{k^{192}_{t,h},v^{128}_{t,h}\}_{h=1}^{H}.
-$$
-But this enlarges the expensive per-head up-projection:
-
-```text
-current K3:   512 -> H * (128 + 128)
-unified path: 576 -> H * (192 + 128)
-```
-
-That extra compute did not buy enough performance to justify it. Keeping the old split also preserves MLA infrastructure. Simply deleting the 64-d branch would be cheaper, but would reduce effective QK head dimension from $576$ to $512$, which runs against the finding that wider head dimensions matter. So the retained branch is best viewed as **cheap extra attention-score capacity**:
-
-$$
-\ell_{tih}
-=
-(\tilde q^{512}_{t,h})^\top c_i^{512}
-+
-(q^{64}_{t,h})^\top s_i^{64}.
-$$
-It enlarges the QK matching space by 64 dimensions without carrying those dimensions through the full per-head K/V projection machinery.
-
-**thoughts:** extra dimensions seem especially valuable when they enlarge the attention matching space itself; making those same dimensions participate in the full latent-to-per-head projections is much less cost-effective. given that RoPE information is no longer carried in the separate path, we now have much more flexibility in changing the relationship between these two paths. it seems worth exploring what the actual split should be, why 512;64? 
-### Stable LatentMoe
-
-Let
-
-- $d$: model hidden dimension
-- $\ell < d$: latent expert dimension
-- $N$: total experts
-- $K$: active experts per token
-- $\alpha = d/\ell$: compression factor
-
-##### MoE
-
-For $x \in \mathbb{R}^d$:
-
-$$
-x
-\xrightarrow{\text{top-}K}
-E_{i_1}(x), \ldots, E_{i_K}(x)
-\xrightarrow{\text{combine}}
-y \in \mathbb{R}^d.
-$$
-
-Experts operate directly in the $d$-dimensional space. Roughly:
-
-$$
-\text{total parameters} \propto Nd,
-\qquad
-\text{compute / memory traffic} \propto Kd,
-\qquad
-\text{all-to-all} \propto Kd.
-$$
-
-##### LatentMoE
-
-First project into a smaller latent space:
-
-$$
-x \in \mathbb{R}^d
+p_{\theta_1}
 \rightarrow
-z \in \mathbb{R}^{\ell}
-\xrightarrow{\text{top-}K}
-E_{i_1}(z), \ldots, E_{i_K}(z)
-\rightarrow
-y \in \mathbb{R}^d.
+p_{\theta_2}
+\rightarrow \cdots
 $$
 
-With
+A learned drafter trained to approximate $p_{\theta_0}$ can therefore become stale:
 
 $$
-\ell = \frac{d}{\alpha},
-$$
-
-each expert and each routed activation becomes $\alpha$ times cheaper, which we instead spend on scaling the number of total and active experts:
-
-$$
-\boxed{
-N' = \alpha N,
+q_{\phi_0} \approx p_{\theta_0},
 \qquad
-K' = \alpha K
-}
+q_{\phi_0} \not\approx p_{\theta_t}.
 $$
 
-Then the budgets transfer cleanly:
+As target/drafter mismatch increases, acceptance falls and block efficiency decreases. A frozen EAGLE-3 drafter, for example, shows acceptance length falling substantially over roughly 100 RL updates as the actor evolves.
+
+This creates a general design problem:
 
 $$
-N'\ell
-=
-(\alpha N)\frac{d}{\alpha}
-=
-Nd
+\boxed{\text{How do we keep }q\text{ aligned with an evolving }p?}
 $$
 
-**total parameters stay fixed**
+Broadly there are two approaches:
+
+* continually adapt a lightweight drafter to the current policy;
+* construct the drafter directly from the current policy so explicit adaptation is unnecessary.
+
+### SD efficiency depends on the runtime regime
+
+SD speedup depends strongly on active batch size.
+
+At large batch sizes, ordinary decoding can already saturate the GPU. There is little unused compute for speculative verification to exploit, while SD still pays drafting and synchronization costs. In one measured setup, the same SD configuration gives $1.46\times$ speedup at batch size 2 but only $0.76\times$ at batch size 32.
+
+This means the optimal decoding strategy can change during generation:
 
 $$
-K'\ell
-=
-(\alpha K)\frac{d}{\alpha}
-=
-Kd
+B \uparrow
+\Rightarrow
+\text{AR often preferable}
 $$
 
-**compute, expert-weight memory traffic, and all-to-all communication also stay roughly fixed**.
+$$
+B \downarrow
+\Rightarrow
+\text{SD increasingly attractive}.
+$$
 
-We trade expert width for more experts, which has the same training and inference costs but with better performance.
+This matters especially in **synchronous RL**. A synchronous iteration roughly looks like
 
-##### Kimi K3's Stable LatentMoe
+$$
+\text{generate finite rollout batch under }\theta_t
+\rightarrow
+\text{wait for completion}
+\rightarrow
+\text{update actor}
+\rightarrow
+\theta_{t+1}.
+$$
 
-Employs LatentMoe with $\alpha = 2$, meaning $d = 7167, \ell = 3584$ and moving from K2's 384 select 8 experts to 896 select 16 experts. So they halve routed width and exactly double active experts. To first order, the routed all-to-all volume $K\ell$ has therefore not decreased at all.
+Responses have different lengths, so short responses finish first and the active batch drains:
 
-The "Stable" label comes from adding a RMS Norm prior to the up-projection (decompression) to stabilise training
-![alt text|468](image%2014.png)
+$$
+B_{\text{large}}
+\rightarrow
+B_{\text{medium}}
+\rightarrow
+B_{\text{small}}.
+$$
+
+Eventually a few long generations determine the makespan while the inference hardware becomes underutilized. This creates a natural opportunity to begin with AR and enable SD only after entering the low-batch tail.
+
+This argument does **not** transfer directly to modern asynchronous RL systems. An asynchronous inference engine continously enques new rollouts, keeping accelerators topped up.
+
+### the optimal SD configuration changes over time
+
+Even after solving drafter staleness, a fixed SD configuration need not remain optimal.
+
+Draft length, tree width, speculative rounds, and other SD parameters trade additional drafting work against the probability of amortizing that work through successful acceptance. Their optimum depends on both **drafter quality** and **system state**.
+
+In RL, both can change:
+
+$$
+q_t \text{ quality changes}
+\qquad\text{and}\qquad
+B_t,\ S_t \text{ change}.
+$$
+
+For example, a drafter that becomes more accurate can profitably increase its draft length:
+
+$$
+\tau \uparrow
+\Rightarrow
+\gamma_{\mathrm{optimal}} \uparrow.
+$$
+
+The general lesson is that **SD configuration should be treated as a runtime control problem rather than a static inference hyperparameter.**
 
 ---
 
-### Stable LatentMoE
+### EfficientRollout
 
-Let
+EfficientRollout removes the learned-drafter maintenance problem by constructing the drafter directly from the current actor.
 
-* $d$: model hidden dimension
-* $\ell < d$: latent expert dimension
-* $m$: expert intermediate dimension
-* $N$: total experts
-* $K$: active experts per token
-* $E$: expert-parallel ranks
-* $t$: tokens across the EP domain
-* $\alpha=d/\ell$: latent compression factor
-
-##### The MoE systems picture
-
-For a SwiGLU expert, ignoring datatype constants:
+At each RL step:
 
 $$
-\text{expert params}\propto Ndm,
+q_t = Q(p_{\theta_t}),
+$$
+
+where $Q$ is 4-bit weight quantization. The drafter therefore has essentially the same architecture as the target, but heavily quantized weights. Since it is regenerated from the current policy, it cannot become stale relative to an old actor snapshot.
+
+**Why weight quantization?**
+
+In the small-batch rollout tail, over $90%$ of decode latency comes from dense projections such as FFN, QKVO and the LM head, while attention is comparatively cheap.
+
+This regime is largely dominated by repeatedly loading model parameters from memory. Roughly,
+
+$$
+T_p \sim \frac{W_{\mathrm{target}}}{BW}.
+$$
+
+Representing the dominant projection weights in W4 therefore substantially lowers weight traffic and makes the drafter cheaper. This is why weight quantization is more useful here than something like sparse attention, which attacks a relatively small fraction of latency.
+
+The tradeoff is unusual:
+
+$$
+\boxed{
+\text{very large drafter}
++
+\text{extremely high agreement}
++
+\text{no drafter training}
+}
+$$
+
+The quantized drafter achieves roughly $96-98\%$ token acceptance. EfficientRollout uses draft lengths from
+
+$$
+\Gamma={5,7,9,11},
+$$
+
+and on Qwen2.5-7B moves from $\gamma \approx 5$ early toward $\gamma \approx 11$ later as block efficiency improves.
+
+**Regime-aware toggle.** EfficientRollout begins rollout decoding with AR and uses a calibrated roofline model to predict whether
+
+$$
+\frac{\tau T_p}
+{\gamma T_q + T_V}
+$$
+
+is favorable under the current batch size, sequence length, block efficiency and draft length. Once predicted speedup passes a safety margin, it switches
+
+$$
+AR \rightarrow SD.
+$$
+
+Because its synchronous active batch only decreases, this is a one-way switch.
+
+**Adaptive draft length.** Measured $\tau$ is used as feedback. Persistently high utilization of the current block increases $\gamma$; poor utilization decreases it.
+
+The method therefore amounts to:
+
+- quantize current actor into drafter
+- begin rollout with AR
+- switch to SD when the system enters a favorable regime
+- adapt $\gamma$ as drafter quality changes.
+
+Despite excellent acceptance, the realized gains are only around $10-20%$ in rollout latency and $8-13%$ end-to-end because the drafter is still a full target-shaped network.
+
+A useful characterization of the method is
+
+$$
+\boxed{\text{excellent speculation quality, expensive speculation}.}
+$$
+
+### ReSpec
+
+ReSpec takes the opposite approach: use a **small learned EAGLE-3 drafter**, accept that it will become stale as the actor changes, and continuously adapt it during RL.
+
+The drafter is initially pretrained offline. During RL, speculative decoding itself becomes the source of online training data. For each speculative block, the drafter proposes tokens and the target verifies them. Verification already computes the target distribution on those positions, so the expensive teacher-side supervision is produced **as a by-product of generation**:
+
+$$
+q_{\phi_t}\text{ drafts}
+\longrightarrow
+p_{\theta_t}\text{ verifies}
+\longrightarrow
+\text{target logits / drafter outputs / rollout data}.
+$$
+
+Thus ReSpec does not need a separate target-data-generation job just to obtain KD targets. The rollout continuously exposes how the **current actor** would score the prefixes and candidates encountered by the drafter.
+
+These observations are stored in a replay buffer and periodically used to train the drafter:
+
+$$
+p_{\theta_t}
+\overset{\text{online KD}}{\longrightarrow}
+q_{\phi_t}.
+$$
+
+With ReSpec using a replay buffer, you end up with off-policy data. Hence you still need a *real* drafter training pass: inference-time drafter logits are detached, so when optimizing $\phi$, the stored examples must be run through the current drafter again to obtain gradients. For EAGLE-3, this is also where one can perform its training-time-test unrolling, exposing the drafter to its own recursively generated states rather than only target-produced states.
+
+I wonder why they don't just update the draft at a slower pace, and only use on policy data.Imagine holding the drafter fixed for $K$ actor updates:
+
+$$
+\phi_k
+\xrightarrow[\text{collect SD data}]{K\text{ RL steps}}
+D_k
+\xrightarrow{\text{train once}}
+\phi_{k+1},
+$$
+
+then discard $D_k$. 
+
+
+### NVIDIA - NemoRL SD
+
+NVIDIA's paper is mainly a **systems-integration study**: put lossless SD inside NeMo RL + vLLM and study rollout gains in synchronous and asynchronous RL.
+
+As opposed to the previous works covered, this initializes the drafter towards the actual training distribution by training on generations from the target based on prompts from the subsequent RL dataset. Thus the drafter is explicitly primed toward the distribution expected during subsequent RL. In the main experiments it is then **frozen for the entire RL run**, with draft length $k=3$.
+
+Despite this (frozen), SD remains effective for very long runs: roughly $1.5-1.8\times$ generation speedup across $600-1000$ RL steps, translating to about $1.35-1.41\times$ end-to-end because generation is only $\sim65-72\%$ of total step time.
+
+This is in tension with ReSpec's frozen-EAGLE result, where acceptance falls substantially after only $\sim100$ actor updates. The useful takeaway is therefore not that frozen drafters inevitably become stale, but that staleness seems to be workload- and initialization-dependent.
+
+**Initialization matters.** Replacing a generic chat-domain initialization with policy-generated, in-domain data improves rollout speedup substantially:
+
+$$
+1.51\times \rightarrow 1.77\times,
 \qquad
-\text{active FLOPs}\propto Kdm,
+1.19\times \rightarrow 1.53\times.
 $$
 
-while latency-critical expert-weight traffic is roughly
+Acceptance improves as well. They also find that online adaption of the drafter, meaning training it as RL progresses, provides little benefit over the properly initialized drafter, at-least over the measured 1000 training steps:
 
 $$
-\text{HBM traffic}\propto Kdm,
+1.77\times\text{ frozen}\rightarrow1.78\times\text{ online}.
 $$
 
-and routed all-to-all traffic is
+#### async interaction
+
+The async ablation disaggregates generation and training and allows limited policy lag. The first-order effect is pipeline overlap:
 
 $$
-\text{network traffic}\propto Kd.
+T_{\mathrm{async}}\approx\max(T_g,T_t)
 $$
 
-There are two important operating regimes.
+instead of $T_g+T_t$.
 
-**Latency-critical / small batch:** expert GEMMs have too few tokens to amortize loading their weights and are HBM-bandwidth bound.
-
-**Throughput / large batch:** expert GEMMs have enough tokens to reach the compute roofline. Now distributed MoE performance is governed by the relationship between expert compute and all-to-all communication.
-
-For $t$ tokens uniformly routed across the EP domain:
+If generation is slower than training, the trainer eventually waits for rollout data. SD reduces this exposed generation time from $10.4$s to $0.6$s and effective step time from $75.0$s to $60.5$s ($1.24\times$):
 
 $$
-T_{\text{comm}}
-\approx
-\frac{2tKd}{EB_{\text{net}}},
+T'_{\mathrm{async}}\approx\max(T_g/S_{\mathrm{SD}},T_t).
 $$
 
-where the factor $2$ is dispatch + combine, while
+Hence SD improves end-to-end throughput only while generation contributes to the pipeline bottleneck. Once training is slower, further generation speedup mainly buys resource efficiency rather than wall-clock speedup.
+
+Async also changes the serving regime itself. Allowing more policy lag gives generators more freedom to keep consuming prompts while the trainer works, keeping active batches larger for longer. This pushes the rollout engine toward the high-utilization regime where SD has less spare compute to exploit.
+
+#### deployment-scale simulation
+
+Section 4 uses a proprietary simulator to ask how SD behaves as model scale, GPU count, sharding and policy lag change. It models long-tailed rollout lengths and a fixed global rollout batch, so the important quantity becomes the **local active batch per model instance**.
+
+With fixed global batch:
 
 $$
-T_{\text{compute}}
-\approx
-\frac{6tKdm}{EF}
+N_{\mathrm{GPU}}\uparrow
+\Rightarrow
+B_{\mathrm{local}}\downarrow
+\Rightarrow
+\text{AR utilization}\downarrow
+\Rightarrow
+\text{more room for SD verification}.
 $$
 
-for SwiGLU's gate, up and down projections.
+Thus a huge global RL batch can still be a favorable SD regime if it is spread across enough model instances.
 
-Thus
-
-$$
-\frac{T_{\text{comm}}}{T_{\text{compute}}}
-\approx
-\frac{F}{3mB_{\text{net}}}.
-$$
-
-Once the expert GEMMs are compute-bound, $t,K,d,N,E$ all disappear from this ratio. Changing $d$ changes the **absolute** compute and communication costs together, but not their balance.
-
-The important prerequisite is that each expert receives enough tokens:
+Figure 4 shows two useful trends for the frontier-scale model:
 
 $$
-t_{\exp}=\frac{tK}{N}.
+N_{\mathrm{GPU}}\uparrow
+\Rightarrow
+\text{SD rollout speedup generally}\uparrow,
 $$
 
-If $t_{\exp}$ is too small, the expert GEMM is HBM-bound and the compute-vs-network roofline above is not the right model. This is why both latency-critical and throughput-oriented regimes have to be considered separately.
-
-##### Cost-model lens
-
-Architectural changes should be evaluated mechanically across the relevant serving regimes.
-
-**Latency-critical / small batch:** expert execution is typically bandwidth-bound. Speed is largely about reducing **bytes moved**:
-
-* expert weights / activations through HBM
-* routed activations through the network
-
-**Throughput / large batch:** first ask whether the expert GEMMs have enough arithmetic intensity to be **compute-bound rather than HBM-bound**. If they do, then ask whether there is enough expert compute to hide the all-to-all communication.
-
-So for a change such as
+while
 
 $$
-d\rightarrow\ell,
+\text{policy lag}\uparrow
+\Rightarrow
+\text{SD rollout speedup generally}\downarrow.
 $$
 
-don't reason about "cost" as one quantity. Ask separately:
+The two effects fit together: more GPUs shrink the local prompt pool and leave compute underutilized; more policy lag decouples generators from trainers and keeps that pool replenished for longer, improving ordinary decoding utilization and reducing SD's relative advantage.
 
-$$
-\boxed{
-\text{HBM bytes},\quad
-\text{network bytes},\quad
-\text{FLOPs},\quad
-\text{arithmetic intensity},\quad
-\text{comm/compute ratio}
-}
-$$
+At extreme scale the relationship becomes non-monotonic because sharding and pipeline concurrency interact. The best simulated operating point reaches roughly $3.5\times$ rollout speedup and $2.5\times$ end-to-end.
 
-A change can improve absolute cost without changing a roofline ratio, or preserve asymptotic cost while changing whether the underlying kernels actually reach that roofline.
+Across the three papers, the shared systems fact is: **SD is least attractive when ordinary AR decoding already saturates the GPU.** ReSpec adapts the SD configuration with batch size; EfficientRollout runs AR early and SD in the low-batch tail; NVIDIA mostly uses a fixed short draft, but its scale analysis is governed by the same local-batch / under-utilization effect.
 
-##### Why reduce $d$?
+**Caveat:** My biggest gripe with this paper, especially compared with EfficientRollout and ReSpec, is that it does not really account for the effect of batch size on SD efficacy. It acknowledges batching effects, but its main experiments use SD continuously with a fixed draft length and report substantial speedups. Yet the broader literature suggests that SD is often unattractive once generation is already throughput-bound at high local batch sizes, because verification can no longer exploit otherwise-idle compute.
 
-To improve inference efficiency we want to reduce HBM traffic and all-to-all traffic.
+This makes the results difficult to interpret. Given fixed inference resources, I would normally first increase generation batch size until the hardware is close to maximally utilized. If the NVIDIA experiments operate below that point, then some of the reported SD gain may simply come from using speculation to fill otherwise-unused compute, rather than improving on an already throughput-optimized AR baseline.
 
-* memory cost scales with $d$ and $m$
-* communication scales with $K$ and $d$
-* reducing $K$ or $m$ reduces the expert's nonlinear capacity and tends to hurt quality
-* increasing $N$ and $K$ tends to improve expert specialization / mixture diversity
-
-This leaves $d$ as the attractive dimension to compress. LatentMoE therefore projects
-
-$$
-x\in\mathbb R^d
-\rightarrow
-z\in\mathbb R^\ell,
-\qquad
-\ell=\frac d\alpha,
-$$
-
-and performs routing, communication and expert computation in this smaller space.
-
-Each routed expert invocation is now approximately $\alpha$ times cheaper. LatentMoE proposes two variants of what to do with these cost savings.
-
-##### $\ell$-MoE$_{\text{eff}}$: bank the savings
-
-Scale the expert pool but keep the number of active experts fixed:
-
-$$
-\boxed{
-\ell=\frac d\alpha,\qquad
-N'=\alpha N,\qquad
-K'=K
-}
-$$
-
-Total routed expert parameters stay fixed:
-
-$$
-N'\ell m = 
- (\alpha N)\frac d\alpha m
-
-= 
-Ndm.
-$$
-
-But active expert cost falls:
-
-$$
-K'\ell m
-=
-
-\frac{Kdm}{\alpha},
-$$
-
-and communication falls by the same factor:
-
-$$
-K'\ell
-=
-
-\frac{Kd}{\alpha}.
-$$
-
-So:
-
-$$
-\boxed{\text{MoE}_{\text{eff}}:\quad \text{retain accuracy, improve inference efficiency}}
-$$
-
-The larger $N$ spends the reduced **per-expert parameter cost** on a richer expert pool, while the savings from the smaller routed representation are banked as lower active cost.
-
-##### $\ell$-MoE$_{\text{acc}}$: reinvest the savings
-
-Instead also scale the number of active experts:
-
-$$
-\boxed{
-\ell=\frac d\alpha,\qquad
-N'=\alpha N,\qquad
-K'=\alpha K
-}
-$$
-
-Total parameters again remain fixed:
-
-$$
-N'\ell m=Ndm.
-$$
-
-Now active expert cost is also restored to baseline:
-
-$$
-K'\ell m
-=
-
- (\alpha K)\frac d\alpha m =
-
-Kdm,
-$$
-
-and so is all-to-all traffic:
-
-$$
-K'\ell
-=
-
- (\alpha K)\frac d\alpha =
-
-Kd.
-$$
-
-Hence compute, active-weight traffic and communication remain approximately iso-cost, but each token gets more active experts from a larger expert pool:
-
-$$
-\boxed{\text{MoE}_{\text{acc}}:\quad \text{same inference efficiency, better accuracy}}
-$$
-
-This is the main LatentMoE result: **compress expert representation width, then spend that efficiency on expert diversity rather than keeping wider experts.**
-
-##### Kimi K3's Stable LatentMoE
-
-K3 uses $\alpha=2$:
-
-$$
-d=7168,\qquad \ell=3584,
-$$
-
-and moves from K2's select-8 routing to select-16:
-
-$$
-8\cdot7168
-==========
-
-16\cdot3584.
-$$
-
-So K3 spends the latent-width saving on twice as many active experts: its routed active width, and therefore first-order expert compute / all-to-all cost, stays roughly unchanged. It also expands the expert pool from $384$ to $896$.
-
-The **Stable** modification adds RMSNorm before the latent output is projected back into the model hidden dimension.
+There may of course be reasons why the rollout workload cannot sustain sufficiently large local batches—in which case SD is exactly a useful mechanism for recovering that lost utilization. But because the paper does not report enough about local batch size or hardware utilization in the main experiments, it is hard to tell which regime they are actually in, and therefore hard to take the reported speedups as representative of a well-utilized frontier RL rollout stack.
