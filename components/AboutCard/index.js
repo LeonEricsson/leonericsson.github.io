@@ -54,17 +54,6 @@ function AboutCard() {
           </ul>
         </p>
 
-        <h2 className="text-3xl font-sorts-mill italic text-deep-charcoal pb-6 pt-16">ideas</h2>
-          <p className="font-lora leading-relaxed text-deep-charcoal">
-            things / projects i'm thinking about lately.
-            <ul className="list-none ml-4 pt-2">
-              <li className="before:content-['-'] before:pr-2">visual reasoning and visual spatial reasoning. non-text cot?</li>
-              <li className="before:content-['-'] before:pr-2">proper long-context reasoning benchmark. forcing retrieval + reasoning across the context</li>
-              <li className="before:content-['-'] before:pr-2">async RL framework optimized for single node training</li>
-            </ul>
-          </p>
-
-
     </div>
   );
 }
