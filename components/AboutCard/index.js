@@ -5,28 +5,27 @@ function AboutCard() {
     <div>
       <h2 className="text-3xl font-sorts-mill italic text-deep-charcoal pb-6">about me</h2>
       <p className="font-lora leading-relaxed text-deep-charcoal">
-        hi! i'm leon, i'm a research engineer living in stockholm - been here for almost 2 years now with my fiancée(!). big fan of ml research, i'm driven by curiosity about how machines learn.  otherwise i enjoy eating food, making food, traveling and working out.
+        hi! i'm leon, i'm a research engineer living in stockholm. i've got a background in software engineering, with a master's in compsci but now adays i work in research related to reinforcement learning and language models. overall i'd say my interests are well reflected in my blog/notes.
       </p>
       <br />
       <p className="font-lora leading-relaxed text-deep-charcoal">
-        i've got a background in software engineering, with a master's in compsci. but today all i thinkn about is <b>language models</b>, <b>reinforcement learning</b>, <b>reasoning</b>, and occasionally <b>mech interp</b>. if you're curious about my current fixations, skim the blog.
+        otherwise i love everything food related, and traveling to new places.
       </p>
       <h2 className="text-3xl font-sorts-mill italic text-deep-charcoal pb-6 pt-16">i like open source</h2>
         <p className="font-lora leading-relaxed text-deep-charcoal">
-          these are my favorite, some of which i contribute to.
+          selection of my favorites, some of which i've worked on.
           <ul className="list-none ml-4 pt-2">
-            <li className="before:content-['-'] before:pr-2">rl with <a href="https://github.com/huggingface/trl" className="text-sepia-accent hover:underline transition-all duration-300">trl</a> (<a href="https://github.com/huggingface/trl/" className="text-sepia-accent hover:underline transition-all duration-300">core maintainer</a>) </li>
             <li className="before:content-['-'] before:pr-2">rl with <a href="https://github.com/PrimeIntellect-ai/prime-rl" className="text-sepia-accent hover:underline transition-all duration-300">prime-rl</a>, or <a href="https://github.com/THUDM/slime" className="text-sepia-accent hover:underline transition-all duration-300">slime</a> </li>
-            <li className="before:content-['-'] before:pr-2">inference engine <a href="https://github.com/vllm-project/vllm" className="text-sepia-accent hover:underline transition-all duration-300">vllm</a> </li>
-            <li className="before:content-['-'] before:pr-2">ggerganov's <a href="https://github.com/ggerganov/llama.cpp" className="text-sepia-accent hover:underline transition-all duration-300">llama.cpp</a> (<a href="https://github.com/ggerganov/llama.cpp/pull/4484" className="text-sepia-accent hover:underline transition-all duration-300">#4484</a>)</li>
-            <li className="before:content-['-'] before:pr-2"><a href="https://github.com/google/jax" className="text-sepia-accent hover:underline transition-all duration-300">jax</a>: the lovechild of autograd and xla</li>
-            <li className="before:content-['-'] before:pr-2"><a href="https://github.com/ml-explore/mlx" className="text-sepia-accent hover:underline transition-all duration-300">mlx</a> is an array framework for apple silicon (<a href="https://github.com/ml-explore/mlx-examples/pull/202" className="text-sepia-accent hover:underline transition-all duration-300">#202</a> <a href="https://github.com/ml-explore/mlx-examples/pull/237" className="text-sepia-accent hover:underline transition-all duration-300">#237</a> <a href="https://github.com/ml-explore/mlx/pull/456" className="text-sepia-accent hover:underline transition-all duration-300">#456</a> <a href="https://github.com/ml-explore/mlx-examples/pull/19" className="text-sepia-accent hover:underline transition-all duration-300">#19</a> <a href="https://github.com/ml-explore/mlx-examples/pull/276" className="text-sepia-accent hover:underline transition-all duration-300">#276</a>) </li>
-            <li className="before:content-['-'] before:pr-2"><a href="https://github.com/ghostty-org/ghostty" className="text-sepia-accent hover:underline transition-all duration-300">ghostty</a></li>
+            <li className="before:content-['-'] before:pr-2"><a href="https://github.com/huggingface/trl" className="text-sepia-accent hover:underline transition-all duration-300">trl</a> has a special place in my heart</li>
+            <li className="before:content-['-'] before:pr-2"><a href="https://github.com/vllm-project/vllm" className="text-sepia-accent hover:underline transition-all duration-300">vllm</a> </li>
+            <li className="before:content-['-'] before:pr-2">ggerganov's <a href="https://github.com/ggerganov/llama.cpp" className="text-sepia-accent hover:underline transition-all duration-300">llama.cpp</a></li>
+            <li className="before:content-['-'] before:pr-2"><a href="https://github.com/google/jax" className="text-sepia-accent hover:underline transition-all duration-300">jax</a>: lovechild of autograd and xla</li>
+            <li className="before:content-['-'] before:pr-2"><a href="https://github.com/tmux/tmux" className="text-sepia-accent hover:underline transition-all duration-300">tmux</a></li>
           </ul>
         </p>
       <h2 className="text-3xl font-sorts-mill italic text-deep-charcoal pb-6 pt-16">i like making things</h2>
         <p className="font-lora leading-relaxed text-deep-charcoal">
-        healthy mix of research, experiments, and scratch projects.
+        mixed bag, somewhat outdated
         <ul className="list-none ml-4 pt-2">
           <li className="before:content-['-'] before:pr-2">paper implementations in <a href="https://github.com/LeonEricsson/omni" className="text-sepia-accent hover:underline transition-all duration-300">omni</a></li>
           <li className="before:content-['-'] before:pr-2">this website, including my <a href="https://leonericsson.github.io/blog" className="text-sepia-accent hover:underline transition-all duration-300">blog</a></li>
@@ -39,21 +38,19 @@ function AboutCard() {
         </ul>
       </p>
 
-        <h2 className="text-3xl font-sorts-mill italic text-deep-charcoal pb-6 pt-16">i like reading papers</h2>
+        <h2 className="text-3xl font-sorts-mill italic text-deep-charcoal pb-6 pt-16">i like reading</h2>
         <p className="font-lora leading-relaxed text-deep-charcoal">
-          some favorites of mine.
+          some favorites of mine
           <ul className="list-none ml-4 pt-2">
             <li className="before:content-['-'] before:pr-2"><a href="https://physics.allen-zhu.com/" className="text-sepia-accent hover:underline transition-all duration-300">Physics of Language Models</a> </li>
-            <li className="before:content-['-'] before:pr-2"><a href="https://arxiv.org/pdf/2402.10588" className="text-sepia-accent hover:underline transition-all duration-300">On the Latent Language of Multilingual Transformers</a> </li>
-            <li className="before:content-['-'] before:pr-2"><a href="https://transformer-circuits.pub/" className="text-sepia-accent hover:underline transition-all duration-300">Transformer Circuits</a> </li>
-            <li className="before:content-['-'] before:pr-2"><a href="https://arxiv.org/abs/2508.06471" className="text-sepia-accent hover:underline transition-all duration-300">GLM 4.5</a> </li>
             <li className="before:content-['-'] before:pr-2"><a href="https://arxiv.org/abs/2505.24298" className="text-sepia-accent hover:underline transition-all duration-300">AReaL</a> </li>
-            <li className="before:content-['-'] before:pr-2"><a href="https://arxiv.org/abs/2508.08221" className="text-sepia-accent hover:underline transition-all duration-300">Part I: Tricks or Traps? A Deep Dive into RL for LLM Reasoning </a> </li>
-            <li className="before:content-['-'] before:pr-2"><a href="https://cohere.com/research/papers/command-a-technical-report.pdf" className="text-sepia-accent hover:underline transition-all duration-300">Command-A</a> </li>
-            <li className="before:content-['-'] before:pr-2"><a href="https://arxiv.org/pdf/2405.04434" className="text-sepia-accent hover:underline transition-all duration-300">DeepSeek-V2</a> </li>
+            <li className="before:content-['-'] before:pr-2"><a href="https://arxiv.org/pdf/2402.10588" className="text-sepia-accent hover:underline transition-all duration-300">On the Latent Language of Multilingual Transformers</a> </li>
             <li className="before:content-['-'] before:pr-2"><a href="https://arxiv.org/abs/1911.08265" className="text-sepia-accent hover:underline transition-all duration-300">MuZero</a> </li>
-            <li className="before:content-['-'] before:pr-2"><a href="https://spaces.ac.cn/archives/10091" className="text-sepia-accent hover:underline transition-all duration-300">MHA, MQA, GQA, MLA (by Jianlin Su)</a> </li>
-            <li className="before:content-['-'] before:pr-2"><a href="https://arxiv.org/pdf/2306.00978" className="text-sepia-accent hover:underline transition-all duration-300">Activation-aware weight quantization</a> </li>
+            <li className="before:content-['-'] before:pr-2"><a href="https://arxiv.org/pdf/2405.04434" className="text-sepia-accent hover:underline transition-all duration-300">DeepSeek-V2</a> </li>
+            <li className="before:content-['-'] before:pr-2"><a href="https://arxiv.org/abs/2508.06471" className="text-sepia-accent hover:underline transition-all duration-300">GLM 4.5</a> </li>
+            <li className="before:content-['-'] before:pr-2"><a href="https://jax-ml.github.io/scaling-book/" className="text-sepia-accent hover:underline transition-all duration-300">How to Scale Your Model</a> </li>
+            <li className="before:content-['-'] before:pr-2"><a href="https://spaces.ac.cn/archives/10091" className="text-sepia-accent hover:underline transition-all duration-300">MHA, MQA, GQA, MLA (Jianlin Su)</a> </li>
+            <li className="before:content-['-'] before:pr-2"><a href="https://transformer-circuits.pub/" className="text-sepia-accent hover:underline transition-all duration-300">Transformer Circuits</a> </li>
           </ul>
         </p>
 
