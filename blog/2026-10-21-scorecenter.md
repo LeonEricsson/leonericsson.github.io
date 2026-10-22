@@ -4,12 +4,11 @@ title: score centering
 year: 2026
 type: blog
 ---
+I'm surpised at how persistent *train-inference mismatch* (TIM) has turned out to be. Honestly figured we'd convereged on an accepted solution by now. Over the past year we've seen a slew of algorithmic approaches proposed, often times bundling staleness into the mix as well addressing multiple sources of off-policyness at once. TIS/MIS/IcePop/DPPO/... all fall into this camp; accepting the mismatch and correcting for it.
 
-I've talked a lot about *train-inference mismatch* (TIM) over the past year. I'm surprised how persistent this problem has come to be in the space. We've seen a slew of algorithmic approaches proposed to handle the issue, often times bundling staleness into the mix as well addressing multiple sources of off-policyness at once. Things like TIS/MIS/IcePop/DPPO/... are all examples of the aforementioned; these accept the mismatch, attempting to adjust for it.
+Other work tries to eliminate the mismatch altogether. At the extreme end, that means unifying the training and inference stacks with shared kernels, batch invariance, and so on. Lighter-weight fixes include an FP32 LM head, BF16 for train/rollout, or router replay. Still, there's clearly no consensus yet, and frontier labs seem to be taking slightly different approaches.
 
-Other solutions try to remove the mismatch altogether. This can be as extreme as trying to unify the training and inference frameworks using the same kernels, ensuring batch invariance, etc., or simpler approaches such as using an FP32 LM head, BF16 train/rollout, and/or router replay. All-in-all it's still apparent that there isn't a universally accepted solution, frontier labs are all taking slightly different approaches.
-
-Today we'll discuss *score centering*, which is an orthogonal and complementary approach to addressing TIM. I'm not sure how well studied this particular approach is, my understanding comes from reading [*Score Centering Stabilizes Off-policy Reinforcement Learning*](https://arxiv.org/pdf/2609.20807), so that's the backdrop for this discussion.
+Today we look at *score centering*, which is an orthogonal and complementary approach to addressing TIM. I'm not sure how studied this is, I haven't heard of this before, all I know comes from reading [*Score Centering Stabilizes Off-policy Reinforcement Learning*](https://arxiv.org/pdf/2609.20807), so that's the backdrop for this discussion.
 
 ## we begin with the policy gradient
 
@@ -55,7 +54,7 @@ The reward tells us whether the action should be reinforced or weakened and by h
 
 ## the score function identity
 
-The score function has an interesting property: **its expectation under its own distribution is zero**.
+The score function has an interesting property: **its expectation under its own distribution is zero**
 
 $$
 \boxed{
@@ -63,9 +62,7 @@ $$
 }
 $$
 
-This is known as the *score function identity*.
-
-We can prove this directly:
+known as the *score function identity*, which we can prove directly
 
 $$
 \begin{aligned}
@@ -156,7 +153,7 @@ $$
 \mathbb{E}_{a\sim p_\theta}[e_a]-p_\theta
 $$
 
-We focus on $\mathbb{E}[e_a]$; since $e_a$ is a one-hot vector, its expectation is simply the probability distribution itself:
+We focus on $\mathbb{E}[e_a]$. Since $e_a$ is a one-hot vector, its expectation is simply the probability distribution itself:
 
 $$
 \mathbb{E}_{a\sim p_\theta}[e_a]
@@ -405,6 +402,7 @@ This is the remaining problem that importance sampling addresses. While score ce
 Under severe quantization-induced TIM, score centering alone performs particularly well, often outperforming importance-sampling-based corrections. Under heavy staleness, however, combining score centering with TIS or MIS performs better than score centering alone. This is consistent with our earlier observation: score centering removes the drift, but the remaining covariance is still measured under the generator. When the generator becomes sufficiently stale, correcting that distribution mismatch becomes increasingly important.
 
 ![Experimental results from the paper](/images/scorecenterquant.png)
+
 ![Additional experimental results](/images/scorecenterstale.png)
 
 worth noting that the experiments are somewhat synthetic by nature where the authors deliberately amplify TIM rather than relying on its natural occurrence, as that typically requires long training runs.
