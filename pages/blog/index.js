@@ -21,20 +21,22 @@ export async function getStaticProps() {
 export default function Blog({ blogPosts, reviews }) {
   return (
     <Layout>
-  <div className="relative pl-[25rem] py-12">
-    {/* Top-right narrow paragraph */}
-    <div className="absolute top-12 right-8 w-[18rem]">
-      <p className="text-sm font-lora text-medium-gray leading-relaxed">
-        this is a space to document and distill my thoughts things i've read
-        from the research community. I tend to read a lot and most of the time
-        i jot down notes while reading. Some of these are published as 
-        lit. reviews, and an even fewer amount of polished further to become a 
-        blog post. Blog posts are the closest I come to writing for a broader 
-        audience, although I write primarily for personal reasons, to understand 
-        and remember.
-      </p>
-    </div>
+  <div className="relative py-12">
+  {/* Top-right narrow paragraph */}
+  <div className="absolute top-24 right-8 w-[18rem]">
+    <p className="text-sm font-lora text-medium-gray leading-relaxed">
+      this is a space to document and distill my thoughts things i've read
+      from the research community. I tend to read a lot and most of the time
+      i jot down notes while reading. Some of these are published as 
+      lit. reviews, and an even fewer amount of polished further to become a 
+      blog post. Blog posts are the closest I come to writing for a broader 
+      audience, although I write primarily for personal reasons, to understand 
+      and remember.
+    </p>
+  </div>
 
+  {/* Centered content */}
+  <div className="mx-auto w-fit">
     {/* Main blog section */}
     <h2 className="text-4xl mt-8 mb-6 font-sorts-mill italic text-deep-charcoal">
       Blog posts
@@ -43,9 +45,13 @@ export default function Blog({ blogPosts, reviews }) {
     <ul className="list-none space-y-2.5">
       {blogPosts.map(({ id, title, date }) => (
         <li key={id} className="flex items-baseline">
-          <span className="text-medium-gray text-sm font-crimson mr-6 min-w-[6rem]">{format(new Date(date), 'dd MMM yyyy')}</span>
+          <span className="text-medium-gray text-sm font-crimson mr-6 min-w-[6rem]">
+            {format(new Date(date), 'dd MMM yyyy')}
+          </span>
           <Link href={`/blog/${id}`}>
-            <span className="text-deep-charcoal font-sorts-mill italic text-lg hover:text-sepia-accent cursor-pointer transition-colors duration-300">{title.replace(/<br\s*\/?>/gi, ' ')}</span>
+            <span className="text-deep-charcoal font-sorts-mill italic text-lg hover:text-sepia-accent cursor-pointer transition-colors duration-300">
+              {title.replace(/<br\s*\/?>/gi, ' ')}
+            </span>
           </Link>
         </li>
       ))}
@@ -58,14 +64,19 @@ export default function Blog({ blogPosts, reviews }) {
     <ul className="list-none space-y-2.5">
       {reviews.map(({ id, title, date }) => (
         <li key={id} className="flex items-baseline">
-          <span className="text-medium-gray text-sm font-crimson mr-6 min-w-[6rem]">{format(new Date(date), 'dd MMM yyyy')}</span>
+          <span className="text-medium-gray text-sm font-crimson mr-6 min-w-[6rem]">
+            {format(new Date(date), 'dd MMM yyyy')}
+          </span>
           <Link href={`/blog/${id}`}>
-            <span className="text-deep-charcoal font-sorts-mill italic text-lg hover:text-sepia-accent cursor-pointer transition-colors duration-300">{title.replace(/<br\s*\/?>/gi, ' ')}</span>
+            <span className="text-deep-charcoal font-sorts-mill italic text-lg hover:text-sepia-accent cursor-pointer transition-colors duration-300">
+              {title.replace(/<br\s*\/?>/gi, ' ')}
+            </span>
           </Link>
         </li>
       ))}
     </ul>
   </div>
+</div>
 </Layout>
 
   );
