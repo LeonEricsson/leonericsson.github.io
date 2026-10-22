@@ -5,7 +5,9 @@ year: 2026
 type: blog
 ---
 
-In LLM RL, rollout generation is often the dominant cost because responses are generated autoregressively. For a target policy $p$, speculative decoding introduces a cheaper drafter $q$ which proposes $\gamma$ tokens sequentially. The target verifies the entire block in parallel. If the rejection-sampling correction is exact, the resulting sequence is still sampled from $p$; the drafter changes *how* we obtain the sample, not its distribution.
+Rollout is the dominant cost of RL. Efficiency improvements targeting rollout therefore provide high return on investment. Speculative decoding is a very common inference optimization, widely used when serving models. RL obviously runs a lot of inference, so are we running spec decode under RL, if not, why? I'd like to go through some reports/papers of applying spec decode to RL to get an understanding of the state of spec decode in rl. 
+
+starting with a brief primer on speculative decoding. For a target policy $p$, speculative decoding introduces a cheaper drafter $q$ which proposes $\gamma$ tokens sequentially. The target verifies the entire block in parallel. If the rejection-sampling correction is exact, the resulting sequence is still sampled from $p$; the drafter changes *how* we obtain the sample, not its distribution.
 
 For target-token decode cost $T_p$, drafter-token cost $T_q$, verification cost $T_V$, and block efficiency $\tau$:
 
@@ -337,3 +339,17 @@ Across the three papers, the shared systems fact is: **SD is least attractive wh
 This makes the results difficult to interpret. Given fixed inference resources, I would normally first increase generation batch size until the hardware is close to maximally utilized. If the NVIDIA experiments operate below that point, then some of the reported SD gain may simply come from using speculation to fill otherwise-unused compute, rather than improving on an already throughput-optimized AR baseline.
 
 There may of course be reasons why the rollout workload cannot sustain sufficiently large local batches—in which case SD is exactly a useful mechanism for recovering that lost utilization. But because the paper does not report enough about local batch size or hardware utilization in the main experiments, it is hard to tell which regime they are actually in, and therefore hard to take the reported speedups as representative of a well-utilized frontier RL rollout stack.
+
+### Frontier Models
+*this was edited in October 2026*
+
+There's been a few scattered reports of use of spec decode in training of frontier models. The details are generally scarce, from what I can tell nobody has touched on the drifting policy problem, it's moreso been reports/acknowledgements of the usage of spec decode in the rollout engines. I wanted to at least mention which labs have reported employing spec decode. For this I'll focus on those reported using it in async rl frameworks, as the usage in synchronous rl is considerably more straightforward.
+
+**Nemotron 3 Ultra (§3.6.1, pp. 31–32.)**
+They run a one-step off-policy async RL with MTP-based spec decode on the rollout engines. The report describes a controlled sweep over zero, three, five, and seven draft tokens, with five tokens resulting in a 1.46x reduction in mean rollout-generation wall time. Most of the benefit comes from the slowest trajectories, which often determine how quickly the (one-step) async training loop advances.
+
+**MiMo-V2.6 (§6)**
+Describe a large-batch async RL with rollouts running DFlash spec decode by default. Block size of six. The drafter is initialized from the SFT policy and fine-tuned on early RL rollout logs to track the changing policy distribution.
+
+**MiniMax M2.5 (§2.1, 3.1 and 3.3)**
+Use a MTP-based speculative decoding in the rollout engine. Notably, the MTP heads are continuously fine-tuned using a Top-K KL loss to stay aligned with the evolving RL policy.
