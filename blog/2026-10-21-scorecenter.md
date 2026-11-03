@@ -4,11 +4,11 @@ title: score centering
 year: 2026
 type: blog
 ---
-I'm surpised at how persistent *train-inference mismatch* (TIM) has turned out to be. Honestly figured we'd convereged on an accepted solution by now. Over the past year we've seen a slew of algorithmic approaches proposed, often times bundling staleness into the mix as well addressing multiple sources of off-policyness at once. TIS/MIS/IcePop/DPPO/... all fall into this camp; accepting the mismatch and correcting for it.
+I'm surprised at how persistent of a problem the *train-inference mismatch* (TIM) has turned out to be. If memory serves me I believe it was first raised in one of the MiniMax reports back in spring 2025, and almost 18 months later its still a thorn in the side of async RL.
 
-Other work tries to eliminate the mismatch altogether. At the extreme end, that means unifying the training and inference stacks with shared kernels, batch invariance, and so on. Lighter-weight fixes include an FP32 LM head, BF16 for train/rollout, or router replay. Still, there's clearly no consensus yet, and frontier labs seem to be taking slightly different approaches.
+Fixes generally fall into two camps. The first accepts the mismatch and corrects for it, usually folding in staleness and other sources of off-policyness along the way: TIS, MIS, IcePop, DPPO, and friends. The second tries to explicitly reduce or even eliminate it. At the heavy end that means unifying the training and inference stacks (shared kernels, batch invariance). Lighter fixes include an FP32 LM head, BF16 across train and rollout, router replay etc. From what we can tell the frontier *open* labs seem to be making different bets on the way forward. I figured we would have converged on a solution by now, perhaps todays topic will edge is closer to that reality :)
 
-Today we look at *score centering*, which is an orthogonal and complementary approach to addressing TIM. I'm not sure how studied this is, I haven't heard of this before, all I know comes from reading [*Score Centering Stabilizes Off-policy Reinforcement Learning*](https://arxiv.org/pdf/2609.20807), so that's the backdrop for this discussion.
+We look at *score centering*, which is an orthogonal and complementary approach to addressing TIM. I'm not sure how studied this is, I haven't heard of this before, all I know comes from reading [*Score Centering Stabilizes Off-policy Reinforcement Learning*](https://arxiv.org/pdf/2609.20807), so that's the backdrop for this discussion.
 
 ## we begin with the policy gradient
 
