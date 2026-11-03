@@ -178,7 +178,7 @@ p_\theta-p_\theta=0
 }
 $$
 
-arriving back at the zero mean property.  Importantly notice that this outcome is dependent on the assumption that **actions were sampled from the same distribution used to compute the score**, otherwise (A) doesn't equal $p_\theta$. 
+arriving back at the zero mean property.  Importantly notice that this outcome is dependent on the assumption that ****actions** were sampled from the same distribution used to compute the score**, otherwise (A) doesn't equal $p_\theta$.
 
 ## what happens under train-inference mismatch?
 
@@ -217,10 +217,9 @@ $$
 we've broken the zero-mean property. The expected score is no longer zero, but instead depends on the difference between the generator and trainer distributions.
 
 ### The drift term
+How does this materialize inside our policy gradient?
 
-So what does this actually mean for the policy gradient?
-
-Let's use $A(a)$ to denote our reward or advantage from here on. Under the generator distribution, the expected update is $\mathbb{E}_{a\sim q_\varphi}[A(a)s_\theta(a)]$. Using the covariance identity, we can decompose this into two terms:
+Let $A(a)$ denote advantage from here on. Under the generator distribution, the expected update is $\mathbb{E}_{a\sim q_\varphi}[A(a)s_\theta(a)]$. Using the covariance identity, we can decompose this into two terms:
 
 $$
 \boxed{
@@ -236,11 +235,26 @@ $$
 }
 $$
 
-This is one of the central observations in the paper. The second term is what we're interested in. It captures the relationship between the sampled actions and their rewards, reinforcing actions with relatively higher advantages and weakening those with relatively lower advantages.
+This is one of the central observations in the paper. **The second term** is what we're interested in. It captures the relationship between the sampled actions and their rewards, reinforcing actions with relatively higher advantages and weakening those with relatively lower advantages. **The first term**, however, is problematic. The drift term carries no information about which actions were successful. It depends on the advantages only through their mean, $\mathbb{E}_{q_\varphi}[A]$, meaning it can produce an update even without any relationship between which action was sampled and how well it performed. It turns out in fact that the first term acts as a distillation objective towards the sampler, scaled by the expected reward. On-policy this has no effect, the trainer already matches the sample, so $\bar s = 0$ (also score identify function) and hence the drift term vanishes completely. Distillation toward a fixed teacher is harmless, the sampler however is not fixed, in RL its a biased copy of the trainer (quantization, stale, numerically mismatched, ...) so what happens is that each step pushes the trainer toward the sampler. 
 
-The first term, however, is problematic. The drift term carries no information about which actions were successful. It depends on the advantages only through their mean, $\mathbb{E}_{q_\varphi}[A]$, meaning it can produce an update even without any relationship between which action was sampled and how well it performed.
+As we've established, under TIM this drift term is non-zero because $\bar s = \mathbb{E}_{q_\varphi}[s] \neq 0$. Consequently you end up with a gradient despite there clearly being any learning signal in the rollouts. Take for example the extreme case $R = 1$ for every action. This gives
 
-What it does instead is determined by the direction of $\bar{s}$. Remember that
+$$
+\operatorname{Cov}_{q_\varphi}(A,s_\theta) = 0
+$$
+but the policy gradient
+
+$$
+\boxed{
+\mathbb{E}_{q_\varphi}[As_\theta]
+=
+\bar{s}
+}
+\neq
+0
+$$
+
+which means we're now updating our model despite having received absolutely no information about which actions are preferable. And as we said earlier the direction of this update turns out to effectively be a distillation gradient toward the sampler. We can derive this formally quickly, what we are interested in is the direction of $\bar s$. Remember that
 
 $$
 \bar{s}
@@ -267,69 +281,67 @@ H(q_\varphi,p_\theta)
 -\sum_a q_\varphi(a)\log p_\theta(a)
 $$
 
-In other words, **when the mean advantage is positive, the drift term acts like distillation toward the generator**. When it is negative, it pushes the trainer away from the generator. Neither direction is determined by which individual actions produced better rewards. On-policy, the trainer and generator distributions match, meaning $\bar{s}=0$ and the drift term vanishes. 
+so we end up with this completely uniformative signal, when mean advantage is positive the drift term distills toward the generator, and when its negative it pushes away from the generator. Clearly neither direction is influenced by which individual actions produce better rewards...
 
-This is purely an artifact of TIM and exactly what **score centering** targets. 
+This term is an artifact of TIM
 
 ## Score centering
 
-The idea behind score centering is actually quite simple. We want to restore the zero-mean property of the score under the distribution that generated our actions. The whole problem comes from sampling actions from $q_\varphi$ while using $p_\theta$ to center the score, so instead of centering with the trainer distribution, we center with the generator distribution.
-
-Recall that the gradient of the log-probability w.r.t. the trainer's logits is
+With the drift term identified, *score centering* actually becomes very intuitive. We want to restore the zero-mean property of the score under the distribution that generated our actions. The whole problem comes from sampling actions from $q_\varphi$ while using $p_\theta$ to center the score, so instead of centering with the trainer distribution, we center with the generator distribution. In other words, remove the drift term! Recall the score function of the training policy $p_\theta$:
 
 $$
-\nabla_z\log p_\theta(a)=e_a-p_\theta
+s_\theta(a)=\nabla_\theta \log p_\theta(a)
 $$
 
-We've established that its expectation under the generator is $q_\varphi-p_\theta$. Score centering proposes subtracting this expected gradient from the score of each sampled action
-
-$$
-\begin{aligned}
-\tilde{s}_z(a)
-&=
-(e_a-p_\theta)
--
-\mathbb{E}_{v\sim q_\varphi}[e_v-p_\theta]\\
-&=
-(e_a-p_\theta)-(q_\varphi-p_\theta)\\
-&=
-\boxed{e_a-q_\varphi}
-\end{aligned}
-$$
-
-And when we take the expectation under the generator we get
+Using the covariance identity, we've shown that the policy gradient can be expressed as:
 
 $$
 \boxed{
-\mathbb{E}_{a\sim q_\varphi}[e_a-q_\varphi]
+\mathbb{E}_{q_\varphi}[As_\theta]
 =
-q_\varphi-q_\varphi
-=
-0
+\underbrace{
+\mathbb{E}_{q_\varphi}[A]\bar{s}
+}_{\text{drift}}
++
+\underbrace{
+\operatorname{Cov}_{q_\varphi}(A,s_\theta)
+}_{\text{learning signal}}
 }
 $$
 
-which means we've restored the zero-mean property.  The important distinction here is that **we're not replacing the trainer's logits with the generator's logits**. We're still computing gradients through the current trainer. We're simply changing how those gradients are centered.
+Under TIM we sample from $q$ while computing scores through $p$. Consequently:
 
-If we revisit the expected policy gradient update, we can see exactly what this accomplishes:
+$$
+\mathbb{E}_q[s]\neq 0
+$$
+
+Our goal is to ensure the expected score is zero, even when $q\neq p$. We achieve this by defining a new, centered score function:
+
+$$
+\boxed{
+\tilde{s}_\theta(a)
+=
+s_\theta(a)-\mathbb{E}_q[s_\theta]
+}
+$$
+
+Replacing the old score with the centered score in our policy gradient objective from equation 3
 
 $$
 \begin{aligned}
-\mathbb{E}_{q_\varphi}[A(e_a-q_\varphi)]
-&=
-\mathbb{E}_{q_\varphi}[A]
-\underbrace{\mathbb{E}_{q_\varphi}[e_a-q_\varphi]}_{0}
-+
-\operatorname{Cov}_{q_\varphi}(A,e_a)\\
-&=
-\operatorname{Cov}_{q_\varphi}(A,e_a)
+\mathbb{E}_q[R\tilde{s}]
+&= \mathbb{E}_q[R(s-\mathbb{E}_q[s])] \\[6pt]
+&= \mathbb{E}_q[Rs]-\mathbb{E}_q[R]\mathbb{E}_q[s] \\[6pt]
+&= \underbrace{\operatorname{Cov}_q(R,s)}_{\text{signal}}
++\underbrace{\mathbb{E}_q[R]\mathbb{E}_q[s]}_{\text{drift}}
+-\underbrace{\mathbb{E}_q[R]\mathbb{E}_q[s]}_{\text{centering correction}} \\[6pt]
+&= \operatorname{Cov}_q(R,s)
 \end{aligned}
 $$
+leaving us with only the learning signal! 
 
-The drift term is gone, leaving us with only the covariance between the advantage and the sampled action, which was the learning signal we wanted in the first place. Notice also that subtracting the generator distribution doesn't change the covariance, since we're subtracting a constant vector that is independent of the sampled action.
 
 ### practical implementation
-
 Normally, during training, we perform a forward pass through the trainer, compute the log-probabilities using log-softmax, and construct our policy gradient loss. But as we've seen, differentiating through the standard log-softmax necessarily produces the gradient $e_a-p_\theta$. We cannot get our desired gradient $e_a-q_\varphi$ by simply computing the usual log-probability loss, so we need to modify the objective.
 
 The paper proposes expressing score centering as a scalar loss:
